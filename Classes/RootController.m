@@ -3,17 +3,17 @@
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 20/12/2010.
-//  Copyright log - Open Source Consulting 2010. All rights reserved.
 //
 
 #import "RootController.h"
+#import "DefinitionController.h"
 #import "DADelegate.h"
 #import "SuperEntry.h"
 #import "Entry.h"
 #import "Form.h"
 #import "Sense.h"
 #import "Usage.h"
-#import "Etym.h"
+#import "Etymology.h"
 
 @implementation RootController
 
@@ -40,8 +40,8 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    searchResults = delegate.searchResults;
+    self.title = @"Dicionário Aberto";
+    
     //[super viewDidLoad];
 }
 
@@ -69,7 +69,6 @@
 
 - (void)dealloc {
     [searchResultsView release];
-    [searchResults release];
     [super dealloc];
 }
 
@@ -86,33 +85,30 @@
         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
     }
     
-    Entry *cellEntry = [searchResults objectAtIndex:indexPath.row];
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
-    cell.textLabel.text = cellEntry.entryId;
+    NSString *cellEntry = [delegate.searchResults objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = cellEntry;
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)srv
  numberOfRowsInSection:(NSInteger)section {
-    return [searchResults count];
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    return [delegate.searchResults count];
 }
 
 #pragma mark UITableViewDelegate Methods
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // TODO: Go to word definition
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    DefinitionController *definition = [[DefinitionController alloc] initWithIndexPath:indexPath];
     
-    Entry *entry = [searchResults objectAtIndex:indexPath.row];
+    [delegate.navController pushViewController:definition animated:YES];
     
-    UIAlertView *alert = [[UIAlertView alloc]
-                          initWithTitle:[[entry entryForm] orth]
-                          message:[[[entry entrySense] objectAtIndex:0] def]
-                          delegate:self
-                          cancelButtonTitle:nil
-                          otherButtonTitles:@"OK", nil];
-    [alert show];
-    [alert autorelease];
+    [definition release];
     
     [tv deselectRowAtIndexPath:indexPath animated:YES];
 }

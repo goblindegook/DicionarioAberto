@@ -16,11 +16,12 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* RootController.m */; };
 		DC3E6ABE12C02B0B007B852E /* Entry.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6ABD12C02B0B007B852E /* Entry.m */; };
-		DC3E6AC312C02B1B007B852E /* SuperEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6AC212C02B1B007B852E /* SuperEntry.m */; };
 		DC3E6ACE12C02DBA007B852E /* Form.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6ACD12C02DBA007B852E /* Form.m */; };
 		DC3E6AD412C02E4D007B852E /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6AD312C02E4D007B852E /* Sense.m */; };
 		DC3E6B1C12C0314A007B852E /* Usage.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6B1B12C0314A007B852E /* Usage.m */; };
-		DC3E6B5C12C03C35007B852E /* Etym.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6B5B12C03C35007B852E /* Etym.m */; };
+		DC3E6B5C12C03C35007B852E /* Etymology.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6B5B12C03C35007B852E /* Etymology.m */; };
+		DCE5014A12C15C4900D3F006 /* DefinitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE5014812C15C4900D3F006 /* DefinitionController.m */; };
+		DCE5014B12C15C4900D3F006 /* DefinitionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE5014912C15C4900D3F006 /* DefinitionController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,16 +40,17 @@
 		8D1107310486CEB800E47090 /* DicionarioAberto-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DicionarioAberto-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		DC3E6ABC12C02B0B007B852E /* Entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entry.h; sourceTree = "<group>"; };
 		DC3E6ABD12C02B0B007B852E /* Entry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entry.m; sourceTree = "<group>"; };
-		DC3E6AC112C02B1B007B852E /* SuperEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuperEntry.h; sourceTree = "<group>"; };
-		DC3E6AC212C02B1B007B852E /* SuperEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuperEntry.m; sourceTree = "<group>"; };
 		DC3E6ACC12C02DBA007B852E /* Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Form.h; sourceTree = "<group>"; };
 		DC3E6ACD12C02DBA007B852E /* Form.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Form.m; sourceTree = "<group>"; };
 		DC3E6AD212C02E4D007B852E /* Sense.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sense.h; sourceTree = "<group>"; };
 		DC3E6AD312C02E4D007B852E /* Sense.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sense.m; sourceTree = "<group>"; };
 		DC3E6B1A12C0314A007B852E /* Usage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Usage.h; sourceTree = "<group>"; };
 		DC3E6B1B12C0314A007B852E /* Usage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Usage.m; sourceTree = "<group>"; };
-		DC3E6B5A12C03C35007B852E /* Etym.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Etym.h; sourceTree = "<group>"; };
-		DC3E6B5B12C03C35007B852E /* Etym.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Etym.m; sourceTree = "<group>"; };
+		DC3E6B5A12C03C35007B852E /* Etymology.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Etymology.h; sourceTree = "<group>"; };
+		DC3E6B5B12C03C35007B852E /* Etymology.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Etymology.m; sourceTree = "<group>"; };
+		DCE5014712C15C4900D3F006 /* DefinitionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefinitionController.h; sourceTree = "<group>"; };
+		DCE5014812C15C4900D3F006 /* DefinitionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefinitionController.m; sourceTree = "<group>"; };
+		DCE5014912C15C4900D3F006 /* DefinitionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DefinitionController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,8 @@
 				1D3623250D0F684500981E51 /* DADelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* RootController.h */,
 				28D7ACF70DDB3853001CB0EB /* RootController.m */,
+				DCE5014712C15C4900D3F006 /* DefinitionController.h */,
+				DCE5014812C15C4900D3F006 /* DefinitionController.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -109,8 +113,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2899E5210DE3E06400AC0155 /* RootController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
+				2899E5210DE3E06400AC0155 /* RootController.xib */,
+				DCE5014912C15C4900D3F006 /* DefinitionController.xib */,
 				8D1107310486CEB800E47090 /* DicionarioAberto-Info.plist */,
 			);
 			name = Resources;
@@ -129,8 +134,6 @@
 		DC3E6ACF12C02E0B007B852E /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DC3E6AC112C02B1B007B852E /* SuperEntry.h */,
-				DC3E6AC212C02B1B007B852E /* SuperEntry.m */,
 				DC3E6ABC12C02B0B007B852E /* Entry.h */,
 				DC3E6ABD12C02B0B007B852E /* Entry.m */,
 				DC3E6ACC12C02DBA007B852E /* Form.h */,
@@ -139,8 +142,8 @@
 				DC3E6AD312C02E4D007B852E /* Sense.m */,
 				DC3E6B1A12C0314A007B852E /* Usage.h */,
 				DC3E6B1B12C0314A007B852E /* Usage.m */,
-				DC3E6B5A12C03C35007B852E /* Etym.h */,
-				DC3E6B5B12C03C35007B852E /* Etym.m */,
+				DC3E6B5A12C03C35007B852E /* Etymology.h */,
+				DC3E6B5B12C03C35007B852E /* Etymology.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -189,6 +192,7 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* RootController.xib in Resources */,
+				DCE5014B12C15C4900D3F006 /* DefinitionController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,11 +207,11 @@
 				1D3623260D0F684500981E51 /* DADelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* RootController.m in Sources */,
 				DC3E6ABE12C02B0B007B852E /* Entry.m in Sources */,
-				DC3E6AC312C02B1B007B852E /* SuperEntry.m in Sources */,
 				DC3E6ACE12C02DBA007B852E /* Form.m in Sources */,
 				DC3E6AD412C02E4D007B852E /* Sense.m in Sources */,
 				DC3E6B1C12C0314A007B852E /* Usage.m in Sources */,
-				DC3E6B5C12C03C35007B852E /* Etym.m in Sources */,
+				DC3E6B5C12C03C35007B852E /* Etymology.m in Sources */,
+				DCE5014A12C15C4900D3F006 /* DefinitionController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

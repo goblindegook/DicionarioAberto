@@ -3,13 +3,12 @@
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 21/12/2010.
-//  Copyright 2010 log - Open Source Consulting. All rights reserved.
 //
 
 #import "Entry.h"
 #import "Form.h"
 #import "Sense.h"
-#import "Etym.h"
+#import "Etymology.h"
 
 @implementation Entry
 
@@ -18,14 +17,14 @@
 @synthesize entryType;
 @synthesize entryForm;
 @synthesize entrySense;
-@synthesize entryEtym;
+@synthesize entryEtymology;
 
 -(void) dealloc {
     [entryId release];
     [entryType release];
     [entryForm release];
     [entrySense release];
-    [entryEtym release];
+    [entryEtymology release];
     [super dealloc];
 }
 

@@ -3,23 +3,22 @@
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 20/12/2010.
-//  Copyright log - Open Source Consulting 2010. All rights reserved.
 //
 
 #import "DADelegate.h"
 #import "RootController.h"
 
-#import "SuperEntry.h"
 #import "Entry.h"
 #import "Form.h"
 #import "Sense.h"
 #import "Usage.h"
-#import "Etym.h"
+#import "Etymology.h"
 
 @implementation DADelegate
 
 @synthesize window;
 @synthesize viewController;
+@synthesize navController;
 @synthesize searchResults;
 
 #pragma mark -
@@ -29,32 +28,11 @@
     
     // Override point for customization after application launch.
     
-    Entry *palavra = [[Entry alloc] init];
-    palavra.entryId = [[NSMutableString alloc] initWithString:@"palavra"];
+    self.searchResults = [[NSMutableArray alloc] initWithObjects:@"palavra", nil];
     
-    palavra.entryForm = [[Form alloc] init];
-    [palavra entryForm].orth = [[NSMutableString alloc] initWithString:@"Palavra"];
-
-    palavra.entryEtym = [[Etym alloc] init];
-    [palavra entryEtym].ori = [[NSMutableString alloc] initWithString:@"lat"];
-    [palavra entryEtym].text = [[NSMutableString alloc] initWithString:@"(Do lat. _parabola_)"];
-    
-    palavra.entrySense = [[NSMutableArray alloc] init];
-    
-    Sense *palavraSense = [[Sense alloc] init];
-    palavraSense.ast = 1;
-    palavraSense.def = [[NSMutableString alloc] initWithString:@"Som articulado, que tem um sentido ou significação.\nVocábulo; termo.\nDicção ou phrase.\nAffirmação.\nFala, faculdade de exprimir as ideias por meio da voz.\nO discorrer.\nDeclaração.\nPromessa verbal: _não falto, dou-lhe a minha palavra_.\nPermissão de falar: _peço a palavra_."];
-    palavraSense.gramGrp = [[NSMutableString alloc] initWithString:@"f."];
-    
-    [palavra.entrySense addObject:palavraSense];
-    
-    self.searchResults = [[NSMutableArray alloc]
-                          initWithObjects:palavra, nil];
-    
-    [palavra release];
-    
-    // Add the view controller's view to the window and display.
-    [window addSubview:viewController.view];
+    // Add the navigation controller's view to the window and display.
+    navController.viewControllers = [NSArray arrayWithObject:viewController];
+    [window addSubview:navController.view];
     [window makeKeyAndVisible];
 
     return YES;

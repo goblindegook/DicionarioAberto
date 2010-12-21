@@ -1,14 +1,13 @@
 //
-//  Etym.m
+//  Etymology.m
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 21/12/2010.
-//  Copyright 2010 log - Open Source Consulting. All rights reserved.
 //
 
-#import "Etym.h"
+#import "Etymology.h"
 
-@implementation Etym
+@implementation Etymology
 
 @synthesize ori;
 @synthesize text;
