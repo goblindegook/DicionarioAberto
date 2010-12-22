@@ -8,7 +8,6 @@
 
 #import "DefinitionController.h"
 #import "DADelegate.h"
-#import "SuperEntry.h"
 #import "Entry.h"
 #import "Form.h"
 #import "Sense.h"
@@ -35,15 +34,89 @@
 */
 
 
+- (void)viewWillAppear:(BOOL)animated {
+    // TOOD: Show this while view is constructed
+}
+
+// Generate HTML to load for the UIWebView
+- (void)loadHTMLDefinition:(NSArray *)entries {
+    
+    NSMutableString *content = [[NSMutableString alloc] initWithString:@""];
+    
+    [content appendString:@"<html><head>"
+     // TODO: Styles
+     "</head><body>"];
+    
+    // Loop over definition entries
+    NSEnumerator *ee = [entries objectEnumerator];
+    Entry *entry;
+    while (entry = [ee nextObject]) {
+        
+        [content appendString:@"<h1 class=\"term\">"];
+        [content appendString:[entry entryForm].orth];
+        if (entries.count > 1) {
+            [content appendFormat:@"<span class=\"n\">%d</string>", [entry n]];
+        }
+        [content appendString:@"</h1>"];
+
+        // TODO: Replace markup: _italic_, [[link]]
+        
+        // Loop over definitions
+        NSEnumerator *se = [entry.entrySense objectEnumerator];
+        Sense *sense;
+        while (sense = [se nextObject]) {
+            
+            // Lexical category
+            [content appendFormat:@"<div class=\"lex\">%@</div>", sense.gramGrp];
+            
+            // Definitions
+            [content appendString:@"<ol class=\"def\">"];
+            NSArray *chunks = [sense.def componentsSeparatedByString: @"\n"];
+            NSEnumerator *ce = [chunks objectEnumerator];
+            NSString *chunk;
+            while (chunk = [ce nextObject]) {
+                if (chunk.length > 0) {
+                    [content appendString:@"<li>"];
+                    if (sense.usg.text.length > 0) {
+                        [content appendFormat:@"<span class=\"usage\">%@</span> ", sense.usg.text];                        
+                    }
+                    [content appendString:chunk];
+                    [content appendString:@"</li>"];
+                }
+            }
+            [content appendString:@"</ol>"];
+        }
+        
+        // Etymology
+        [content appendString:@"<div class=\"etym\">"];
+        [content appendString:[entry entryEtymology].text];
+        [content appendString:@"</div>"];
+    }
+    
+    // TODO: Footer
+    
+    [content appendString:@"</body></head>"];
+    
+    [definitionView loadHTMLString:content baseURL:nil];
+    
+    [content release];
+}
+
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     NSString *thisResult = [delegate.searchResults objectAtIndex:index.row];
     
-    // TODO: obtain thisResult definition
+    self.title = thisResult;
     
-    /* temp */
+    // TODO: Obtain definition data for "thisResult"
+    
+    // NB: API call may return a single entry or a list of homographs in an array of entries
+    
+    /* BEGIN temp */
     Entry *palavra = [[Entry alloc] init];
+    palavra.n = 1;
     palavra.entryId = [[NSMutableString alloc] initWithString:@"palavra"];
     palavra.entryForm = [[Form alloc] init];
     [palavra entryForm].orth = [[NSMutableString alloc] initWithString:@"Palavra"];
@@ -56,15 +129,13 @@
     palavraSense.def = [[NSMutableString alloc] initWithString:@"Som articulado, que tem um sentido ou significação.\nVocábulo; termo.\nDicção ou phrase.\nAffirmação.\nFala, faculdade de exprimir as ideias por meio da voz.\nO discorrer.\nDeclaração.\nPromessa verbal: _não falto, dou-lhe a minha palavra_.\nPermissão de falar: _peço a palavra_."];
     palavraSense.gramGrp = [[NSMutableString alloc] initWithString:@"f."];
     [palavra.entrySense addObject:palavraSense];
-    /* temp */
+    /* END temp */
     
-    self.title = [palavra entryForm].orth;
+    NSMutableArray *entries = [[NSMutableArray alloc] initWithObjects:palavra, nil];
     
-    NSEnumerator *e = [[palavra entrySense] objectEnumerator];
-    id object;
-    while (object = [e nextObject]) {
-    }
+    [self loadHTMLDefinition:entries];
     
+    [entries release];
     [palavra release];
 }
 

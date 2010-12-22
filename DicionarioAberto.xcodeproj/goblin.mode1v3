@@ -267,13 +267,15 @@
 								<string>080E96DDFE201D6D7F000001</string>
 								<string>DC3E6ACF12C02E0B007B852E</string>
 								<string>29B97317FDCFA39411CA2CEA</string>
+								<string>DCE5022412C179AA00D3F006</string>
+								<string>DCE5022012C1795500D3F006</string>
 								<string>1C37FABC05509CD000000102</string>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>23</integer>
-									<integer>20</integer>
+									<integer>18</integer>
+									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
@@ -327,26 +329,26 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>DCE501F212C16EA600D3F006</string>
+										<string>DCE502F312C192E400D3F006</string>
 										<key>history</key>
 										<array>
 											<string>DCE5010A12C156F700D3F006</string>
-											<string>DCE5010B12C156F700D3F006</string>
-											<string>DCE5010C12C156F700D3F006</string>
-											<string>DCE5010D12C156F700D3F006</string>
 											<string>DCE5011412C156F700D3F006</string>
 											<string>DCE5011512C156F700D3F006</string>
-											<string>DCE5018C12C1615B00D3F006</string>
-											<string>DCE5019012C1620B00D3F006</string>
-											<string>DCE501A812C1651D00D3F006</string>
 											<string>DCE501B112C1658300D3F006</string>
-											<string>DCE501BB12C1662900D3F006</string>
-											<string>DCE501CF12C1681800D3F006</string>
-											<string>DCE501DC12C168B400D3F006</string>
 											<string>DCE501DD12C168B400D3F006</string>
-											<string>DCE501DE12C168B400D3F006</string>
-											<string>DCE501DF12C168B400D3F006</string>
-											<string>DCE501E012C168B400D3F006</string>
+											<string>DCE5023B12C17CC200D3F006</string>
+											<string>DCE5024D12C17F4E00D3F006</string>
+											<string>DCE5024E12C17F4E00D3F006</string>
+											<string>DCE5028112C185C000D3F006</string>
+											<string>DCE5028212C185C000D3F006</string>
+											<string>DCE5028312C185C000D3F006</string>
+											<string>DCE5028412C185C000D3F006</string>
+											<string>DCE502C712C18EB500D3F006</string>
+											<string>DCE502C812C18EB500D3F006</string>
+											<string>DCE502C912C18EB500D3F006</string>
+											<string>DCE502CA12C18EB500D3F006</string>
+											<string>DCE502CB12C18EB500D3F006</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -655,7 +657,7 @@
 			<key>WindowToolGUID</key>
 			<string>DCB759CA12C0204300CB6A05</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>FirstTimeWindowDisplayed</key>

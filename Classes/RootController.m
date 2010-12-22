@@ -8,7 +8,6 @@
 #import "RootController.h"
 #import "DefinitionController.h"
 #import "DADelegate.h"
-#import "SuperEntry.h"
 #import "Entry.h"
 #import "Form.h"
 #import "Sense.h"
@@ -105,6 +104,11 @@
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     DefinitionController *definition = [[DefinitionController alloc] initWithIndexPath:indexPath];
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa"
+                                                                             style:UIBarButtonItemStyleBordered
+                                                                            target:nil
+                                                                            action:nil];
     
     [delegate.navController pushViewController:definition animated:YES];
     
