@@ -10,8 +10,10 @@
 
 @interface Form : NSObject {
     NSMutableString *orth;
+    NSMutableString *phon;
 }
 
 @property (nonatomic, retain) NSMutableString *orth;
+@property (nonatomic, retain) NSMutableString *phon;
 
 @end

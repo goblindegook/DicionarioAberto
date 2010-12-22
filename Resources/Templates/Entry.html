@@ -1,13 +1,21 @@
 <html>
 <head>
-<title>%ORTH%</title>
+    <title>%ENTRY_ID%</title>
+    <link rel="stylesheet" type="text/css" href="%STYLE_PATH%/Entry.css">
 </head>
 <body>
-<header>
-<h1 class="term">%ENTRY_INDEX% %ORTH%</h1>
-</header>
-%SENSES%
-<footer>
-</footer>
+    <header>
+        <h1 class="term">%INCLUDE_ENTRY_INDEX% %ORTH% %INCLUDE_PHON%</h1>
+    </header>
+
+    <section class="senses">
+%INCLUDE_SENSES%
+    </section>
+
+    <section class="etym">%ETYMOLOGY%</section>
+
+    <aside class="related"></aside>
+
+    <footer></footer>
 </body>
 

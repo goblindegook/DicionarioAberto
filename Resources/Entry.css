@@ -1,0 +1,48 @@
+body {
+    font-family: Palatino, Georgia;
+    background-color: #ffffee;
+}
+
+.term {
+    font-size: 1.5em;
+}
+
+.term .index {
+    color: #c00;
+    font-size: .6em;
+    vertical-align: top;
+    font-weight: normal;
+    /* font-style: italic; */
+    font-family: Helvetica;
+}
+
+.term .phon {
+    font-weight: normal;
+}
+
+.sense .lex {
+    font-style: italic;
+    margin-bottom: .5em;
+}
+
+.sense .definitions {
+    margin-top: 0;
+    margin-bottom: 1em;
+}
+
+.sense .definitions li {
+    font-family: Helvetica;
+    font-size: .7em;
+    color: #c00;
+}
+
+.sense .definitions li span.singledef {
+    font-family: Palatino, Georgia;
+    font-size: 1.3em;
+    line-height: 1.6em;
+    color: #000;
+}
+
+.singledef .usage {
+    font-style: italic;
+}

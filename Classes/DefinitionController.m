@@ -41,11 +41,19 @@
 // Generate HTML to load for the UIWebView
 - (void)loadHTMLDefinition:(NSArray *)entries {
     
+    // TODO:
+    // Get template resources
+    // Loop over entries
+    // Skip irrelevant entries if index provided
+    // Loop over senses
+    // Loop over definition chunks
+    // Fill out and replace variables in templates
+    // Replace markup: _italic_, [[link]]
+    // Output
+    
     NSMutableString *content = [[NSMutableString alloc] initWithString:@""];
     
-    [content appendString:@"<html><head>"
-     // TODO: Styles
-     "</head><body>"];
+    [content appendString:@"<html><head></head><body>"];
     
     // Loop over definition entries
     NSEnumerator *ee = [entries objectEnumerator];
@@ -58,8 +66,6 @@
             [content appendFormat:@"<span class=\"n\">%d</string>", [entry n]];
         }
         [content appendString:@"</h1>"];
-
-        // TODO: Replace markup: _italic_, [[link]]
         
         // Loop over definitions
         NSEnumerator *se = [entry.entrySense objectEnumerator];
@@ -93,9 +99,10 @@
         [content appendString:@"</div>"];
     }
     
-    // TODO: Footer
-    
     [content appendString:@"</body></head>"];
+    
+    // NSString *entryTemplatePath = [[NSBundle mainBundle] pathForResource:@"Templates/Entry" ofType:@"html"];
+    // NSString *content = [[NSString alloc] initWithContentsOfFile:entryTemplatePath];
     
     [definitionView loadHTMLString:content baseURL:nil];
     
