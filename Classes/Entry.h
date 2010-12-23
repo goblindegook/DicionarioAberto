@@ -26,4 +26,6 @@
 @property (nonatomic, retain) NSMutableArray *entrySense;
 @property (nonatomic, retain) Etymology *entryEtymology;
 
+- (id)initFromXMLString:(NSString *)xml error:(NSError **)error;
+
 @end

@@ -8,6 +8,9 @@
 
 #import "DefinitionController.h"
 #import "DADelegate.h"
+
+#import "TouchXML.h"
+
 #import "Entry.h"
 #import "Form.h"
 #import "Sense.h"
@@ -39,7 +42,12 @@
 }
 
 // Generate HTML to load for the UIWebView
-- (void)loadHTMLDefinition:(NSArray *)entries n:(NSInteger)n {
+- (void)loadHTMLEntries:(NSArray *)entries {
+    [self loadHTMLEntries:entries n:0];
+}
+
+// Generate HTML entry
+- (void)loadHTMLEntries:(NSArray *)entries n:(NSInteger)n {
     
     // TODO:
     // Loop over entries
@@ -58,6 +66,11 @@
     
     // Loop over definition entries
     for (Entry *entry in entries) {
+        // Skip entry:
+        if (n && entry.n != n) {
+            continue;
+        }
+        
         [content appendString:@"<h1 class=\"term\">"];
         if (entries.count > 1) {
             [content appendFormat:@"<span class=\"index\">%d</span>", entry.n];
@@ -79,7 +92,7 @@
             
             // Definitions
             [content appendString:@"<ol class=\"definitions\">"];
-            for (NSString *chunk in [sense.def componentsSeparatedByString: @"\n"]) {
+            for (NSString *chunk in [[sense htmlDef] componentsSeparatedByString: @"\n"]) {
                 if (chunk.length > 0) {
                     [content appendString:@"<li><span class=\"singledef\">"];
                     if (sense.usg.text.length > 0) {
@@ -97,13 +110,18 @@
         
         // Etymology
         [content appendString:@"<section class=\"etym\">"];
-        [content appendString:entry.entryEtymology.text];
+        [content appendString:[entry.entryEtymology html]];
         [content appendString:@"</section>"];
     }
 
-    [content appendString:@"<aside class=\"related\"></aside>"];
+    // TODO: related entries
+    if (!n && entries.count > 1) {
+        [content appendString:@"<aside class=\"related\">TODO</aside>"];
+    }
+        
+    NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"footer" ofType:@"html" inDirectory:@"HTML"];
     
-    // TODO: include HTML/footer.html
+    [content appendString:[NSString stringWithContentsOfFile:footerPath encoding:NSUTF8StringEncoding error:nil]];
     
     [content appendString:@"</body></html>"];
     
@@ -121,33 +139,22 @@
     
     self.title = thisResult;
     
-    // TODO: Obtain definition data for "thisResult"
+    // Obtain definition from DicionarioAberto API
+    NSURL *apiURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml/%@", thisResult]];
+    NSString *apiResult = [NSString stringWithContentsOfURL:apiURL encoding:NSUTF8StringEncoding error:nil];
     
-    // NB: API call may return a single entry or a list of homographs in an array of entries
+    // TODO: Escape URL
+    // TODO: Check for errors
+    // TODO: Cache results up to X items
     
-    /* BEGIN temp */
-    Entry *palavra = [[Entry alloc] init];
-    palavra.n = 1;
-    palavra.entryId = [[NSMutableString alloc] initWithString:@"palavra"];
-    palavra.entryForm = [[Form alloc] init];
-    [palavra entryForm].orth = [[NSMutableString alloc] initWithString:@"Palavra"];
-    palavra.entryEtymology = [[Etymology alloc] init];
-    [palavra entryEtymology].ori = [[NSMutableString alloc] initWithString:@"lat"];
-    [palavra entryEtymology].text = [[NSMutableString alloc] initWithString:@"(Do lat. _parabola_)"];
-    palavra.entrySense = [[NSMutableArray alloc] init];
-    Sense *palavraSense = [[Sense alloc] init];
-    palavraSense.ast = 1;
-    palavraSense.def = [[NSMutableString alloc] initWithString:@"Som articulado, que tem um sentido ou significação.\nVocábulo; termo.\nDicção ou phrase.\nAffirmação.\nFala, faculdade de exprimir as ideias por meio da voz.\nO discorrer.\nDeclaração.\nPromessa verbal: _não falto, dou-lhe a minha palavra_.\nPermissão de falar: _peço a palavra_."];
-    palavraSense.gramGrp = [[NSMutableString alloc] initWithString:@"f."];
-    [palavra.entrySense addObject:palavraSense];
-    /* END temp */
+    Entry *entry = [[Entry alloc] initFromXMLString:apiResult error:nil];
     
-    NSMutableArray *entries = [[NSMutableArray alloc] initWithObjects:palavra, nil];
+    NSMutableArray *entries = [[NSMutableArray alloc] initWithObjects:entry, nil];
     
-    [self loadHTMLDefinition:entries n:1];
+    [self loadHTMLEntries:entries n:entry.n];
     
     [entries release];
-    [palavra release];
+    [entry release];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {

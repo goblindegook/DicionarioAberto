@@ -16,6 +16,7 @@
 }
 
 -(id)initWithIndexPath:(NSIndexPath *)indexPath;
--(void)loadHTMLDefinition:(NSArray *)entries n:(NSInteger)n;
+-(void)loadHTMLEntries:(NSArray *)entries;
+-(void)loadHTMLEntries:(NSArray *)entries n:(NSInteger)n;
 
 @end

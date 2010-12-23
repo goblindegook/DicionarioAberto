@@ -4,7 +4,7 @@ body {
 }
 
 .term {
-    font-size: 1.5em;
+    font-size: 1.3em;
 }
 
 .term .index {
@@ -26,8 +26,8 @@ body {
 }
 
 .sense .definitions {
-    margin-top: 0;
     margin-bottom: 1em;
+    padding-left: 2em;
 }
 
 .sense .definitions li {

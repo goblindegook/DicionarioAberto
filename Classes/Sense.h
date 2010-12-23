@@ -20,4 +20,6 @@
 @property (nonatomic, retain) NSMutableString *gramGrp;
 @property (nonatomic, retain) Usage *usg;
 
+- (NSString *)htmlDef;
+
 @end
