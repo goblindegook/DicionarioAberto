@@ -8,6 +8,8 @@
 
 #import "DefinitionController.h"
 #import "DADelegate.h"
+#import "DAMarkup.h"
+#import "DARemote.h"
 
 #import "TouchXML.h"
 
@@ -54,11 +56,10 @@
     // Skip irrelevant entries if index provided
     // Replace markup: _italic_, [[link]]
     
-    NSMutableString *content = [NSMutableString stringWithString:@""];
-    
-    [content appendString:@""
+    NSMutableString *content = [NSMutableString stringWithString:@""
      @"<!DOCTYPE html>\n"
      @"<html><head>"
+     @"<title></title>"
      @"<meta charset=\"UTF-8\">"
      @"<link rel=\"stylesheet\" type=\"text/css\" href=\"DicionarioAberto.css\">"
      @"</head><body>"
@@ -82,17 +83,24 @@
         [content appendString:@"</h1>"];
 
         [content appendString:@"<section class=\"senses\">"];
+
+        [content appendString:@"<section class=\"sense\">"];
+        [content appendString:@"<ol class=\"definitions\">"];
         
         // Loop over definitions
         for (Sense *sense in entry.entrySense) {
-            [content appendString:@"<section class=\"sense\">"];
             
             // Lexical category
-            [content appendFormat:@"<div class=\"lex\">%@</div>", sense.gramGrp];
+            if (sense.gramGrp) {
+                [content appendString:@"</ol>"];
+                [content appendString:@"</section>"];
+                [content appendString:@"<section class=\"sense\">"];
+                [content appendFormat:@"<div class=\"lex\">%@</div>", sense.gramGrp];
+                [content appendString:@"<ol class=\"definitions\">"];
+            }
             
             // Definitions
-            [content appendString:@"<ol class=\"definitions\">"];
-            for (NSString *chunk in [[sense htmlDef] componentsSeparatedByString: @"\n"]) {
+            for (NSString *chunk in [[DAMarkup markupToHTML:sense.def] componentsSeparatedByString: @"\n"]) {
                 if (chunk.length > 0) {
                     [content appendString:@"<li><span class=\"singledef\">"];
                     if (sense.usg.text.length > 0) {
@@ -102,20 +110,23 @@
                     [content appendString:@"</span></li>"];
                 }
             }
-            [content appendString:@"</ol>"];
+        }
+        
+        [content appendString:@"</ol>"];
+        [content appendString:@"</section>"];
+        
+        // Etymology
+        if (entry.entryEtymology.text) {
+            [content appendString:@"<section class=\"etym\">"];
+            [content appendString:[DAMarkup markupToHTML:entry.entryEtymology.text]];
             [content appendString:@"</section>"];
         }
         
         [content appendString:@"</section>"];
-        
-        // Etymology
-        [content appendString:@"<section class=\"etym\">"];
-        [content appendString:[entry.entryEtymology html]];
-        [content appendString:@"</section>"];
     }
 
     // TODO: related entries
-    if (!n && entries.count > 1) {
+    if (n && entries.count > 1) {
         [content appendString:@"<aside class=\"related\">TODO</aside>"];
     }
         
@@ -139,22 +150,12 @@
     
     self.title = thisResult;
     
-    // Obtain definition from DicionarioAberto API
-    NSURL *apiURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml/%@", thisResult]];
-    NSString *apiResult = [NSString stringWithContentsOfURL:apiURL encoding:NSUTF8StringEncoding error:nil];
+    // Obtain definition from DicionarioAberto API    
+    NSArray *entries = [DARemote searchEntries:thisResult error:nil];
     
-    // TODO: Escape URL
-    // TODO: Check for errors
-    // TODO: Cache results up to X items
+    [self loadHTMLEntries:entries n:0];
     
-    Entry *entry = [[Entry alloc] initFromXMLString:apiResult error:nil];
-    
-    NSMutableArray *entries = [[NSMutableArray alloc] initWithObjects:entry, nil];
-    
-    [self loadHTMLEntries:entries n:entry.n];
-    
-    [entries release];
-    [entry release];
+    //[entries release];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {

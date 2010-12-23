@@ -1,6 +1,14 @@
 body {
     font-family: Palatino, Georgia;
-    background-color: #ffffee;
+    background-color: #ffe;
+}
+
+a {
+    color: #c00;
+}
+
+.senses a {
+    font-style: italic;
 }
 
 .term {
@@ -45,4 +53,15 @@ body {
 
 .singledef .usage {
     font-style: italic;
+}
+
+.etym {
+    margin-bottom: 1.3em;
+}
+
+footer {
+    border-top: 1px solid #ccb;
+    margin-top: 1.5em;
+    padding-top: .5em;
+    font-size: .8em;
 }

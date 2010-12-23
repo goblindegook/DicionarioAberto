@@ -266,6 +266,7 @@
 								<string>29B97314FDCFA39411CA2CEA</string>
 								<string>080E96DDFE201D6D7F000001</string>
 								<string>DC3E6ACF12C02E0B007B852E</string>
+								<string>DCD147C012C3DC1000E26123</string>
 								<string>29B97317FDCFA39411CA2CEA</string>
 								<string>DCE9746412C2F7C900BC3FB3</string>
 								<string>DCE972E012C2C84A00BC3FB3</string>
@@ -275,14 +276,13 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>13</integer>
-									<integer>3</integer>
+									<integer>24</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 25}, {186, 568}}</string>
+							<string>{{0, 110}, {186, 568}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -319,7 +319,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>Etymology.m</string>
+								<string>DARemote.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -327,34 +327,38 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>Etymology.m</string>
+										<string>DARemote.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>DCD147B912C3BCE300E26123</string>
+										<string>DCD148D012C3FA2E00E26123</string>
 										<key>history</key>
 										<array>
 											<string>DCE972EF12C2C8DF00BC3FB3</string>
-											<string>DCD1445312C35DDE00E26123</string>
-											<string>DCD1449612C363E500E26123</string>
 											<string>DCD1454712C37AE800E26123</string>
 											<string>DCD1454812C37AE800E26123</string>
-											<string>DCD1468412C3A0A300E26123</string>
-											<string>DCD1468512C3A0A300E26123</string>
-											<string>DCD1475B12C3B84C00E26123</string>
-											<string>DCD1476612C3B8BA00E26123</string>
-											<string>DCD1477312C3B93F00E26123</string>
 											<string>DCD1477C12C3B9FA00E26123</string>
-											<string>DCD1478512C3BAA500E26123</string>
 											<string>DCD1478712C3BAA500E26123</string>
-											<string>DCD1478812C3BAA500E26123</string>
-											<string>DCD1479612C3BB5300E26123</string>
 											<string>DCD1479712C3BB5300E26123</string>
-											<string>DCD1479812C3BB5300E26123</string>
-											<string>DCD1479912C3BB5300E26123</string>
-											<string>DCD1479A12C3BB5300E26123</string>
-											<string>DCD147AA12C3BBD200E26123</string>
-											<string>DCD147AB12C3BBD200E26123</string>
+											<string>DCD147D112C3DF1800E26123</string>
+											<string>DCD147D212C3DF1800E26123</string>
+											<string>DCD147DA12C3DF1800E26123</string>
+											<string>DCD147DE12C3E0D500E26123</string>
+											<string>DCD147E112C3E0D500E26123</string>
+											<string>DCD147EC12C3E29C00E26123</string>
+											<string>DCD147EE12C3E29C00E26123</string>
+											<string>DCD147EF12C3E29C00E26123</string>
+											<string>DCD147F012C3E29C00E26123</string>
+											<string>DCD1480912C3E55D00E26123</string>
+											<string>DCD1483912C3E7C900E26123</string>
+											<string>DCD1484E12C3EB8200E26123</string>
+											<string>DCD1485D12C3ECF200E26123</string>
+											<string>DCD1487512C3EFDB00E26123</string>
+											<string>DCD1488212C3F02E00E26123</string>
+											<string>DCD148C612C3F99E00E26123</string>
+											<string>DCD148CD12C3F9C000E26123</string>
+											<string>DCD148CF12C3FA2E00E26123</string>
+											<string>DCD148AF12C3F75B00E26123</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -568,9 +572,9 @@
 		<string>DCB759D412C0204300CB6A05</string>
 		<string>DCD1449A12C363E500E26123</string>
 		<string>DCD1447812C3604A00E26123</string>
-		<string>1CD10A99069EF8BA00B06720</string>
 		<string>DCB759CA12C0204300CB6A05</string>
 		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
 		<string>/Users/Goblin/Documents/Projects/DicionarioAberto/DicionarioAberto.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
@@ -595,7 +599,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>DefinitionController.m</string>
+								<string>DARemote.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -790,7 +794,7 @@
 			<key>WindowToolGUID</key>
 			<string>1CD10A99069EF8BA00B06720</string>
 			<key>WindowToolIsVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>Identifier</key>

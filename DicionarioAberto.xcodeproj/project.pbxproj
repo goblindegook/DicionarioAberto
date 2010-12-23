@@ -32,6 +32,8 @@
 		DCD1453D12C37A1D00E26123 /* CXMLNode_XPathExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1452D12C37A1D00E26123 /* CXMLNode_XPathExtensions.m */; };
 		DCD1453E12C37A1D00E26123 /* CXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1452F12C37A1D00E26123 /* CXMLNode.m */; };
 		DCD1453F12C37A1D00E26123 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1453212C37A1D00E26123 /* CTidy.m */; };
+		DCD147BC12C3DBE300E26123 /* DARemote.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD147BB12C3DBE300E26123 /* DARemote.m */; };
+		DCD147BF12C3DBEE00E26123 /* DAMarkup.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD147BE12C3DBEE00E26123 /* DAMarkup.m */; };
 		DCE5014A12C15C4900D3F006 /* DefinitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE5014812C15C4900D3F006 /* DefinitionController.m */; };
 		DCE5014B12C15C4900D3F006 /* DefinitionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE5014912C15C4900D3F006 /* DefinitionController.xib */; };
 		DCE972E212C2C84A00BC3FB3 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = DCE972E012C2C84A00BC3FB3 /* Images */; };
@@ -88,6 +90,10 @@
 		DCD1453112C37A1D00E26123 /* CTidy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTidy.h; sourceTree = "<group>"; };
 		DCD1453212C37A1D00E26123 /* CTidy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTidy.m; sourceTree = "<group>"; };
 		DCD1453312C37A1D00E26123 /* TouchXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchXML.h; path = ../TouchXML/Source/TouchXML.h; sourceTree = SOURCE_ROOT; };
+		DCD147BA12C3DBE300E26123 /* DARemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARemote.h; sourceTree = "<group>"; };
+		DCD147BB12C3DBE300E26123 /* DARemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARemote.m; sourceTree = "<group>"; };
+		DCD147BD12C3DBEE00E26123 /* DAMarkup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMarkup.h; sourceTree = "<group>"; };
+		DCD147BE12C3DBEE00E26123 /* DAMarkup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMarkup.m; sourceTree = "<group>"; };
 		DCE5014712C15C4900D3F006 /* DefinitionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefinitionController.h; sourceTree = "<group>"; };
 		DCE5014812C15C4900D3F006 /* DefinitionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefinitionController.m; sourceTree = "<group>"; };
 		DCE5014912C15C4900D3F006 /* DefinitionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DefinitionController.xib; sourceTree = "<group>"; };
@@ -115,12 +121,13 @@
 			children = (
 				DCD1454012C37A2D00E26123 /* TouchXML */,
 				DC3E6ACF12C02E0B007B852E /* Model */,
+				DCD147C012C3DC1000E26123 /* ViewControllers */,
 				1D3623240D0F684500981E51 /* DADelegate.h */,
 				1D3623250D0F684500981E51 /* DADelegate.m */,
-				28D7ACF60DDB3853001CB0EB /* RootController.h */,
-				28D7ACF70DDB3853001CB0EB /* RootController.m */,
-				DCE5014712C15C4900D3F006 /* DefinitionController.h */,
-				DCE5014812C15C4900D3F006 /* DefinitionController.m */,
+				DCD147BD12C3DBEE00E26123 /* DAMarkup.h */,
+				DCD147BE12C3DBEE00E26123 /* DAMarkup.m */,
+				DCD147BA12C3DBE300E26123 /* DARemote.h */,
+				DCD147BB12C3DBE300E26123 /* DARemote.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -245,6 +252,17 @@
 			name = TouchXML;
 			sourceTree = "<group>";
 		};
+		DCD147C012C3DC1000E26123 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				28D7ACF60DDB3853001CB0EB /* RootController.h */,
+				28D7ACF70DDB3853001CB0EB /* RootController.m */,
+				DCE5014712C15C4900D3F006 /* DefinitionController.h */,
+				DCE5014812C15C4900D3F006 /* DefinitionController.m */,
+			);
+			name = ViewControllers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -324,6 +342,8 @@
 				DCD1453D12C37A1D00E26123 /* CXMLNode_XPathExtensions.m in Sources */,
 				DCD1453E12C37A1D00E26123 /* CXMLNode.m in Sources */,
 				DCD1453F12C37A1D00E26123 /* CTidy.m in Sources */,
+				DCD147BC12C3DBE300E26123 /* DARemote.m in Sources */,
+				DCD147BF12C3DBEE00E26123 /* DAMarkup.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

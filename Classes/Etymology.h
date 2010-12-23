@@ -16,6 +16,4 @@
 @property (nonatomic, retain) NSMutableString *ori;
 @property (nonatomic, retain) NSMutableString *text;
 
-- (NSString *)html;
-
 @end
