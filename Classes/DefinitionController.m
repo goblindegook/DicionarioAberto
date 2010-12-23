@@ -39,74 +39,78 @@
 }
 
 // Generate HTML to load for the UIWebView
-- (void)loadHTMLDefinition:(NSArray *)entries {
+- (void)loadHTMLDefinition:(NSArray *)entries n:(NSInteger)n {
     
     // TODO:
-    // Get template resources
     // Loop over entries
     // Skip irrelevant entries if index provided
-    // Loop over senses
-    // Loop over definition chunks
-    // Fill out and replace variables in templates
     // Replace markup: _italic_, [[link]]
-    // Output
     
-    NSMutableString *content = [[NSMutableString alloc] initWithString:@""];
+    NSMutableString *content = [NSMutableString stringWithString:@""];
     
-    [content appendString:@"<html><head></head><body>"];
+    [content appendString:@""
+     @"<!DOCTYPE html>\n"
+     @"<html><head>"
+     @"<meta charset=\"UTF-8\">"
+     @"<link rel=\"stylesheet\" type=\"text/css\" href=\"DicionarioAberto.css\">"
+     @"</head><body>"
+    ];
     
     // Loop over definition entries
-    NSEnumerator *ee = [entries objectEnumerator];
-    Entry *entry;
-    while (entry = [ee nextObject]) {
-        
+    for (Entry *entry in entries) {
         [content appendString:@"<h1 class=\"term\">"];
-        [content appendString:[entry entryForm].orth];
         if (entries.count > 1) {
-            [content appendFormat:@"<span class=\"n\">%d</string>", [entry n]];
+            [content appendFormat:@"<span class=\"index\">%d</span>", entry.n];
+        }
+        [content appendString:entry.entryForm.orth];
+        if ([entry.entryForm.phon length]) {
+            [content appendFormat:@"<span class=\"phon\">, (%@)</span>", entry.entryForm.phon];
         }
         [content appendString:@"</h1>"];
+
+        [content appendString:@"<section class=\"senses\">"];
         
         // Loop over definitions
-        NSEnumerator *se = [entry.entrySense objectEnumerator];
-        Sense *sense;
-        while (sense = [se nextObject]) {
+        for (Sense *sense in entry.entrySense) {
+            [content appendString:@"<section class=\"sense\">"];
             
             // Lexical category
             [content appendFormat:@"<div class=\"lex\">%@</div>", sense.gramGrp];
             
             // Definitions
-            [content appendString:@"<ol class=\"def\">"];
-            NSArray *chunks = [sense.def componentsSeparatedByString: @"\n"];
-            NSEnumerator *ce = [chunks objectEnumerator];
-            NSString *chunk;
-            while (chunk = [ce nextObject]) {
+            [content appendString:@"<ol class=\"definitions\">"];
+            for (NSString *chunk in [sense.def componentsSeparatedByString: @"\n"]) {
                 if (chunk.length > 0) {
-                    [content appendString:@"<li>"];
+                    [content appendString:@"<li><span class=\"singledef\">"];
                     if (sense.usg.text.length > 0) {
-                        [content appendFormat:@"<span class=\"usage\">%@</span> ", sense.usg.text];                        
+                        [content appendFormat:@"<span class=\"usage %@\">%@</span> ", sense.usg.type, sense.usg.text];                        
                     }
                     [content appendString:chunk];
-                    [content appendString:@"</li>"];
+                    [content appendString:@"</span></li>"];
                 }
             }
             [content appendString:@"</ol>"];
+            [content appendString:@"</section>"];
         }
         
+        [content appendString:@"</section>"];
+        
         // Etymology
-        [content appendString:@"<div class=\"etym\">"];
-        [content appendString:[entry entryEtymology].text];
-        [content appendString:@"</div>"];
+        [content appendString:@"<section class=\"etym\">"];
+        [content appendString:entry.entryEtymology.text];
+        [content appendString:@"</section>"];
     }
+
+    [content appendString:@"<aside class=\"related\"></aside>"];
     
-    [content appendString:@"</body></head>"];
+    // TODO: include HTML/footer.html
     
-    // NSString *entryTemplatePath = [[NSBundle mainBundle] pathForResource:@"Templates/Entry" ofType:@"html"];
-    // NSString *content = [[NSString alloc] initWithContentsOfFile:entryTemplatePath];
+    [content appendString:@"</body></html>"];
     
-    [definitionView loadHTMLString:content baseURL:nil];
+    NSString *path = [[NSBundle mainBundle] bundlePath];
+    NSURL *baseURL = [NSURL fileURLWithPath:path];
     
-    [content release];
+    [definitionView loadHTMLString:content baseURL:baseURL];
 }
 
 
@@ -140,7 +144,7 @@
     
     NSMutableArray *entries = [[NSMutableArray alloc] initWithObjects:palavra, nil];
     
-    [self loadHTMLDefinition:entries];
+    [self loadHTMLDefinition:entries n:1];
     
     [entries release];
     [palavra release];

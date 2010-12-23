@@ -22,6 +22,9 @@
 		DC3E6B5C12C03C35007B852E /* Etymology.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6B5B12C03C35007B852E /* Etymology.m */; };
 		DCE5014A12C15C4900D3F006 /* DefinitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE5014812C15C4900D3F006 /* DefinitionController.m */; };
 		DCE5014B12C15C4900D3F006 /* DefinitionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE5014912C15C4900D3F006 /* DefinitionController.xib */; };
+		DCE972E212C2C84A00BC3FB3 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = DCE972E012C2C84A00BC3FB3 /* Images */; };
+		DCE972ED12C2C8AB00BC3FB3 /* DicionarioAberto.css in Resources */ = {isa = PBXBuildFile; fileRef = DCE972EC12C2C8AB00BC3FB3 /* DicionarioAberto.css */; };
+		DCE9746612C2F7C900BC3FB3 /* HTML in Resources */ = {isa = PBXBuildFile; fileRef = DCE9746412C2F7C900BC3FB3 /* HTML */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +54,9 @@
 		DCE5014712C15C4900D3F006 /* DefinitionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefinitionController.h; sourceTree = "<group>"; };
 		DCE5014812C15C4900D3F006 /* DefinitionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefinitionController.m; sourceTree = "<group>"; };
 		DCE5014912C15C4900D3F006 /* DefinitionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DefinitionController.xib; sourceTree = "<group>"; };
+		DCE972E012C2C84A00BC3FB3 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
+		DCE972EC12C2C8AB00BC3FB3 /* DicionarioAberto.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = DicionarioAberto.css; sourceTree = "<group>"; };
+		DCE9746412C2F7C900BC3FB3 /* HTML */ = {isa = PBXFileReference; lastKnownFileType = folder; path = HTML; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,12 +119,13 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				DCE5022412C179AA00D3F006 /* Images */,
-				DCE5022012C1795500D3F006 /* Styles */,
+				DCE9746412C2F7C900BC3FB3 /* HTML */,
+				DCE972E012C2C84A00BC3FB3 /* Images */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				2899E5210DE3E06400AC0155 /* RootController.xib */,
 				DCE5014912C15C4900D3F006 /* DefinitionController.xib */,
 				8D1107310486CEB800E47090 /* DicionarioAberto-Info.plist */,
+				DCE972EC12C2C8AB00BC3FB3 /* DicionarioAberto.css */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -148,20 +155,6 @@
 				DC3E6B5B12C03C35007B852E /* Etymology.m */,
 			);
 			name = Model;
-			sourceTree = "<group>";
-		};
-		DCE5022012C1795500D3F006 /* Styles */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Styles;
-			sourceTree = "<group>";
-		};
-		DCE5022412C179AA00D3F006 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -209,6 +202,9 @@
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* RootController.xib in Resources */,
 				DCE5014B12C15C4900D3F006 /* DefinitionController.xib in Resources */,
+				DCE972E212C2C84A00BC3FB3 /* Images in Resources */,
+				DCE972ED12C2C8AB00BC3FB3 /* DicionarioAberto.css in Resources */,
+				DCE9746612C2F7C900BC3FB3 /* HTML in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
