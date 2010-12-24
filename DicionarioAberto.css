@@ -1,10 +1,12 @@
 body {
-    font-family: Palatino, Georgia;
+    font-family: Palatino;
     background-color: #ffe;
+    padding: .2em;
 }
 
 a {
     color: #c00;
+    text-decoration: none;
 }
 
 .senses a {
@@ -45,8 +47,8 @@ a {
 }
 
 .sense .definitions li span.singledef {
-    font-family: Palatino, Georgia;
-    font-size: 1.3em;
+    font-family: Palatino;
+    font-size: 1.4em;
     line-height: 1.6em;
     color: #000;
 }
@@ -61,7 +63,7 @@ a {
 
 footer {
     border-top: 1px solid #ccb;
-    margin-top: 1.5em;
+    margin-top: 1.8em;
     padding-top: .5em;
     font-size: .8em;
 }

@@ -14,8 +14,8 @@
 }
 
 + (NSArray *)searchEntries:(NSString *)word error:(NSError **)error;
-+ (NSArray *)searchWithPrefix:(NSString *)prefix;
-+ (NSArray *)searchWithSuffix:(NSString *)suffix;
-+ (NSArray *)searchSimilar:(NSString *)word;
++ (NSArray *)searchWithPrefix:(NSString *)prefix error:(NSError **)error;
++ (NSArray *)searchWithSuffix:(NSString *)suffix error:(NSError **)error;
++ (NSArray *)searchSimilar:(NSString *)word error:(NSError **)error;
 
 @end

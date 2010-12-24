@@ -8,6 +8,8 @@
 #import "DADelegate.h"
 #import "RootController.h"
 
+#import "DARemote.h"
+
 #import "Entry.h"
 #import "Form.h"
 #import "Sense.h"
@@ -27,8 +29,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
     
     // Override point for customization after application launch.
-    
-    self.searchResults = [[NSMutableArray alloc] initWithObjects:@"palavra", @"teste", @"olá", @"mundo", @"sim", @"não", @"carneiro", @"carneiro:1", @"carneiro:2", @"api", nil];
     
     // Add the navigation controller's view to the window and display.
     navController.viewControllers = [NSArray arrayWithObject:viewController];

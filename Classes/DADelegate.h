@@ -13,13 +13,14 @@
     UIWindow *window;
     RootController *viewController;
     UINavigationController *navController;
-    NSMutableArray *searchResults;
+    
+    NSArray *searchResults;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet RootController *viewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *navController;
-@property (nonatomic, retain) NSMutableArray *searchResults;
+@property (nonatomic, retain) NSArray *searchResults;
 
 @end
 

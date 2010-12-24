@@ -68,7 +68,7 @@
     // Loop over definition entries
     for (Entry *entry in entries) {
         // Skip entry:
-        if (n && entry.n != n) {
+        if (n && entry.n && entry.n != n) {
             continue;
         }
         
@@ -146,16 +146,22 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    NSString *thisResult = [delegate.searchResults objectAtIndex:index.row];
     
-    self.title = thisResult;
+    NSString *result    = [delegate.searchResults objectAtIndex:index.row];
+    NSInteger lr        = [delegate.searchResults indexOfObject:result];
+    NSInteger n         = 0;
+    
+    if (lr <= index.row)
+        n = 1 + index.row - lr;
     
     // Obtain definition from DicionarioAberto API    
-    NSArray *entries = [DARemote searchEntries:thisResult error:nil];
+    NSArray *entries = [DARemote searchEntries:result error:nil];
     
-    [self loadHTMLEntries:entries n:0];
+    self.title = result;
     
-    //[entries release];
+    [self loadHTMLEntries:entries n:n];
+    
+    [entries release];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
@@ -170,21 +176,20 @@
     
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSURL *url = [request URL];
-        if ([[url scheme] isEqualToString:@"definition"]) {
-            // TODO: Internal link, don't load URL in Web View
+        if ([[url scheme] isEqualToString:@"define"]) {
+            // TODO: Internal link, don't load URL in Web View            
             return NO;
         }
     }
     return YES;
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
-*/
+
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

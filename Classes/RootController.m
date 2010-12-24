@@ -8,6 +8,7 @@
 #import "RootController.h"
 #import "DefinitionController.h"
 #import "DADelegate.h"
+#import "DARemote.h"
 #import "Entry.h"
 #import "Form.h"
 #import "Sense.h"
@@ -41,17 +42,18 @@
 - (void)viewDidLoad {
     self.title = @"Dicionário Aberto";
     
+    searching = NO;
+    letUserSelectRow = YES;
+    
     //[super viewDidLoad];
 }
 
 
-/*
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return YES;
 }
-*/
+
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -70,6 +72,7 @@
     [searchResultsView release];
     [super dealloc];
 }
+
 
 #pragma mark UITableViewDataSource Methods
 
@@ -101,6 +104,13 @@
 
 #pragma mark UITableViewDelegate Methods
 
+- (NSIndexPath *)tableView:(UITableView *)theTableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (letUserSelectRow)
+        return indexPath;
+    else
+        return nil;
+}
+
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     DefinitionController *definition = [[DefinitionController alloc] initWithIndexPath:indexPath];
@@ -116,5 +126,52 @@
     
     [tv deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+
+#pragma mark UISearchBarDelegate Methods
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)theSearchBar {  
+    searchBar.showsCancelButton = NO;
+    return YES;
+}
+
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)theSearchBar {  
+    searchBar.showsCancelButton = NO;
+    [searchBar sizeToFit];
+    return YES;
+}
+
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
+    searching = YES;
+    letUserSelectRow = YES;
+    searchBar.showsCancelButton = NO;
+    
+    self.searchResultsView.scrollEnabled = NO;
+}
+
+
+- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText {
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([searchText length] > 0) {
+        searching = YES;
+        letUserSelectRow = YES;
+        self.searchResultsView.scrollEnabled = YES;
+        
+        // TODO: Prevent API call when searchResults < 10, search only within previously obtained list
+        
+        delegate.searchResults = [DARemote searchWithPrefix:searchText error:nil];
+    } else {
+        searching = NO;
+        letUserSelectRow = NO;
+        self.searchResultsView.scrollEnabled = NO;
+        delegate.searchResults = nil;
+    }
+
+    [self.searchResultsView reloadData];
+}
+
 
 @end

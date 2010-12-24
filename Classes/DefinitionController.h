@@ -11,7 +11,6 @@
 
 @interface DefinitionController : UIViewController {
     NSIndexPath *index;
-    
     IBOutlet UIWebView *definitionView;
 }
 
