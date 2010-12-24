@@ -9,13 +9,13 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DefinitionController : UIViewController {
+@interface DefinitionController : UIViewController <UIWebViewDelegate> {
     NSIndexPath *index;
     IBOutlet UIWebView *definitionView;
 }
 
 -(id)initWithIndexPath:(NSIndexPath *)indexPath;
--(void)loadHTMLEntries:(NSArray *)entries;
--(void)loadHTMLEntries:(NSArray *)entries n:(NSInteger)n;
+-(NSString *)htmlEntries:(NSArray *)entries;
+-(NSString *)htmlEntries:(NSArray *)entries n:(NSInteger)n;
 
 @end

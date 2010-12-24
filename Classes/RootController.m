@@ -40,12 +40,16 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    [super viewDidLoad];
+    
     self.title = @"Dicionário Aberto";
     
+    searchBar.showsCancelButton = NO;
+    searchBar.showsScopeBar = NO;
+    
+    searchPrefix = YES;
     searching = NO;
     letUserSelectRow = YES;
-    
-    //[super viewDidLoad];
 }
 
 
@@ -130,25 +134,62 @@
 
 #pragma mark UISearchBarDelegate Methods
 
+
 - (BOOL)searchBarShouldBeginEditing:(UISearchBar *)theSearchBar {  
     searchBar.showsCancelButton = NO;
+    searchBar.showsScopeBar = YES;
     return YES;
 }
 
 
 - (BOOL)searchBarShouldEndEditing:(UISearchBar *)theSearchBar {  
     searchBar.showsCancelButton = NO;
-    [searchBar sizeToFit];
+    searchBar.showsScopeBar = NO;
     return YES;
 }
 
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
+    searchBar.showsCancelButton = YES;
+    searchBar.showsScopeBar = YES;
+
     searching = YES;
     letUserSelectRow = YES;
-    searchBar.showsCancelButton = NO;
     
     self.searchResultsView.scrollEnabled = NO;
+}
+
+
+- (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar{
+	searchBar.showsCancelButton = NO;
+    searchBar.showsScopeBar = NO;
+}
+
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar{
+	[theSearchBar resignFirstResponder];
+	//theSearchBar.text = @"";
+}
+
+
+/*
+- (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
+	[theSearchBar resignFirstResponder];
+}
+*/
+
+
+- (void)searchBar:(UISearchBar *)theSearchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    
+    searchPrefix = (selectedScope == 0);
+    
+    if (searchPrefix)
+        delegate.searchResults = [DARemote searchWithPrefix:[theSearchBar text] error:nil];
+    else
+        delegate.searchResults = [DARemote searchWithSuffix:[theSearchBar text] error:nil];
+    
+    [self.searchResultsView reloadData];
 }
 
 
@@ -160,9 +201,36 @@
         letUserSelectRow = YES;
         self.searchResultsView.scrollEnabled = YES;
         
-        // TODO: Prevent API call when searchResults < 10, search only within previously obtained list
+        // TODO: Prevent unnecessary API calls when searching with a suffix
         
-        delegate.searchResults = [DARemote searchWithPrefix:searchText error:nil];
+        BOOL searchSaved = ([delegate.savedSearchResults count] && [delegate.savedSearchText length]
+                            && searchPrefix && [searchText hasPrefix:delegate.savedSearchText]);
+        
+        if (searchSaved) {
+            if (searchPrefix) {
+                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", searchText]];
+            } else {
+                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF ENDSWITH[c] %@", searchText]];
+            }
+        } else {
+            if (searchPrefix) {
+                delegate.searchResults = [DARemote searchWithPrefix:searchText error:nil];
+            } else {
+                delegate.searchResults = [DARemote searchWithSuffix:searchText error:nil];
+            }
+        }
+        
+        if ([delegate.searchResults count] < 10) {
+            if (delegate.savedSearchResults == nil) {
+                delegate.savedSearchText = searchText;
+                delegate.savedSearchResults = delegate.searchResults;
+            }
+        } else {
+            delegate.savedSearchResults = nil;
+            delegate.savedSearchText = @"";
+        }
+        
+        
     } else {
         searching = NO;
         letUserSelectRow = NO;

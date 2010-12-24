@@ -63,6 +63,8 @@
 								</object>
 								<object class="NSArray" key="IBScopeButtonTitles">
 									<bool key="EncodedWithXMLCoder">YES</bool>
+									<string>Prefixo</string>
+									<string>Sufixo</string>
 								</object>
 							</object>
 						</object>
@@ -190,7 +192,7 @@
 						<reference key="source" ref="351541326"/>
 						<reference key="destination" ref="434102447"/>
 					</object>
-					<int key="connectionID">34</int>
+					<int key="connectionID">37</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -260,7 +262,7 @@
 					<string>UIResponder</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{342, 248}, {320, 480}}</string>
+					<string>{{341, 134}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
@@ -280,7 +282,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">34</int>
+			<int key="maxID">37</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

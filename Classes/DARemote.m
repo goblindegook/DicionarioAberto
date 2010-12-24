@@ -17,25 +17,22 @@
     // TODO: Cache results
     
     // TODO: Check for potential memory leaks here
-    NSMutableArray *entries = [[NSMutableArray alloc] init];
+    NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
     
-    // Obtain definition from DicionarioAberto API
-    NSURL *url       = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml/%@",
-                                             [word stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    NSString *result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
-    
-    CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
-    
-    for (CXMLElement *ee in [doc nodesForXPath:@"//entry" error:nil]) {
-        Entry *entry = [[Entry alloc] initFromXMLString:[ee XMLString] error:nil];
+    if ([word length]) {
+        // Obtain definition from DicionarioAberto API
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml/%@", [word stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        NSString *result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
+        CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
         
-        if (entry)
-            [entries addObject:entry];
-        
-        [entry release];
+        for (CXMLElement *ee in [doc nodesForXPath:@"//entry" error:nil]) {
+            Entry *entry = [[Entry alloc] initFromXMLString:[ee XMLString] error:nil];
+            if (entry) [entries addObject:entry];
+            [entry release];
+        }
+    
+        [doc release];
     }
-    
-    [doc release];
     
     return entries;
 }
@@ -45,26 +42,45 @@
     // TODO: Cache results
     
     // TODO: Check for potential memory leaks here
-    NSMutableArray *entries = [[NSMutableArray alloc] init];
+    NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
     
-    // Obtain definition from DicionarioAberto API
-    NSURL *url       = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml?prefix=%@",
-                                             [prefix stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-    NSString *result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
+    if ([prefix length]) {
+        // Obtain definition from DicionarioAberto API
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml?prefix=%@", [prefix stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        NSString *result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
+        CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
     
-    CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
+        for (CXMLElement *ee in [doc nodesForXPath:@"//list/entry" error:nil]) {
+            [entries addObject:[ee stringValue]];
+        }
     
-    for (CXMLElement *ee in [doc nodesForXPath:@"//list/entry" error:nil]) {
-        [entries addObject:[ee stringValue]];
+        [doc release];
     }
-    
-    [doc release];
     
     return entries;
 }
 
 + (NSArray *)searchWithSuffix:(NSString *)suffix error:(NSError **)error {
-    return nil;
+    // TODO: Connection error checking
+    // TODO: Cache results
+    
+    // TODO: Check for potential memory leaks here
+    NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
+    
+    if ([suffix length]) {
+        // Obtain definition from DicionarioAberto API
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml?suffix=%@", [suffix stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        NSString *result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
+        CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
+    
+        for (CXMLElement *ee in [doc nodesForXPath:@"//list/entry" error:nil]) {
+            [entries addObject:[ee stringValue]];
+        }
+    
+        [doc release];
+    }
+    
+    return entries;
 }
 
 + (NSArray *)searchSimilar:(NSString *)word error:(NSError **)error {

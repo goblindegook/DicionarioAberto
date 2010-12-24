@@ -22,6 +22,8 @@
 @synthesize viewController;
 @synthesize navController;
 @synthesize searchResults;
+@synthesize savedSearchResults;
+@synthesize savedSearchText;
 
 #pragma mark -
 #pragma mark Application lifecycle
@@ -91,6 +93,8 @@
     [viewController release];
     [window release];
     [searchResults release];
+    [savedSearchResults release];
+    [savedSearchText release];
     [super dealloc];
 }
 

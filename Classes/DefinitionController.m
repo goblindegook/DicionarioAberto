@@ -38,23 +38,17 @@
 }
 */
 
-
 - (void)viewWillAppear:(BOOL)animated {
     // TOOD: Show this while view is constructed
 }
 
 // Generate HTML to load for the UIWebView
-- (void)loadHTMLEntries:(NSArray *)entries {
-    [self loadHTMLEntries:entries n:0];
+- (NSString *)htmlEntries:(NSArray *)entries {
+    return [self htmlEntries:entries n:0];
 }
 
 // Generate HTML entry
-- (void)loadHTMLEntries:(NSArray *)entries n:(NSInteger)n {
-    
-    // TODO:
-    // Loop over entries
-    // Skip irrelevant entries if index provided
-    // Replace markup: _italic_, [[link]]
+- (NSString *)htmlEntries:(NSArray *)entries n:(NSInteger)n {
     
     NSMutableString *content = [NSMutableString stringWithString:@""
      @"<!DOCTYPE html>\n"
@@ -62,6 +56,7 @@
      @"<title></title>"
      @"<meta charset=\"UTF-8\">"
      @"<link rel=\"stylesheet\" type=\"text/css\" href=\"DicionarioAberto.css\">"
+     // @"<script type=\"text/javascript\">document.ontouchmove = function (event) { event.preventDefault(); }</script>"
      @"</head><body>"
     ];
     
@@ -83,7 +78,6 @@
         [content appendString:@"</h1>"];
 
         [content appendString:@"<section class=\"senses\">"];
-
         [content appendString:@"<section class=\"sense\">"];
         [content appendString:@"<ol class=\"definitions\">"];
         
@@ -136,10 +130,23 @@
     
     [content appendString:@"</body></html>"];
     
+    return content;
+}
+
+
+- (void)loadEntry:(NSString *)entry n:(NSInteger)n {
+    
+    // Obtain definition from DicionarioAberto API    
+    NSArray *entries = [DARemote searchEntries:entry error:nil];
+    
+    self.title = entry;
+    
+    NSString *html = [self htmlEntries:entries n:n];
+    
     NSString *path = [[NSBundle mainBundle] bundlePath];
     NSURL *baseURL = [NSURL fileURLWithPath:path];
     
-    [definitionView loadHTMLString:content baseURL:baseURL];
+    [definitionView loadHTMLString:html baseURL:baseURL];
 }
 
 
@@ -147,21 +154,18 @@
 - (void)viewDidLoad {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
+    definitionView.delegate = self;
+    
     NSString *result    = [delegate.searchResults objectAtIndex:index.row];
     NSInteger lr        = [delegate.searchResults indexOfObject:result];
     NSInteger n         = 0;
     
     if (lr <= index.row)
-        n = 1 + index.row - lr;
+        n = index.row - lr + 1;
     
-    // Obtain definition from DicionarioAberto API    
-    NSArray *entries = [DARemote searchEntries:result error:nil];
+    [self loadEntry:result n:n];
     
-    self.title = result;
-    
-    [self loadHTMLEntries:entries n:n];
-    
-    [entries release];
+    //[entries release];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
@@ -176,8 +180,13 @@
     
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSURL *url = [request URL];
+
+        // Internal links
         if ([[url scheme] isEqualToString:@"define"]) {
-            // TODO: Internal link, don't load URL in Web View            
+            NSLog(@"Requested %@:%d", [url host], [url port]);
+            NSString *entry = [url host];
+            NSInteger n = [[url port] integerValue];
+            [self loadEntry:entry n:n];
             return NO;
         }
     }

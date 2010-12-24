@@ -11,6 +11,7 @@
     UITableView *searchResultsView;
     IBOutlet UISearchBar *searchBar;
     
+    BOOL searchPrefix;
     BOOL searching;
     BOOL letUserSelectRow;
 }
