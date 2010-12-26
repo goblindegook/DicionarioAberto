@@ -201,10 +201,11 @@
         letUserSelectRow = YES;
         self.searchResultsView.scrollEnabled = YES;
         
-        // TODO: Prevent unnecessary API calls when searching with a suffix
-        
-        BOOL searchSaved = ([delegate.savedSearchResults count] && [delegate.savedSearchText length]
-                            && searchPrefix && [searchText hasPrefix:delegate.savedSearchText]);
+        BOOL searchSaved = (searchPrefix
+                            //&& [delegate.savedSearchResults count]
+                            && [delegate.savedSearchText length]
+                            && [searchText hasPrefix:delegate.savedSearchText]
+                            );
         
         if (searchSaved) {
             if (searchPrefix) {
@@ -220,6 +221,7 @@
             }
         }
         
+        /*
         if ([delegate.searchResults count] < 10) {
             if (delegate.savedSearchResults == nil) {
                 delegate.savedSearchText = searchText;
@@ -229,7 +231,14 @@
             delegate.savedSearchResults = nil;
             delegate.savedSearchText = @"";
         }
+        */
         
+        if (!searchSaved) {
+            if ([searchText length] && [delegate.searchResults count] < 10) {
+                delegate.savedSearchText = [NSMutableString stringWithString:searchText];
+                delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
+            }
+        }
         
     } else {
         searching = NO;

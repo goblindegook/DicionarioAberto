@@ -16,7 +16,8 @@
     // TODO: Connection error checking
     // TODO: Cache results
     
-    // TODO: Check for potential memory leaks here
+    NSLog(@"Remote API call: search-xml '%@'", word);
+    
     NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
     
     if ([word length]) {
@@ -40,8 +41,9 @@
 + (NSArray *)searchWithPrefix:(NSString *)prefix error:(NSError **)error {
     // TODO: Connection error checking
     // TODO: Cache results
+
+    NSLog(@"Remote API call: search-xml-prefix '%@'", prefix);
     
-    // TODO: Check for potential memory leaks here
     NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
     
     if ([prefix length]) {
@@ -64,7 +66,8 @@
     // TODO: Connection error checking
     // TODO: Cache results
     
-    // TODO: Check for potential memory leaks here
+    NSLog(@"Remote API call: search-xml-suffix '%@'", suffix);
+    
     NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
     
     if ([suffix length]) {

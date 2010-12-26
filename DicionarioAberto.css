@@ -35,7 +35,8 @@ a {
     margin-bottom: .5em;
 }
 
-.sense .definitions {
+.sense .definitions,
+.homonyms .entries {
     margin-bottom: 1em;
     padding-left: 2em;
 }
@@ -47,8 +48,12 @@ a {
 }
 
 .sense .definitions li span.singledef {
-    font-family: Palatino;
     font-size: 1.4em;
+}
+
+.sense .definitions li span.singledef,
+.homonyms .entries .term {
+    font-family: Palatino;
     line-height: 1.6em;
     color: #000;
 }
@@ -59,6 +64,27 @@ a {
 
 .etym {
     margin-bottom: 1.3em;
+}
+
+aside h2 {
+    font-size: 1em;
+    margin-bottom: 0;
+}
+
+aside.homonyms {
+}
+
+aside .entries {
+    list-item: none;
+}
+
+aside .term {
+    font-size: 1em;
+    display: inline-block;
+    padding-right: 1em;
+}
+
+aside .term .index {
 }
 
 footer {

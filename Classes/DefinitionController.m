@@ -95,10 +95,14 @@
             
             // Definitions
             for (NSString *chunk in [[DAMarkup markupToHTML:sense.def] componentsSeparatedByString: @"\n"]) {
+                
+                BOOL firstDef = YES;
+                
                 if (chunk.length > 0) {
                     [content appendString:@"<li><span class=\"singledef\">"];
-                    if (sense.usg.text.length > 0) {
-                        [content appendFormat:@"<span class=\"usage %@\">%@</span> ", sense.usg.type, sense.usg.text];                        
+                    if (firstDef && sense.usg.text.length > 0) {
+                        [content appendFormat:@"<span class=\"usage %@\">%@</span> ", sense.usg.type, sense.usg.text];
+                        firstDef = NO;
                     }
                     [content appendString:chunk];
                     [content appendString:@"</span></li>"];
