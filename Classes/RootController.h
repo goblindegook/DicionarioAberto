@@ -8,8 +8,12 @@
 #import <UIKit/UIKit.h>
 
 @interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
+    
     UITableView *searchResultsView;
-    IBOutlet UISearchBar *searchBar;
+    
+    UISearchDisplayController *searchDisplayController;
+    
+    //IBOutlet UISearchBar *searchBar;
     
     BOOL searchPrefix;
     BOOL searching;

@@ -125,7 +125,13 @@
 
     // TODO: related entries
     if (n && entries.count > 1) {
-        [content appendString:@"<aside class=\"related\">TODO</aside>"];
+        [content appendString:@"<aside class=\"homonyms\"><h2>Homonyms</h2><ol class=\"entries\">"];
+        for (Entry *entry in entries) {
+            if (entry.n != n) {
+                [content appendFormat:@"<li class=\"term\"><a href=\"aberto://%@\"><span class=\"index\">%d</span> %@</a></li>", entry.entryId, entry.n, entry.entryForm.orth];
+            }
+        }
+        [content appendString:@"</ol></aside>"];
     }
         
     NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"footer" ofType:@"html" inDirectory:@"HTML"];
@@ -184,11 +190,11 @@
     
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSURL *url = [request URL];
-
+        
         // Internal links
-        if ([[url scheme] isEqualToString:@"define"]) {
-            NSLog(@"Requested %@:%d", [url host], [url port]);
-            NSString *entry = [url host];
+        if ([[url scheme] isEqualToString:@"aberto"]) {
+            NSLog(@"Requested %@:%d", [url host], [[url port] integerValue]);
+            NSString *entry = [url host]; // FIXME: host is sometimes returned as an IDN encoded string
             NSInteger n = [[url port] integerValue];
             [self loadEntry:entry n:n];
             return NO;

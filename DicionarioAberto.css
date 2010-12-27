@@ -1,6 +1,7 @@
 body {
     font-family: Palatino;
     background-color: #ffe;
+    background-image: url('background.png') repeat-x repeat-y;
     padding: .2em;
 }
 

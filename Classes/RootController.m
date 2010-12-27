@@ -7,6 +7,7 @@
 
 #import "RootController.h"
 #import "DefinitionController.h"
+#import "DefinitionCell.h"
 #import "DADelegate.h"
 #import "DARemote.h"
 #import "Entry.h"
@@ -44,9 +45,6 @@
     
     self.title = @"Dicionário Aberto";
     
-    searchBar.showsCancelButton = NO;
-    searchBar.showsScopeBar = NO;
-    
     searchPrefix = YES;
     searching = NO;
     letUserSelectRow = YES;
@@ -80,35 +78,46 @@
 
 #pragma mark UITableViewDataSource Methods
 
-- (UITableViewCell *)tableView:(UITableView *)srv
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellIdentifier = @"Cell";
+    static NSString *cellIdentifier = @"definitionCell";
     
-    UITableViewCell *cell = [srv dequeueReusableCellWithIdentifier:cellIdentifier];
+    // UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:cellIdentifier];
+    DefinitionCell *cell = (DefinitionCell *)[tv dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (nil == cell) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
+        // cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
+        
+        // Loop over topLevelObjects in NIB, looking for DefinitionCell
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DefinitionCell" owner:nil options:nil];
+        
+        for (id o in topLevelObjects)
+        {
+            if ([o isKindOfClass:[DefinitionCell class]])
+            {
+                cell = (DefinitionCell *)o;
+                break;
+            }
+        }
     }
     
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
     NSString *cellEntry = [delegate.searchResults objectAtIndex:indexPath.row];
     
-    cell.textLabel.text = cellEntry;
+    cell.definitionOrth.text = cellEntry;
     
     return cell;
 }
 
-- (NSInteger)tableView:(UITableView *)srv
- numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     return [delegate.searchResults count];
 }
 
 #pragma mark UITableViewDelegate Methods
 
-- (NSIndexPath *)tableView:(UITableView *)theTableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (NSIndexPath *)tableView:(UITableView *)tv willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (letUserSelectRow)
         return indexPath;
     else
@@ -117,6 +126,7 @@
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    
     DefinitionController *definition = [[DefinitionController alloc] initWithIndexPath:indexPath];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa"
@@ -134,24 +144,24 @@
 
 #pragma mark UISearchBarDelegate Methods
 
-
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)theSearchBar {  
-    searchBar.showsCancelButton = NO;
-    searchBar.showsScopeBar = YES;
+/*
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)sb {  
+    sb.showsCancelButton = NO;
+    sb.showsScopeBar = YES;
     return YES;
 }
 
 
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)theSearchBar {  
-    searchBar.showsCancelButton = NO;
-    searchBar.showsScopeBar = NO;
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)sb {  
+    sb.showsCancelButton = NO;
+    sb.showsScopeBar = NO;
     return YES;
 }
+*/
 
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)theSearchBar {
-    searchBar.showsCancelButton = YES;
-    searchBar.showsScopeBar = YES;
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)sb {
+    //sb.showsCancelButton = NO;
+    sb.showsScopeBar = YES;
 
     searching = YES;
     letUserSelectRow = YES;
@@ -160,34 +170,33 @@
 }
 
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)theSearchBar{
-	searchBar.showsCancelButton = NO;
-    searchBar.showsScopeBar = NO;
+- (void)searchBarTextDidEndEditing:(UISearchBar *)sb {
+	//sb.showsCancelButton = NO;
+    letUserSelectRow = YES;
+    sb.showsScopeBar = YES;
 }
-
-
-- (void)searchBarCancelButtonClicked:(UISearchBar *)theSearchBar{
-	[theSearchBar resignFirstResponder];
-	//theSearchBar.text = @"";
-}
-
 
 /*
-- (void)searchBarSearchButtonClicked:(UISearchBar *)theSearchBar {
-	[theSearchBar resignFirstResponder];
+- (void)searchBarCancelButtonClicked:(UISearchBar *)sb {
 }
 */
 
+/*
+- (void)searchBarSearchButtonClicked:(UISearchBar *)sb {
+    [self.searchResultsView reloadData];
+    [sb resignFirstResponder];
+}
+*/
 
-- (void)searchBar:(UISearchBar *)theSearchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+- (void)searchBar:(UISearchBar *)sb selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
     searchPrefix = (selectedScope == 0);
     
     if (searchPrefix)
-        delegate.searchResults = [DARemote searchWithPrefix:[theSearchBar text] error:nil];
+        delegate.searchResults = [DARemote searchWithPrefix:[sb text] error:nil];
     else
-        delegate.searchResults = [DARemote searchWithSuffix:[theSearchBar text] error:nil];
+        delegate.searchResults = [DARemote searchWithSuffix:[sb text] error:nil];
     
     [self.searchResultsView reloadData];
 }
@@ -221,18 +230,6 @@
             }
         }
         
-        /*
-        if ([delegate.searchResults count] < 10) {
-            if (delegate.savedSearchResults == nil) {
-                delegate.savedSearchText = searchText;
-                delegate.savedSearchResults = delegate.searchResults;
-            }
-        } else {
-            delegate.savedSearchResults = nil;
-            delegate.savedSearchText = @"";
-        }
-        */
-        
         if (!searchSaved) {
             if ([searchText length] && [delegate.searchResults count] < 10) {
                 delegate.savedSearchText = [NSMutableString stringWithString:searchText];
@@ -243,7 +240,7 @@
     } else {
         searching = NO;
         letUserSelectRow = NO;
-        self.searchResultsView.scrollEnabled = NO;
+        self.searchResultsView.scrollEnabled = YES;
         delegate.searchResults = nil;
     }
 

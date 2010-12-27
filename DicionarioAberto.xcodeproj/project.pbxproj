@@ -20,6 +20,16 @@
 		DC3E6AD412C02E4D007B852E /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6AD312C02E4D007B852E /* Sense.m */; };
 		DC3E6B1C12C0314A007B852E /* Usage.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6B1B12C0314A007B852E /* Usage.m */; };
 		DC3E6B5C12C03C35007B852E /* Etymology.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6B5B12C03C35007B852E /* Etymology.m */; };
+		DC4E057B12C77D6F00B4BB0C /* DefinitionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4E057A12C77D6F00B4BB0C /* DefinitionCell.m */; };
+		DC4E058A12C77E5A00B4BB0C /* DefinitionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC4E058912C77E5A00B4BB0C /* DefinitionCell.xib */; };
+		DC4E05F912C8152D00B4BB0C /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F212C8152D00B4BB0C /* Icon-72.png */; };
+		DC4E05FA12C8152D00B4BB0C /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F312C8152D00B4BB0C /* Icon-Small-50.png */; };
+		DC4E05FB12C8152D00B4BB0C /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F412C8152D00B4BB0C /* Icon-Small.png */; };
+		DC4E05FC12C8152D00B4BB0C /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F512C8152D00B4BB0C /* Icon-Small@2x.png */; };
+		DC4E05FD12C8152D00B4BB0C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F612C8152D00B4BB0C /* Icon.png */; };
+		DC4E05FE12C8152D00B4BB0C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F712C8152D00B4BB0C /* Icon@2x.png */; };
+		DC4E05FF12C8152D00B4BB0C /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */; };
+		DC4E061812C81B7300B4BB0C /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E061712C81B7300B4BB0C /* background.png */; };
 		DCD1453412C37A1D00E26123 /* CXMLDocument_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1451B12C37A1D00E26123 /* CXMLDocument_CreationExtensions.m */; };
 		DCD1453512C37A1D00E26123 /* CXMLNode_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1451D12C37A1D00E26123 /* CXMLNode_CreationExtensions.m */; };
 		DCD1453612C37A1D00E26123 /* CXMLDocument_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1451F12C37A1D00E26123 /* CXMLDocument_PrivateExtensions.m */; };
@@ -65,6 +75,17 @@
 		DC3E6B1B12C0314A007B852E /* Usage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Usage.m; sourceTree = "<group>"; };
 		DC3E6B5A12C03C35007B852E /* Etymology.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Etymology.h; sourceTree = "<group>"; };
 		DC3E6B5B12C03C35007B852E /* Etymology.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Etymology.m; sourceTree = "<group>"; };
+		DC4E057912C77D6F00B4BB0C /* DefinitionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefinitionCell.h; sourceTree = "<group>"; };
+		DC4E057A12C77D6F00B4BB0C /* DefinitionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefinitionCell.m; sourceTree = "<group>"; };
+		DC4E058912C77E5A00B4BB0C /* DefinitionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DefinitionCell.xib; sourceTree = "<group>"; };
+		DC4E05F212C8152D00B4BB0C /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		DC4E05F312C8152D00B4BB0C /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		DC4E05F412C8152D00B4BB0C /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		DC4E05F512C8152D00B4BB0C /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		DC4E05F612C8152D00B4BB0C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		DC4E05F712C8152D00B4BB0C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		DC4E061712C81B7300B4BB0C /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
 		DCD1451A12C37A1D00E26123 /* CXMLDocument_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument_CreationExtensions.h; sourceTree = "<group>"; };
 		DCD1451B12C37A1D00E26123 /* CXMLDocument_CreationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLDocument_CreationExtensions.m; sourceTree = "<group>"; };
 		DCD1451C12C37A1D00E26123 /* CXMLNode_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode_CreationExtensions.h; sourceTree = "<group>"; };
@@ -164,10 +185,19 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				DC4E061712C81B7300B4BB0C /* background.png */,
+				DC4E05F212C8152D00B4BB0C /* Icon-72.png */,
+				DC4E05F312C8152D00B4BB0C /* Icon-Small-50.png */,
+				DC4E05F412C8152D00B4BB0C /* Icon-Small.png */,
+				DC4E05F512C8152D00B4BB0C /* Icon-Small@2x.png */,
+				DC4E05F612C8152D00B4BB0C /* Icon.png */,
+				DC4E05F712C8152D00B4BB0C /* Icon@2x.png */,
+				DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */,
 				DCE9746412C2F7C900BC3FB3 /* HTML */,
 				DCE972E012C2C84A00BC3FB3 /* Images */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				2899E5210DE3E06400AC0155 /* RootController.xib */,
+				DC4E058912C77E5A00B4BB0C /* DefinitionCell.xib */,
 				DCE5014912C15C4900D3F006 /* DefinitionController.xib */,
 				8D1107310486CEB800E47090 /* DicionarioAberto-Info.plist */,
 				DCE972EC12C2C8AB00BC3FB3 /* DicionarioAberto.css */,
@@ -257,6 +287,8 @@
 			children = (
 				28D7ACF60DDB3853001CB0EB /* RootController.h */,
 				28D7ACF70DDB3853001CB0EB /* RootController.m */,
+				DC4E057912C77D6F00B4BB0C /* DefinitionCell.h */,
+				DC4E057A12C77D6F00B4BB0C /* DefinitionCell.m */,
 				DCE5014712C15C4900D3F006 /* DefinitionController.h */,
 				DCE5014812C15C4900D3F006 /* DefinitionController.m */,
 			);
@@ -311,6 +343,15 @@
 				DCE972E212C2C84A00BC3FB3 /* Images in Resources */,
 				DCE972ED12C2C8AB00BC3FB3 /* DicionarioAberto.css in Resources */,
 				DCE9746612C2F7C900BC3FB3 /* HTML in Resources */,
+				DC4E058A12C77E5A00B4BB0C /* DefinitionCell.xib in Resources */,
+				DC4E05F912C8152D00B4BB0C /* Icon-72.png in Resources */,
+				DC4E05FA12C8152D00B4BB0C /* Icon-Small-50.png in Resources */,
+				DC4E05FB12C8152D00B4BB0C /* Icon-Small.png in Resources */,
+				DC4E05FC12C8152D00B4BB0C /* Icon-Small@2x.png in Resources */,
+				DC4E05FD12C8152D00B4BB0C /* Icon.png in Resources */,
+				DC4E05FE12C8152D00B4BB0C /* Icon@2x.png in Resources */,
+				DC4E05FF12C8152D00B4BB0C /* iTunesArtwork.png in Resources */,
+				DC4E061812C81B7300B4BB0C /* background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +385,7 @@
 				DCD1453F12C37A1D00E26123 /* CTidy.m in Sources */,
 				DCD147BC12C3DBE300E26123 /* DARemote.m in Sources */,
 				DCD147BF12C3DBEE00E26123 /* DAMarkup.m in Sources */,
+				DC4E057B12C77D6F00B4BB0C /* DefinitionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +430,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PREBINDING = NO;
+				PRODUCT_NAME = Aberto;
 				SDKROOT = iphoneos4.0;
 			};
 			name = Debug;
@@ -402,6 +445,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
+				PRODUCT_NAME = Aberto;
 				SDKROOT = iphoneos4.0;
 			};
 			name = Release;
