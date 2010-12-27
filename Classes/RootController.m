@@ -76,6 +76,68 @@
 }
 
 
+- (void) changeScopeDicionarioAberto:(NSInteger)selectedScope {
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    
+    searchPrefix = (selectedScope == 0);
+    
+    if (searchPrefix)
+        delegate.searchResults = [DARemote searchWithPrefix:self.searchDisplayController.searchBar.text error:nil];
+    else
+        delegate.searchResults = [DARemote searchWithSuffix:self.searchDisplayController.searchBar.text error:nil];
+    
+    [self.searchDisplayController.searchResultsTableView reloadData];
+    //[self.searchResultsView reloadData];
+}
+
+
+- (void) searchDicionarioAberto:(NSString *)searchText {
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([searchText length] > 0) {
+        searching = YES;
+        letUserSelectRow = YES;
+        self.searchResultsView.scrollEnabled = YES;
+        
+        BOOL searchSaved = (searchPrefix
+                            && [delegate.savedSearchText length]
+                            && [searchText hasPrefix:delegate.savedSearchText]
+                            );
+        
+        if (searchSaved) {
+            if (searchPrefix) {
+                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", searchText]];
+            } else {
+                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF ENDSWITH[c] %@", searchText]];
+            }
+        } else {
+            if (searchPrefix) {
+                delegate.searchResults = [DARemote searchWithPrefix:searchText error:nil];
+            } else {
+                delegate.searchResults = [DARemote searchWithSuffix:searchText error:nil];
+            }
+        }
+        
+        if (!searchSaved) {
+            if ([searchText length] && [delegate.searchResults count] < 10) {
+                delegate.savedSearchText = [NSMutableString stringWithString:searchText];
+                delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
+            }
+        }
+        
+    } else {
+        searching = NO;
+        letUserSelectRow = NO;
+        self.searchResultsView.scrollEnabled = YES;
+        delegate.searchResults = nil;
+    }
+    
+    [self.searchDisplayController.searchResultsTableView reloadData];
+    //[self.searchResultsView reloadData];
+}
+
+
+
 #pragma mark UITableViewDataSource Methods
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -142,108 +204,34 @@
 }
 
 
-#pragma mark UISearchBarDelegate Methods
+#pragma mark UISearchDisplayDelegate
 
-/*
-- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)sb {  
-    sb.showsCancelButton = NO;
-    sb.showsScopeBar = YES;
-    return YES;
-}
-
-
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)sb {  
-    sb.showsCancelButton = NO;
-    sb.showsScopeBar = NO;
-    return YES;
-}
-*/
-
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)sb {
-    //sb.showsCancelButton = NO;
-    sb.showsScopeBar = YES;
-
-    searching = YES;
-    letUserSelectRow = YES;
+- (void) searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
     
-    self.searchResultsView.scrollEnabled = NO;
 }
 
 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)sb {
-	//sb.showsCancelButton = NO;
-    letUserSelectRow = YES;
-    sb.showsScopeBar = YES;
-}
-
-/*
-- (void)searchBarCancelButtonClicked:(UISearchBar *)sb {
-}
-*/
-
-/*
-- (void)searchBarSearchButtonClicked:(UISearchBar *)sb {
-    [self.searchResultsView reloadData];
-    [sb resignFirstResponder];
-}
-*/
-
-- (void)searchBar:(UISearchBar *)sb selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+- (void) searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
     
-    searchPrefix = (selectedScope == 0);
-    
-    if (searchPrefix)
-        delegate.searchResults = [DARemote searchWithPrefix:[sb text] error:nil];
-    else
-        delegate.searchResults = [DARemote searchWithSuffix:[sb text] error:nil];
-    
-    [self.searchResultsView reloadData];
 }
 
 
-- (void)searchBar:(UISearchBar *)theSearchBar textDidChange:(NSString *)searchText {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    
-    if ([searchText length] > 0) {
-        searching = YES;
-        letUserSelectRow = YES;
-        self.searchResultsView.scrollEnabled = YES;
-        
-        BOOL searchSaved = (searchPrefix
-                            //&& [delegate.savedSearchResults count]
-                            && [delegate.savedSearchText length]
-                            && [searchText hasPrefix:delegate.savedSearchText]
-                            );
-        
-        if (searchSaved) {
-            if (searchPrefix) {
-                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", searchText]];
-            } else {
-                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF ENDSWITH[c] %@", searchText]];
-            }
-        } else {
-            if (searchPrefix) {
-                delegate.searchResults = [DARemote searchWithPrefix:searchText error:nil];
-            } else {
-                delegate.searchResults = [DARemote searchWithSuffix:searchText error:nil];
-            }
-        }
-        
-        if (!searchSaved) {
-            if ([searchText length] && [delegate.searchResults count] < 10) {
-                delegate.savedSearchText = [NSMutableString stringWithString:searchText];
-                delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
-            }
-        }
-        
-    } else {
-        searching = NO;
-        letUserSelectRow = NO;
-        self.searchResultsView.scrollEnabled = YES;
-        delegate.searchResults = nil;
-    }
+- (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+    [self changeScopeDicionarioAberto:searchOption];
+    return NO;
+}
 
+
+- (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    //DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    //[delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:searchString];
+    
+    [self searchDicionarioAberto:searchString];
+    return NO;
+}
+
+
+- (void) searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView {
     [self.searchResultsView reloadData];
 }
 

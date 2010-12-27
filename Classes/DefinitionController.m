@@ -125,10 +125,14 @@
 
     // TODO: related entries
     if (n && entries.count > 1) {
-        [content appendString:@"<aside class=\"homonyms\"><h2>Homonyms</h2><ol class=\"entries\">"];
+        [content appendString:@"<aside class=\"homonyms\"><h2>Homónimos</h2><ol class=\"entries\">"];
         for (Entry *entry in entries) {
             if (entry.n != n) {
-                [content appendFormat:@"<li class=\"term\"><a href=\"aberto://%@\"><span class=\"index\">%d</span> %@</a></li>", entry.entryId, entry.n, entry.entryForm.orth];
+                [content appendFormat:
+                 @"<li class=\"term\"><a href=\"aberto://define:%d/%@\" class=\"index\">%d</a></li>",
+                 entry.n,
+                 [[NSRegularExpression regularExpressionWithPattern:@"^([^:]+):\\d+" options:0 error:nil] stringByReplacingMatchesInString:entry.entryId options:0 range:NSMakeRange(0, [entry.entryId length]) withTemplate:@"$1"],
+                 entry.n];
             }
         }
         [content appendString:@"</ol></aside>"];
@@ -194,7 +198,7 @@
         // Internal links
         if ([[url scheme] isEqualToString:@"aberto"]) {
             NSLog(@"Requested %@:%d", [url host], [[url port] integerValue]);
-            NSString *entry = [url host]; // FIXME: host is sometimes returned as an IDN encoded string
+            NSString *entry = [url lastPathComponent];
             NSInteger n = [[url port] integerValue];
             [self loadEntry:entry n:n];
             return NO;

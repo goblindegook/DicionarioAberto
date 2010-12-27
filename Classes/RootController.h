@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
+@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate> {
     
     UITableView *searchResultsView;
     
@@ -21,6 +21,9 @@
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultsView;
+
+- (void) changeScopeDicionarioAberto:(NSInteger)selectedScope;
+- (void) searchDicionarioAberto:(NSString *)searchText;
 
 @end
 
