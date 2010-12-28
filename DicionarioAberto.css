@@ -52,8 +52,7 @@ a {
     font-size: 1.4em;
 }
 
-.sense .definitions li span.singledef,
-.homonyms .entries .term {
+.sense .definitions li span.singledef {
     font-family: Palatino;
     line-height: 1.6em;
     color: #000;
@@ -69,7 +68,9 @@ a {
 
 aside h2 {
     font-size: 1em;
+    margin-top: .5em;
     margin-bottom: 0;
+    font-weight: bold;
 }
 
 aside.homonyms {
@@ -86,6 +87,7 @@ aside .term {
 }
 
 aside .term .index {
+    font-size: .8em;
 }
 
 footer {

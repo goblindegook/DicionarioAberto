@@ -97,7 +97,6 @@
     if ([searchText length] > 0) {
         searching = YES;
         letUserSelectRow = YES;
-        self.searchResultsView.scrollEnabled = YES;
         
         BOOL searchSaved = (searchPrefix
                             && [delegate.savedSearchText length]
@@ -128,7 +127,6 @@
     } else {
         searching = NO;
         letUserSelectRow = NO;
-        self.searchResultsView.scrollEnabled = YES;
         delegate.searchResults = nil;
     }
     
@@ -137,8 +135,8 @@
 }
 
 
-
 #pragma mark UITableViewDataSource Methods
+
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -191,10 +189,7 @@
     
     DefinitionController *definition = [[DefinitionController alloc] initWithIndexPath:indexPath];
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa"
-                                                                             style:UIBarButtonItemStyleBordered
-                                                                            target:nil
-                                                                            action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa" style:UIBarButtonItemStyleBordered target:nil action:nil];
     
     [delegate.navController pushViewController:definition animated:YES];
     
@@ -204,35 +199,64 @@
 }
 
 
+#pragma mark UISearchBarDelegate
+
+
+- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+}
+
+
 #pragma mark UISearchDisplayDelegate
 
+- (void) searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
+}
+
+
+- (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
+}
+
+
 - (void) searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
-    
 }
 
 
 - (void) searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
-    
+}
+
+
+- (void) searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView {
+}
+
+
+- (void) searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView {
+}
+
+
+- (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
+    tableView.backgroundColor   = self.searchResultsView.backgroundColor;
+    tableView.separatorColor    = self.searchResultsView.separatorColor;
+    tableView.separatorStyle    = self.searchResultsView.separatorStyle;
+    //tableView.separatorColor    = [UIColor colorWithRed:0.65 green:0.65 blue:0.5 alpha:1];
+}
+
+
+- (void) searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView {
 }
 
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
-    [self changeScopeDicionarioAberto:searchOption];
+    // Search asynchronously, reload results table later:
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate performSelectorInBackground:@selector(changeScopeDicionarioAberto:) withObject:[NSNumber numberWithInteger:searchOption]];
     return NO;
 }
 
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    //DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    //[delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:searchString];
-    
-    [self searchDicionarioAberto:searchString];
+    // Search asynchronously, reload results table later:
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    [delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:searchString];
     return NO;
-}
-
-
-- (void) searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView {
-    [self.searchResultsView reloadData];
 }
 
 

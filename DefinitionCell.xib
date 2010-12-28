@@ -117,6 +117,7 @@
 				</object>
 				<int key="IBUIContentMode">3</int>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+				<int key="IBUISeparatorStyle">1</int>
 				<int key="IBUIAccessoryType">1</int>
 				<reference key="IBUIContentView" ref="275890393"/>
 				<string key="IBUIReuseIdentifier">definitionCell</string>

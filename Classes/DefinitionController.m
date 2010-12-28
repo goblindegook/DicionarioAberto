@@ -123,7 +123,7 @@
         [content appendString:@"</section>"];
     }
 
-    // TODO: related entries
+    // Homonyms
     if (n && entries.count > 1) {
         [content appendString:@"<aside class=\"homonyms\"><h2>Homónimos</h2><ol class=\"entries\">"];
         for (Entry *entry in entries) {

@@ -99,4 +99,16 @@
 }
 
 
+// Asynchronous call delegate wrapper method for search scope changes
+- (void) changeScopeDicionarioAberto:(NSNumber *)selectedScope {
+    [viewController changeScopeDicionarioAberto:[selectedScope integerValue]];
+}
+
+
+// Asynchronous call delegate wrapper method for search text changes
+- (void) searchDicionarioAberto:(NSString *)searchText {
+    [viewController searchDicionarioAberto:searchText];
+}
+
+
 @end

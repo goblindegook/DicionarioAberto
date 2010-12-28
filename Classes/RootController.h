@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchDisplayDelegate> {
+@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
     
     UITableView *searchResultsView;
     
