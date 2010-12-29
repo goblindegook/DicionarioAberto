@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface DefinitionCell : UITableViewCell {
+@interface SearchCell : UITableViewCell {
     IBOutlet UILabel *definitionOrth;
     IBOutlet UILabel *definitionText;
     IBOutlet UIView *definitionBackground;

@@ -7,7 +7,7 @@
 
 #import "RootController.h"
 #import "DefinitionController.h"
-#import "DefinitionCell.h"
+#import "SearchCell.h"
 #import "DADelegate.h"
 #import "DARemote.h"
 #import "Entry.h"
@@ -45,17 +45,23 @@
     
     self.title = @"Dicionário Aberto";
     
-    searchPrefix = YES;
-    searching = NO;
-    letUserSelectRow = YES;
+    searchResultsView.hidden    = YES;
+    
+    searchPrefix                = YES;
+    searching                   = NO;
+    letUserSelectRow            = YES;
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
+- (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
 
+
+- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    [self dropShadow:self.searchDisplayController.searchResultsTableView];
+}
+ 
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -72,7 +78,59 @@
 
 - (void)dealloc {
     [searchResultsView release];
+    [tableHeaderView release];
+    [tableFooterView release];
     [super dealloc];
+}
+
+
+- (UIView *) gradientShadowOnView:(UIView *)view height:(int)height from:(id)from to:(id)to {
+    CAGradientLayer *shadow = [[CAGradientLayer alloc] init];
+    shadow.frame  = CGRectMake(0, 0, view.bounds.size.width, height);
+    shadow.colors = [NSArray arrayWithObjects:from, to, nil];
+    [view.layer insertSublayer:shadow atIndex:0];
+    [shadow release];
+    return view;
+}
+
+
+- (void) dropShadow:(UITableView *)tableView {
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    
+    if ([delegate.searchResults count]) {
+        UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
+        UIColor *headerDark  = (id)[UIColor colorWithWhite:0 alpha:0.15].CGColor;
+        UIColor *footerDark  = (id)[UIColor colorWithWhite:0 alpha:0.30].CGColor;
+        
+        // Create tableHeaderView:
+        
+        if (tableHeaderView == nil) {
+            tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 10)];
+            tableHeaderView = [self gradientShadowOnView:tableHeaderView height:10 from:light to:headerDark];
+            tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+        }
+        
+        // Create tableFooterView:
+        
+        if (tableFooterView == nil) {
+            tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
+            tableFooterView = [self gradientShadowOnView:tableFooterView height:20 from:footerDark to:light];
+            tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+        }
+        
+        // TODO: Update shadow width on orientation change
+        
+        tableView.tableHeaderView = tableHeaderView;
+        tableView.tableFooterView = tableFooterView;
+        
+        [tableView setContentInset:UIEdgeInsetsMake(-10, 0, 0, 0)];
+        
+    } else {
+        tableView.tableHeaderView = nil;
+        tableView.tableFooterView = nil;
+        
+        [tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
 }
 
 
@@ -86,8 +144,9 @@
     else
         delegate.searchResults = [DARemote searchWithSuffix:self.searchDisplayController.searchBar.text error:nil];
     
+    [self dropShadow:self.searchDisplayController.searchResultsTableView];
+    
     [self.searchDisplayController.searchResultsTableView reloadData];
-    //[self.searchResultsView reloadData];
 }
 
 
@@ -130,8 +189,9 @@
         delegate.searchResults = nil;
     }
     
+    [self dropShadow:self.searchDisplayController.searchResultsTableView];
+    
     [self.searchDisplayController.searchResultsTableView reloadData];
-    //[self.searchResultsView reloadData];
 }
 
 
@@ -140,22 +200,22 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellIdentifier = @"definitionCell";
+    static NSString *cellIdentifier = @"searchCell";
     
     // UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:cellIdentifier];
-    DefinitionCell *cell = (DefinitionCell *)[tv dequeueReusableCellWithIdentifier:cellIdentifier];
+    SearchCell *cell = (SearchCell *)[tv dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (nil == cell) {
         // cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
         
         // Loop over topLevelObjects in NIB, looking for DefinitionCell
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"DefinitionCell" owner:nil options:nil];
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"SearchCell" owner:nil options:nil];
         
         for (id o in topLevelObjects)
         {
-            if ([o isKindOfClass:[DefinitionCell class]])
+            if ([o isKindOfClass:[SearchCell class]])
             {
-                cell = (DefinitionCell *)o;
+                cell = (SearchCell *)o;
                 break;
             }
         }
@@ -233,10 +293,9 @@
 
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
-    tableView.backgroundColor   = self.searchResultsView.backgroundColor;
-    tableView.separatorColor    = self.searchResultsView.separatorColor;
-    tableView.separatorStyle    = self.searchResultsView.separatorStyle;
-    //tableView.separatorColor    = [UIColor colorWithRed:0.65 green:0.65 blue:0.5 alpha:1];
+    tableView.backgroundColor   = searchResultsView.backgroundColor;
+    tableView.separatorColor    = searchResultsView.separatorColor;
+    //tableView.separatorStyle    = searchResultsView.separatorStyle;
 }
 
 

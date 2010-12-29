@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
     
@@ -13,7 +14,8 @@
     
     UISearchDisplayController *searchDisplayController;
     
-    //IBOutlet UISearchBar *searchBar;
+    UIView *tableHeaderView;
+    UIView *tableFooterView;
     
     BOOL searchPrefix;
     BOOL searching;
@@ -24,6 +26,8 @@
 
 - (void) changeScopeDicionarioAberto:(NSInteger)selectedScope;
 - (void) searchDicionarioAberto:(NSString *)searchText;
+- (UIView *) gradientShadowOnView:(UIView *)view height:(int)height from:(id)from to:(id)to;
+- (void) dropShadow:(UITableView *)tableView;
 
 @end
 

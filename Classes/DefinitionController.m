@@ -93,10 +93,10 @@
                 [content appendString:@"<ol class=\"definitions\">"];
             }
             
+            BOOL firstDef = YES;
+            
             // Definitions
             for (NSString *chunk in [[DAMarkup markupToHTML:sense.def] componentsSeparatedByString: @"\n"]) {
-                
-                BOOL firstDef = YES;
                 
                 if (chunk.length > 0) {
                     [content appendString:@"<li><span class=\"singledef\">"];
