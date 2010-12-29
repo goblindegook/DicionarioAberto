@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <QuartzCore/QuartzCore.h>
+#import "OBGradientView.h"
 
 @interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
     
@@ -14,8 +14,8 @@
     
     UISearchDisplayController *searchDisplayController;
     
-    UIView *tableHeaderView;
-    UIView *tableFooterView;
+    OBGradientView *tableHeaderView;
+    OBGradientView *tableFooterView;
     
     BOOL searchPrefix;
     BOOL searching;
@@ -26,8 +26,7 @@
 
 - (void) changeScopeDicionarioAberto:(NSInteger)selectedScope;
 - (void) searchDicionarioAberto:(NSString *)searchText;
-- (UIView *) gradientShadowOnView:(UIView *)view height:(int)height from:(id)from to:(id)to;
-- (void) dropShadow:(UITableView *)tableView;
+- (void) dropShadowFor:(UITableView *)tableView;
 
 @end
 

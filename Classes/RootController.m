@@ -56,11 +56,6 @@
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
-
-
-- (void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    [self dropShadow:self.searchDisplayController.searchResultsTableView];
-}
  
 
 - (void)didReceiveMemoryWarning {
@@ -83,47 +78,30 @@
     [super dealloc];
 }
 
-
-- (UIView *) gradientShadowOnView:(UIView *)view height:(int)height from:(id)from to:(id)to {
-    CAGradientLayer *shadow = [[CAGradientLayer alloc] init];
-    shadow.frame  = CGRectMake(0, 0, view.bounds.size.width, height);
-    shadow.colors = [NSArray arrayWithObjects:from, to, nil];
-    [view.layer insertSublayer:shadow atIndex:0];
-    [shadow release];
-    return view;
-}
-
-
-- (void) dropShadow:(UITableView *)tableView {
+- (void) dropShadowFor:(UITableView *)tableView {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
     if ([delegate.searchResults count]) {
+        NSLog(@"%d", [delegate.searchResults count]);
         UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
-        UIColor *headerDark  = (id)[UIColor colorWithWhite:0 alpha:0.15].CGColor;
-        UIColor *footerDark  = (id)[UIColor colorWithWhite:0 alpha:0.30].CGColor;
-        
-        // Create tableHeaderView:
+        UIColor *dark  = (id)[UIColor colorWithWhite:0 alpha:0.2].CGColor;
         
         if (tableHeaderView == nil) {
-            tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 10)];
-            tableHeaderView = [self gradientShadowOnView:tableHeaderView height:10 from:light to:headerDark];
-            tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+            tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 11)];
+            tableHeaderView.colors = [NSArray arrayWithObjects:(id)light, (id)dark, nil];
+            tableHeaderView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
         }
-        
-        // Create tableFooterView:
         
         if (tableFooterView == nil) {
-            tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
-            tableFooterView = [self gradientShadowOnView:tableFooterView height:20 from:footerDark to:light];
+            tableFooterView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 22)];
+            tableFooterView.colors = [NSArray arrayWithObjects:(id)dark, (id)light, nil];
             tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
         }
-        
-        // TODO: Update shadow width on orientation change
         
         tableView.tableHeaderView = tableHeaderView;
         tableView.tableFooterView = tableFooterView;
         
-        [tableView setContentInset:UIEdgeInsetsMake(-10, 0, 0, 0)];
+        [tableView setContentInset:UIEdgeInsetsMake(-11, 0, 0, 0)];
         
     } else {
         tableView.tableHeaderView = nil;
@@ -144,9 +122,8 @@
     else
         delegate.searchResults = [DARemote searchWithSuffix:self.searchDisplayController.searchBar.text error:nil];
     
-    [self dropShadow:self.searchDisplayController.searchResultsTableView];
-    
     [self.searchDisplayController.searchResultsTableView reloadData];
+    [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
 }
 
 
@@ -183,15 +160,17 @@
             }
         }
         
+        [self.searchDisplayController.searchResultsTableView reloadData];
+        
     } else {
         searching = NO;
         letUserSelectRow = NO;
         delegate.searchResults = nil;
+        
+        [self.searchDisplayController.searchResultsTableView clearsContextBeforeDrawing];
     }
     
-    [self dropShadow:self.searchDisplayController.searchResultsTableView];
-    
-    [self.searchDisplayController.searchResultsTableView reloadData];
+    [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
 }
 
 
@@ -261,9 +240,6 @@
 
 #pragma mark UISearchBarDelegate
 
-
-- (void) searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-}
 
 
 #pragma mark UISearchDisplayDelegate

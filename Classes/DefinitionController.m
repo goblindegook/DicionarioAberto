@@ -56,7 +56,6 @@
      @"<title></title>"
      @"<meta charset=\"UTF-8\">"
      @"<link rel=\"stylesheet\" type=\"text/css\" href=\"DicionarioAberto.css\">"
-     // @"<script type=\"text/javascript\">document.ontouchmove = function (event) { event.preventDefault(); }</script>"
      @"</head><body>"
     ];
     
@@ -195,12 +194,16 @@
     if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSURL *url = [request URL];
         
-        // Internal links
         if ([[url scheme] isEqualToString:@"aberto"]) {
+            // Internal links
             NSLog(@"Requested %@:%d", [url host], [[url port] integerValue]);
             NSString *entry = [url lastPathComponent];
             NSInteger n = [[url port] integerValue];
             [self loadEntry:entry n:n];
+            return NO;
+            
+        } else {
+            [[UIApplication sharedApplication] openURL:url];
             return NO;
         }
     }
