@@ -51,12 +51,12 @@
 - (NSString *)htmlEntries:(NSArray *)entries n:(NSInteger)n {
     
     NSMutableString *content = [NSMutableString stringWithString:@""
-     @"<!DOCTYPE html>\n"
-     @"<html><head>"
-     @"<title></title>"
-     @"<meta charset=\"UTF-8\">"
-     @"<link rel=\"stylesheet\" type=\"text/css\" href=\"DicionarioAberto.css\">"
-     @"</head><body>"
+     "<!DOCTYPE html>\n"
+     "<html><head>"
+     "<title></title>"
+     "<meta charset=\"UTF-8\">"
+     "<link rel=\"stylesheet\" type=\"text/css\" href=\"DicionarioAberto.css\">"
+     "</head><body>"
     ];
     
     // Loop over definition entries
