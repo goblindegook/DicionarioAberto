@@ -99,18 +99,10 @@
 }
 
 
-// Asynchronous call delegate wrapper method for search scope changes
-- (void) changeScopeDicionarioAberto:(NSNumber *)selectedScope {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [viewController changeScopeDicionarioAberto:[selectedScope integerValue]];
-    [pool drain];
-}
-
-
 // Asynchronous call delegate wrapper method for search text changes
-- (void) searchDicionarioAberto:(NSString *)searchText {
+- (void) searchDicionarioAberto:(NSString *)query {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [viewController searchDicionarioAberto:searchText];
+    [viewController searchDicionarioAberto:query];
     [pool drain];
 }
 

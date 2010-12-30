@@ -8,14 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+extern int const DARemoteSearchPrefix;
+extern int const DARemoteSearchSuffix;
+extern int const DARemoteSearchLike;
 
 @interface DARemote : NSObject {
 
 }
 
-+ (NSArray *)searchEntries:(NSString *)word error:(NSError **)error;
-+ (NSArray *)searchWithPrefix:(NSString *)prefix error:(NSError **)error;
-+ (NSArray *)searchWithSuffix:(NSString *)suffix error:(NSError **)error;
-+ (NSArray *)searchSimilar:(NSString *)word error:(NSError **)error;
++ (NSArray *)getEntries:(NSString *)word error:(NSError **)error;
++ (NSArray *)search:(NSString *)prefix type:(int)type error:(NSError **)error;
 
 @end

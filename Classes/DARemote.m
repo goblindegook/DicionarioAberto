@@ -10,45 +10,74 @@
 #import "TouchXML.h"
 #import "Entry.h"
 
+#define DA_RESULTS_CACHE 50
+
+int const DARemoteSearchPrefix  = 1;
+int const DARemoteSearchSuffix  = 2;
+int const DARemoteSearchLike    = 3;
+
 @implementation DARemote
 
-+ (NSArray *)searchEntries:(NSString *)word error:(NSError **)error {
++ (NSArray *)getEntries:(NSString *)word error:(NSError **)error {
     // TODO: Connection error checking
-    // TODO: Cache results
     
     NSLog(@"Remote API call: search-xml '%@'", word);
     
     NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
     
     if ([word length]) {
+        
+        // TODO: Obtain definition from cache, if present
+        
         // Obtain definition from DicionarioAberto API
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml/%@", [word stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-        NSString *result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
-        CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
         
-        for (CXMLElement *ee in [doc nodesForXPath:@"//entry" error:nil]) {
-            Entry *entry = [[Entry alloc] initFromXMLString:[ee XMLString] error:nil];
-            if (entry) [entries addObject:entry];
-            [entry release];
+        NSString *result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
+
+        if (result) {
+            // TODO: Cache word -> result (up to DA_RESULTS_CACHE results)
+            
+            CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
+            
+            for (CXMLElement *ee in [doc nodesForXPath:@"//entry" error:nil]) {
+                Entry *entry = [[Entry alloc] initFromXMLString:[ee XMLString] error:nil];
+                if (entry) [entries addObject:entry];
+                [entry release];
+            }
+            
+            [doc release];
+            
+        } else {
+            return nil;
         }
-    
-        [doc release];
     }
     
     return entries;
 }
 
-+ (NSArray *)searchWithPrefix:(NSString *)prefix error:(NSError **)error {
-    // TODO: Connection error checking
-    // TODO: Cache results
-
-    NSLog(@"Remote API call: search-xml-prefix '%@'", prefix);
++ (NSArray *)search:(NSString *)query type:(int)type error:(NSError **)error {
     
-    NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableArray  *entries    = [[[NSMutableArray alloc] init] autorelease];
+    NSMutableString *requestUrl = [NSMutableString stringWithString:@""];
     
-    if ([prefix length]) {
+    NSLog(@"Remote API call: search-xml (type %d) '%@'", type, query);
+    
+    if (DARemoteSearchPrefix == type) {
+        requestUrl = [NSMutableString stringWithString:@"http://dicionario-aberto.net/search-xml?prefix=%@"];
+        
+    } else if (DARemoteSearchSuffix == type) {
+        requestUrl = [NSMutableString stringWithString:@"http://dicionario-aberto.net/search-xml?suffix=%@"];
+        
+    } else if (DARemoteSearchLike == type) {
+        requestUrl = [NSMutableString stringWithString:@"http://dicionario-aberto.net/search-xml?like=%@"];
+        
+    } else {
+        // TODO: Write to error and return
+    }
+    
+    if ([query length]) {
         // Obtain definition from DicionarioAberto API
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml?prefix=%@", [prefix stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:requestUrl, [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         NSString *result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
         CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
     
@@ -60,34 +89,6 @@
     }
     
     return entries;
-}
-
-+ (NSArray *)searchWithSuffix:(NSString *)suffix error:(NSError **)error {
-    // TODO: Connection error checking
-    // TODO: Cache results
-    
-    NSLog(@"Remote API call: search-xml-suffix '%@'", suffix);
-    
-    NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
-    
-    if ([suffix length]) {
-        // Obtain definition from DicionarioAberto API
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://dicionario-aberto.net/search-xml?suffix=%@", [suffix stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-        NSString *result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
-        CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
-    
-        for (CXMLElement *ee in [doc nodesForXPath:@"//list/entry" error:nil]) {
-            [entries addObject:[ee stringValue]];
-        }
-    
-        [doc release];
-    }
-    
-    return entries;
-}
-
-+ (NSArray *)searchSimilar:(NSString *)word error:(NSError **)error {
-    return nil;
 }
 
 @end

@@ -18,7 +18,7 @@
 
 @implementation RootController
 
-@synthesize searchResultsView;
+@synthesize searchResultsTable;
 
 #pragma mark Instance Methods
 
@@ -45,7 +45,7 @@
     
     self.title = @"Dicionário Aberto";
     
-    searchResultsView.hidden    = YES;
+    searchResultsTable.hidden   = YES;
     
     searchPrefix                = YES;
     searching                   = NO;
@@ -72,7 +72,7 @@
 
 
 - (void)dealloc {
-    [searchResultsView release];
+    [searchResultsTable release];
     [tableHeaderView release];
     [tableFooterView release];
     [super dealloc];
@@ -82,26 +82,26 @@
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
     if ([delegate.searchResults count]) {
-        NSLog(@"%d", [delegate.searchResults count]);
         UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
-        UIColor *dark  = (id)[UIColor colorWithWhite:0 alpha:0.2].CGColor;
+        UIColor *darkH = (id)[UIColor colorWithWhite:0 alpha:0.15].CGColor;
+        UIColor *darkF = (id)[UIColor colorWithWhite:0 alpha:0.25].CGColor;
         
         if (tableHeaderView == nil) {
-            tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 11)];
-            tableHeaderView.colors = [NSArray arrayWithObjects:(id)light, (id)dark, nil];
+            tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 10)];
+            tableHeaderView.colors = [NSArray arrayWithObjects:(id)light, (id)darkH, nil];
             tableHeaderView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
         }
         
         if (tableFooterView == nil) {
-            tableFooterView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 22)];
-            tableFooterView.colors = [NSArray arrayWithObjects:(id)dark, (id)light, nil];
+            tableFooterView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
+            tableFooterView.colors = [NSArray arrayWithObjects:(id)darkF, (id)light, nil];
             tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
         }
         
         tableView.tableHeaderView = tableHeaderView;
         tableView.tableFooterView = tableFooterView;
         
-        [tableView setContentInset:UIEdgeInsetsMake(-11, 0, 0, 0)];
+        [tableView setContentInset:UIEdgeInsetsMake(-10, 0, -20, 0)];
         
     } else {
         tableView.tableHeaderView = nil;
@@ -112,50 +112,35 @@
 }
 
 
-- (void) changeScopeDicionarioAberto:(NSInteger)selectedScope {
+- (void) searchDicionarioAberto:(NSString *)query {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
-    searchPrefix = (selectedScope == 0);
-    
-    if (searchPrefix)
-        delegate.searchResults = [DARemote searchWithPrefix:self.searchDisplayController.searchBar.text error:nil];
-    else
-        delegate.searchResults = [DARemote searchWithSuffix:self.searchDisplayController.searchBar.text error:nil];
-    
-    [self.searchDisplayController.searchResultsTableView reloadData];
-    [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
-}
-
-
-- (void) searchDicionarioAberto:(NSString *)searchText {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    
-    if ([searchText length] > 0) {
+    if ([query length] > 0) {
         searching = YES;
         letUserSelectRow = YES;
         
         BOOL searchSaved = (searchPrefix
                             && [delegate.savedSearchText length]
-                            && [searchText hasPrefix:delegate.savedSearchText]
+                            && [query hasPrefix:delegate.savedSearchText]
                             );
         
         if (searchSaved) {
             if (searchPrefix) {
-                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", searchText]];
+                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", query]];
             } else {
-                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF ENDSWITH[c] %@", searchText]];
+                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF ENDSWITH[c] %@", query]];
             }
         } else {
             if (searchPrefix) {
-                delegate.searchResults = [DARemote searchWithPrefix:searchText error:nil];
+                delegate.searchResults = [DARemote search:query type:DARemoteSearchPrefix error:nil];
             } else {
-                delegate.searchResults = [DARemote searchWithSuffix:searchText error:nil];
+                delegate.searchResults = [DARemote search:query type:DARemoteSearchSuffix error:nil];
             }
         }
         
-        if (!searchSaved) {
-            if ([searchText length] && [delegate.searchResults count] < 10) {
-                delegate.savedSearchText = [NSMutableString stringWithString:searchText];
+        if (searchPrefix && !searchSaved) {
+            if ([query length] && [delegate.searchResults count] < 10) {
+                delegate.savedSearchText = [NSMutableString stringWithString:query];
                 delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
             }
         }
@@ -269,8 +254,8 @@
 
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
-    tableView.backgroundColor   = searchResultsView.backgroundColor;
-    tableView.separatorColor    = searchResultsView.separatorColor;
+    tableView.backgroundColor   = searchResultsTable.backgroundColor;
+    tableView.separatorColor    = searchResultsTable.separatorColor;
     //tableView.separatorStyle    = searchResultsView.separatorStyle;
 }
 
@@ -280,9 +265,10 @@
 
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+    searchPrefix = (searchOption == 0);
     // Search asynchronously, reload results table later:
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    [delegate performSelectorInBackground:@selector(changeScopeDicionarioAberto:) withObject:[NSNumber numberWithInteger:searchOption]];
+    [delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:controller.searchBar.text];
     return NO;
 }
 

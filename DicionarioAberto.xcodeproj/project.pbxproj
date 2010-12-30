@@ -16,6 +16,7 @@
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* RootController.m */; };
 		DC34F42412CBC8CC00AF28B8 /* OBGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC34F42312CBC8CC00AF28B8 /* OBGradientView.m */; };
+		DC34F5AB12CC0C1700AF28B8 /* DAStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = DC34F5AA12CC0C1700AF28B8 /* DAStorage.m */; };
 		DC3E6ABE12C02B0B007B852E /* Entry.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6ABD12C02B0B007B852E /* Entry.m */; };
 		DC3E6ACE12C02DBA007B852E /* Form.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6ACD12C02DBA007B852E /* Form.m */; };
 		DC3E6AD412C02E4D007B852E /* Sense.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6AD312C02E4D007B852E /* Sense.m */; };
@@ -69,6 +70,8 @@
 		8D1107310486CEB800E47090 /* DicionarioAberto-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DicionarioAberto-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		DC34F42212CBC8CC00AF28B8 /* OBGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBGradientView.h; path = OBGradientView/OBGradientView.h; sourceTree = "<group>"; };
 		DC34F42312CBC8CC00AF28B8 /* OBGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBGradientView.m; path = OBGradientView/OBGradientView.m; sourceTree = "<group>"; };
+		DC34F5A912CC0C1700AF28B8 /* DAStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAStorage.h; sourceTree = "<group>"; };
+		DC34F5AA12CC0C1700AF28B8 /* DAStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAStorage.m; sourceTree = "<group>"; };
 		DC3E6ABC12C02B0B007B852E /* Entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entry.h; sourceTree = "<group>"; };
 		DC3E6ABD12C02B0B007B852E /* Entry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entry.m; sourceTree = "<group>"; };
 		DC3E6ACC12C02DBA007B852E /* Form.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Form.h; sourceTree = "<group>"; };
@@ -156,6 +159,8 @@
 				DCD147BE12C3DBEE00E26123 /* DAMarkup.m */,
 				DCD147BA12C3DBE300E26123 /* DARemote.h */,
 				DCD147BB12C3DBE300E26123 /* DARemote.m */,
+				DC34F5A912CC0C1700AF28B8 /* DAStorage.h */,
+				DC34F5AA12CC0C1700AF28B8 /* DAStorage.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -404,6 +409,7 @@
 				DCD147BF12C3DBEE00E26123 /* DAMarkup.m in Sources */,
 				DC4E057B12C77D6F00B4BB0C /* SearchCell.m in Sources */,
 				DC34F42412CBC8CC00AF28B8 /* OBGradientView.m in Sources */,
+				DC34F5AB12CC0C1700AF28B8 /* DAStorage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

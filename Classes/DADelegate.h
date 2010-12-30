@@ -26,8 +26,7 @@
 @property (nonatomic, retain) NSArray *savedSearchResults;
 @property (nonatomic, retain) NSString *savedSearchText;
 
-- (void) changeScopeDicionarioAberto:(NSNumber *)selectedScope;
-- (void) searchDicionarioAberto:(NSString *)searchText;
+- (void) searchDicionarioAberto:(NSString *)query;
 
 @end
 

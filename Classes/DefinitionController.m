@@ -150,7 +150,7 @@
 - (void)loadEntry:(NSString *)entry n:(NSInteger)n {
     
     // Obtain definition from DicionarioAberto API    
-    NSArray *entries = [DARemote searchEntries:entry error:nil];
+    NSArray *entries = [DARemote getEntries:entry error:nil];
     
     self.title = entry;
     
@@ -196,7 +196,7 @@
         
         if ([[url scheme] isEqualToString:@"aberto"]) {
             // Internal links
-            NSLog(@"Requested %@:%d", [url host], [[url port] integerValue]);
+            NSLog(@"Requested %@:%d", [url lastPathComponent], [[url port] integerValue]);
             NSString *entry = [url lastPathComponent];
             NSInteger n = [[url port] integerValue];
             [self loadEntry:entry n:n];

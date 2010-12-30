@@ -10,9 +10,7 @@
 
 @interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
     
-    UITableView *searchResultsView;
-    
-    UISearchDisplayController *searchDisplayController;
+    UITableView *searchResultsTable;
     
     OBGradientView *tableHeaderView;
     OBGradientView *tableFooterView;
@@ -22,10 +20,9 @@
     BOOL letUserSelectRow;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *searchResultsView;
+@property (nonatomic, retain) IBOutlet UITableView *searchResultsTable;
 
-- (void) changeScopeDicionarioAberto:(NSInteger)selectedScope;
-- (void) searchDicionarioAberto:(NSString *)searchText;
+- (void) searchDicionarioAberto:(NSString *)query;
 - (void) dropShadowFor:(UITableView *)tableView;
 
 @end
