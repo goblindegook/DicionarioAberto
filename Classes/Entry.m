@@ -7,9 +7,9 @@
 
 #import "TouchXML.h"
 #import "Entry.h"
-#import "Form.h"
-#import "Sense.h"
-#import "Etymology.h"
+#import "EntryForm.h"
+#import "EntrySense.h"
+#import "EntryEtymology.h"
 
 @implementation Entry
 
@@ -23,8 +23,8 @@
 // Initializes one Entry object from an XML string
 - (id)initFromXMLString:(NSString *)xml error:(NSError **)error {
     
-    entryForm       = [[Form alloc] init];
-    entryEtymology  = [[Etymology alloc] init];
+    entryForm       = [[EntryForm alloc] init];
+    entryEtymology  = [[EntryEtymology alloc] init];
     entrySense      = [[NSMutableArray alloc] init];
     
     CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[xml dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
@@ -44,8 +44,8 @@
     entryEtymology.ori  = [[[etymNode attributeForName:@"ori"] stringValue] mutableCopy];
     
     for (CXMLElement *senseNode in [entryNode nodesForXPath:@"./sense" error:nil]) {
-        Sense *sense = [[Sense alloc] init];
-        sense.usg       = [[Usage alloc] init];
+        EntrySense *sense = [[EntrySense alloc] init];
+        sense.usg       = [[EntrySenseUsage alloc] init];
         
         sense.ast       = [[[senseNode attributeForName:@"ast"] stringValue] integerValue];
         sense.def       = [[[senseNode nodeForXPath:@"./def" error:nil] stringValue] mutableCopy];

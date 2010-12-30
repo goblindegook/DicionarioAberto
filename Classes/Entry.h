@@ -6,25 +6,25 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Form.h"
-#import "Sense.h"
-#import "Etymology.h"
+#import "EntryForm.h"
+#import "EntrySense.h"
+#import "EntryEtymology.h"
 
 @interface Entry : NSObject {
     NSInteger n;
     NSMutableString *entryId;
     NSMutableString *entryType;
-    Form *entryForm;
+    EntryForm *entryForm;
     NSMutableArray *entrySense;
-    Etymology *entryEtymology;
+    EntryEtymology *entryEtymology;
 }
 
 @property (nonatomic, assign) NSInteger n;
 @property (nonatomic, retain) NSMutableString *entryId;
 @property (nonatomic, retain) NSMutableString *entryType;
-@property (nonatomic, retain) Form *entryForm;
+@property (nonatomic, retain) EntryForm *entryForm;
 @property (nonatomic, retain) NSMutableArray *entrySense;
-@property (nonatomic, retain) Etymology *entryEtymology;
+@property (nonatomic, retain) EntryEtymology *entryEtymology;
 
 - (id)initFromXMLString:(NSString *)xml error:(NSError **)error;
 

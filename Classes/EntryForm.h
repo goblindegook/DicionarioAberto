@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface Form : NSObject {
+@interface EntryForm : NSObject {
     NSMutableString *orth;
     NSMutableString *phon;
 }

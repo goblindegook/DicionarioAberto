@@ -11,10 +11,10 @@
 #import "DARemote.h"
 
 #import "Entry.h"
-#import "Form.h"
-#import "Sense.h"
-#import "Usage.h"
-#import "Etymology.h"
+#import "EntryForm.h"
+#import "EntrySense.h"
+#import "EntrySenseUsage.h"
+#import "EntryEtymology.h"
 
 @implementation DADelegate
 

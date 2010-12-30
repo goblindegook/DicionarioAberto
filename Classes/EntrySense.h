@@ -6,18 +6,18 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Usage.h"
+#import "EntrySenseUsage.h"
 
-@interface Sense : NSObject {
+@interface EntrySense : NSObject {
     NSInteger ast;
     NSMutableString *def;
     NSMutableString *gramGrp;
-    Usage *usg;
+    EntrySenseUsage *usg;
 }
 
 @property (nonatomic, assign) NSInteger ast;
 @property (nonatomic, retain) NSMutableString *def;
 @property (nonatomic, retain) NSMutableString *gramGrp;
-@property (nonatomic, retain) Usage *usg;
+@property (nonatomic, retain) EntrySenseUsage *usg;
 
 @end

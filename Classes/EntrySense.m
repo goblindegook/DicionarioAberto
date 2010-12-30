@@ -5,10 +5,10 @@
 //  Created by Luís Rodrigues on 21/12/2010.
 //
 
-#import "Sense.h"
-#import "Usage.h"
+#import "EntrySense.h"
+#import "EntrySenseUsage.h"
 
-@implementation Sense
+@implementation EntrySense
 
 @synthesize ast;
 @synthesize def;

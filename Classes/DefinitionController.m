@@ -15,9 +15,9 @@
 
 #import "Entry.h"
 #import "Form.h"
-#import "Sense.h"
-#import "Usage.h"
-#import "Etymology.h"
+#import "EntrySense.h"
+#import "EntrySenseUsage.h"
+#import "EntryEtymology.h"
 
 @implementation DefinitionController
 
@@ -81,7 +81,7 @@
         [content appendString:@"<ol class=\"definitions\">"];
         
         // Loop over definitions
-        for (Sense *sense in entry.entrySense) {
+        for (EntrySense *sense in entry.entrySense) {
             
             // Lexical category
             if (sense.gramGrp) {

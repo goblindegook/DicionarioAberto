@@ -5,9 +5,9 @@
 //  Created by Luís Rodrigues on 21/12/2010.
 //
 
-#import "Etymology.h"
+#import "EntryEtymology.h"
 
-@implementation Etymology
+@implementation EntryEtymology
 
 @synthesize ori;
 @synthesize text;

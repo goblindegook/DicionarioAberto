@@ -5,10 +5,10 @@
 //  Created by Luís Rodrigues on 21/12/2010.
 //
 
-#import "Usage.h"
+#import "EntrySenseUsage.h"
 
 
-@implementation Usage
+@implementation EntrySenseUsage
 
 @synthesize type;
 @synthesize text;

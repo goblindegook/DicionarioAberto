@@ -5,10 +5,10 @@
 //  Created by Luís Rodrigues on 21/12/2010.
 //
 
-#import "Form.h"
+#import "EntryForm.h"
 
 
-@implementation Form
+@implementation EntryForm
 
 @synthesize orth;
 @synthesize phon;

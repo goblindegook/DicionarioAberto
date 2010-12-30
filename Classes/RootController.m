@@ -12,9 +12,9 @@
 #import "DARemote.h"
 #import "Entry.h"
 #import "Form.h"
-#import "Sense.h"
-#import "Usage.h"
-#import "Etymology.h"
+#import "EntrySense.h"
+#import "EntrySenseUsage.h"
+#import "EntryEtymology.h"
 
 @implementation RootController
 
