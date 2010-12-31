@@ -25,6 +25,6 @@ extern int const DARemoteSearchLike;
 + (NSArray *)search:(NSString *)query type:(int)type error:(NSError **)error;
 
 + (NSString *)fetchCachedResultForQuery:(NSString *)query ofType:(int)type error:(NSError **)error;
-+ (void)cacheResult:(NSString *)result forQuery:(NSString *)query ofType:(int)type error:(NSError **)error;
++ (BOOL)cacheResult:(NSString *)result forQuery:(NSString *)query ofType:(int)type error:(NSError **)error;
 
 @end
