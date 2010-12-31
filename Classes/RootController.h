@@ -8,6 +8,21 @@
 #import <UIKit/UIKit.h>
 #import "OBGradientView.h"
 
+#import "DefinitionController.h"
+#import "SearchCell.h"
+
+#import "DADelegate.h"
+#import "DASearchCache.h"
+#import "DAFavourites.h"
+#import "DAHistory.h"
+#import "DARemote.h"
+
+#import "Entry.h"
+#import "EntryForm.h"
+#import "EntrySense.h"
+#import "EntrySenseUsage.h"
+#import "EntryEtymology.h"
+
 @interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
     
     UITableView *searchResultsTable;
@@ -18,6 +33,8 @@
     BOOL searchPrefix;
     BOOL searching;
     BOOL letUserSelectRow;
+    
+    DADelegate *delegate;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultsTable;

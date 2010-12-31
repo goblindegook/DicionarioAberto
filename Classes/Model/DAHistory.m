@@ -1,16 +1,18 @@
-//
-//  DAStorage.h
+// 
+//  DAHistory.m
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 30/12/2010.
 //  Copyright 2010 log - Open Source Consulting. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "DAHistory.h"
 
 
-@interface DAStorage : NSObject {
+@implementation DAHistory 
 
-}
+@dynamic entry;
+@dynamic id;
+@dynamic entryDate;
 
 @end

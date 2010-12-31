@@ -6,15 +6,6 @@
 //
 
 #import "RootController.h"
-#import "DefinitionController.h"
-#import "SearchCell.h"
-#import "DADelegate.h"
-#import "DARemote.h"
-#import "Entry.h"
-#import "Form.h"
-#import "EntrySense.h"
-#import "EntrySenseUsage.h"
-#import "EntryEtymology.h"
 
 @implementation RootController
 
@@ -42,6 +33,8 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
     self.title = @"Dicionário Aberto";
     
@@ -79,7 +72,6 @@
 }
 
 - (void) dropShadowFor:(UITableView *)tableView {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
     if ([delegate.searchResults count]) {
         UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
@@ -113,7 +105,6 @@
 
 
 - (void) searchDicionarioAberto:(NSString *)query {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
     if ([query length] > 0) {
         searching = YES;
@@ -185,8 +176,6 @@
         }
     }
     
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    
     NSString *cellEntry = [delegate.searchResults objectAtIndex:indexPath.row];
     
     cell.definitionOrth.text = cellEntry;
@@ -195,7 +184,6 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     return [delegate.searchResults count];
 }
 
@@ -209,8 +197,6 @@
 }
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    
     DefinitionController *definition = [[DefinitionController alloc] initWithIndexPath:indexPath];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa" style:UIBarButtonItemStyleBordered target:nil action:nil];
@@ -267,7 +253,6 @@
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     searchPrefix = (searchOption == 0);
     // Search asynchronously, reload results table later:
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     [delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:controller.searchBar.text];
     return NO;
 }
@@ -275,7 +260,6 @@
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     // Search asynchronously, reload results table later:
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     [delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:searchString];
     return NO;
 }

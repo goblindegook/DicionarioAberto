@@ -7,11 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DADelegate.h"
+#import "DAMarkup.h"
+#import "DARemote.h"
 
+#import "TouchXML.h"
+
+#import "Entry.h"
+#import "Form.h"
+#import "EntrySense.h"
+#import "EntrySenseUsage.h"
+#import "EntryEtymology.h"
 
 @interface DefinitionController : UIViewController <UIWebViewDelegate> {
     NSIndexPath *index;
     IBOutlet UIWebView *definitionView;
+    DADelegate *delegate;
+    NSManagedObjectContext *managedObjectContext;
 }
 
 -(id)initWithIndexPath:(NSIndexPath *)indexPath;

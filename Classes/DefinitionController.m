@@ -7,17 +7,6 @@
 //
 
 #import "DefinitionController.h"
-#import "DADelegate.h"
-#import "DAMarkup.h"
-#import "DARemote.h"
-
-#import "TouchXML.h"
-
-#import "Entry.h"
-#import "Form.h"
-#import "EntrySense.h"
-#import "EntrySenseUsage.h"
-#import "EntryEtymology.h"
 
 @implementation DefinitionController
 
@@ -165,7 +154,9 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+    
+    managedObjectContext = [delegate managedObjectContext];
     
     definitionView.delegate = self;
     

@@ -7,6 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TouchXML.h"
+
+#import "DADelegate.h"
+#import "DASearchCache.h"
+#import "Entry.h"
 
 extern int const DARemoteSearchPrefix;
 extern int const DARemoteSearchSuffix;
@@ -16,7 +21,10 @@ extern int const DARemoteSearchLike;
 
 }
 
-+ (NSArray *)getEntries:(NSString *)word error:(NSError **)error;
-+ (NSArray *)search:(NSString *)prefix type:(int)type error:(NSError **)error;
++ (NSArray *)getEntries:(NSString *)query error:(NSError **)error;
++ (NSArray *)search:(NSString *)query type:(int)type error:(NSError **)error;
+
++ (NSString *)fetchCachedResultForQuery:(NSString *)query ofType:(int)type error:(NSError **)error;
++ (void)cacheResult:(NSString *)result forQuery:(NSString *)query ofType:(int)type error:(NSError **)error;
 
 @end
