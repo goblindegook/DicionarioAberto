@@ -10,11 +10,13 @@
 
 
 @interface SearchCell : UITableViewCell {
+    IBOutlet UILabel *definitionIndex;
     IBOutlet UILabel *definitionOrth;
     IBOutlet UILabel *definitionText;
     IBOutlet UIView *definitionBackground;
 }
 
+@property (nonatomic, retain) IBOutlet UILabel *definitionIndex;
 @property (nonatomic, retain) IBOutlet UILabel *definitionOrth;
 @property (nonatomic, retain) IBOutlet UILabel *definitionText;
 @property (nonatomic, retain) IBOutlet UIView *definitionBackground;

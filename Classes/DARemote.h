@@ -26,5 +26,6 @@ extern int const DARemoteSearchLike;
 
 + (NSString *)fetchCachedResultForQuery:(NSString *)query ofType:(int)type error:(NSError **)error;
 + (BOOL)cacheResult:(NSString *)result forQuery:(NSString *)query ofType:(int)type error:(NSError **)error;
++ (BOOL)deleteCacheOlderThan:(NSDate *)date;
 
 @end

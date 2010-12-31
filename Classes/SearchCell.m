@@ -10,6 +10,7 @@
 
 @implementation SearchCell
 
+@synthesize definitionIndex;
 @synthesize definitionOrth;
 @synthesize definitionText;
 @synthesize definitionBackground;

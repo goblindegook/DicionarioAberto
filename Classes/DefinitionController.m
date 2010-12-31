@@ -74,11 +74,11 @@
             
             // Lexical category
             if (sense.gramGrp) {
-                [content appendString:@"</ol>"];
-                [content appendString:@"</section>"];
-                [content appendString:@"<section class=\"sense\">"];
+                //[content appendString:@"</ol>"];
+                //[content appendString:@"</section>"];
+                //[content appendString:@"<section class=\"sense\">"];
                 [content appendFormat:@"<div class=\"lex\">%@</div>", sense.gramGrp];
-                [content appendString:@"<ol class=\"definitions\">"];
+                //[content appendString:@"<ol class=\"definitions\">"];
             }
             
             BOOL firstDef = YES;

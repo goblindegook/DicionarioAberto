@@ -90,6 +90,7 @@ int const DARemoteSearchLike    = 3;
 #pragma mark -
 #pragma mark Caching
 
+
 + (NSString *)fetchCachedResultForQuery:(NSString *)query ofType:(int)type error:(NSError **)error {
     NSManagedObjectContext *moc = [(DADelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
     NSFetchRequest *request     = [[NSFetchRequest alloc] init];
@@ -118,8 +119,8 @@ int const DARemoteSearchLike    = 3;
 
 + (BOOL)cacheResult:(NSString *)result forQuery:(NSString *)query ofType:(int)type error:(NSError **)error {
     NSManagedObjectContext *moc = [(DADelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    NSDate *now = [[NSDate alloc] init];
-    BOOL success = YES;
+    NSDate *now                 = [[NSDate alloc] init];
+    BOOL success                = YES;
     
     DASearchCache *cachedResponse = (DASearchCache *)[NSEntityDescription insertNewObjectForEntityForName:@"DASearchCache" inManagedObjectContext:moc];
     
@@ -136,6 +137,12 @@ int const DARemoteSearchLike    = 3;
     [now release];
     
     return success;
+}
+
+
++ (BOOL)deleteCacheOlderThan:(NSDate *)date {
+    // TODO
+    return YES;
 }
 
 

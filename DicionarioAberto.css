@@ -36,15 +36,15 @@ a {
     font-weight: normal;
 }
 
-.sense .lex {
-    font-style: italic;
-    margin-bottom: .5em;
-}
-
 .sense .definitions,
 .homonyms .entries {
     margin-bottom: 1em;
-    padding-left: 2em;
+    padding-left: 1.75em;
+}
+
+.sense .lex {
+    font-style: italic;
+    margin: .5em 0 .5em -1.75em;
 }
 
 .sense .definitions li {

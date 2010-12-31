@@ -79,7 +79,7 @@
         UIColor *darkF = (id)[UIColor colorWithWhite:0 alpha:0.25].CGColor;
         
         if (tableHeaderView == nil) {
-            tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 10)];
+            tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
             tableHeaderView.colors = [NSArray arrayWithObjects:(id)light, (id)darkH, nil];
             tableHeaderView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
         }
@@ -93,7 +93,7 @@
         tableView.tableHeaderView = tableHeaderView;
         tableView.tableFooterView = tableFooterView;
         
-        [tableView setContentInset:UIEdgeInsetsMake(-10, 0, -20, 0)];
+        [tableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
         
     } else {
         tableView.tableHeaderView = nil;
@@ -177,8 +177,22 @@
     }
     
     NSString *cellEntry = [delegate.searchResults objectAtIndex:indexPath.row];
+    NSInteger cellIndex = indexPath.row - [delegate.searchResults indexOfObject:cellEntry];
+    
+    if (cellIndex
+        || (indexPath.row < [delegate.searchResults count] - 1
+            && [cellEntry isEqual:[delegate.searchResults objectAtIndex:indexPath.row + 1]])) {
+        cellIndex = cellIndex + 1;
+    }
     
     cell.definitionOrth.text = cellEntry;
+    
+    if (cellIndex) {
+        cell.definitionIndex.hidden = NO;
+        cell.definitionIndex.text = [NSString stringWithFormat:@"%d", cellIndex];
+    } else {
+        cell.definitionIndex.hidden = YES;
+    }
     
     return cell;
 }
