@@ -21,4 +21,6 @@
 @property (nonatomic, retain) IBOutlet UILabel *definitionText;
 @property (nonatomic, retain) IBOutlet UIView *definitionBackground;
 
+- (void)setContentAtRow:(NSUInteger)index using:(NSArray*)array;
+
 @end

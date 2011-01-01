@@ -160,9 +160,7 @@
     // UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:cellIdentifier];
     SearchCell *cell = (SearchCell *)[tv dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    if (nil == cell) {
-        // cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
-        
+    if (nil == cell) {        
         // Loop over topLevelObjects in NIB, looking for DefinitionCell
         NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"SearchCell" owner:nil options:nil];
         
@@ -176,23 +174,7 @@
         }
     }
     
-    NSString *cellEntry = [delegate.searchResults objectAtIndex:indexPath.row];
-    NSInteger cellIndex = indexPath.row - [delegate.searchResults indexOfObject:cellEntry];
-    
-    if (cellIndex
-        || (indexPath.row < [delegate.searchResults count] - 1
-            && [cellEntry isEqual:[delegate.searchResults objectAtIndex:indexPath.row + 1]])) {
-        cellIndex = cellIndex + 1;
-    }
-    
-    cell.definitionOrth.text = cellEntry;
-    
-    if (cellIndex) {
-        cell.definitionIndex.hidden = NO;
-        cell.definitionIndex.text = [NSString stringWithFormat:@"%d", cellIndex];
-    } else {
-        cell.definitionIndex.hidden = YES;
-    }
+    [cell setContentAtRow:indexPath.row using:delegate.searchResults];
     
     return cell;
 }
