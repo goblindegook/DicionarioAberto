@@ -45,7 +45,6 @@
     
     for (CXMLElement *senseNode in [entryNode nodesForXPath:@"./sense" error:nil]) {
         EntrySense *sense = [[EntrySense alloc] init];
-        sense.usg       = [[EntrySenseUsage alloc] init];
         
         sense.ast       = [[[senseNode attributeForName:@"ast"] stringValue] integerValue];
         sense.def       = [[[senseNode nodeForXPath:@"./def" error:nil] stringValue] mutableCopy];

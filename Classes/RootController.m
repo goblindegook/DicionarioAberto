@@ -202,6 +202,8 @@
     [definition release];
     
     [tv deselectRowAtIndexPath:indexPath animated:YES];
+    
+    [self.navigationItem.backBarButtonItem release];
 }
 
 
