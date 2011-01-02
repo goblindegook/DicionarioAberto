@@ -32,6 +32,8 @@
     
     BOOL searchPrefix;
     BOOL searching;
+    BOOL searchNoResults;
+    BOOL searchConnectionError;
     BOOL letUserSelectRow;
     
     DADelegate *delegate;

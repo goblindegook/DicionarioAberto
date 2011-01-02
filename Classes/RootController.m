@@ -42,6 +42,8 @@
     
     searchPrefix                = YES;
     searching                   = NO;
+    searchNoResults             = NO;
+    searchConnectionError       = NO;
     letUserSelectRow            = YES;
 }
 
@@ -108,7 +110,6 @@
     
     if ([query length] > 0) {
         searching = YES;
-        letUserSelectRow = YES;
         
         BOOL searchSaved = (searchPrefix
                             && [delegate.savedSearchText length]
@@ -129,7 +130,22 @@
             }
         }
         
-        if (searchPrefix && !searchSaved) {
+        if (delegate.searchResults == nil) {
+            delegate.searchResults  = [NSArray arrayWithObject:@"Erro de ligação"];
+            searchConnectionError   = YES;
+            searchNoResults         = NO;
+            
+        } else if (![delegate.searchResults count]) {
+            delegate.searchResults  = [NSArray arrayWithObject:@"Não foram encontrados resultados"];
+            searchConnectionError   = NO;
+            searchNoResults         = YES;
+            
+        } else {
+            searchConnectionError   = NO;
+            searchNoResults         = NO;
+        }        
+        
+        if (searchPrefix && !searchSaved && !searchConnectionError) {
             if ([query length] && [delegate.searchResults count] < 10) {
                 delegate.savedSearchText = [NSMutableString stringWithString:query];
                 delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
@@ -140,11 +156,14 @@
         
     } else {
         searching = NO;
-        letUserSelectRow = NO;
+        searchNoResults = NO;
+        searchConnectionError = NO;
         delegate.searchResults = nil;
         
         [self.searchDisplayController.searchResultsTableView clearsContextBeforeDrawing];
     }
+    
+    letUserSelectRow = (searching && !searchNoResults && !searchConnectionError);
     
     [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
 }
@@ -155,14 +174,23 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *cellIdentifier = @"searchCell";
+    static NSString *cellIdentifier;
+    static NSString *cellNib;
     
-    // UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:cellIdentifier];
+    if (searchConnectionError || searchNoResults) {
+        cellIdentifier  = @"errorCell";
+        cellNib         = @"SearchErrorCell";
+        
+    } else {
+        cellIdentifier  = @"searchCell";
+        cellNib         = @"SearchCell";
+    }
+    
     SearchCell *cell = (SearchCell *)[tv dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (nil == cell) {        
         // Loop over topLevelObjects in NIB, looking for DefinitionCell
-        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:@"SearchCell" owner:nil options:nil];
+        NSArray *topLevelObjects = [[NSBundle mainBundle] loadNibNamed:cellNib owner:nil options:nil];
         
         for (id o in topLevelObjects)
         {
@@ -174,7 +202,17 @@
         }
     }
     
-    [cell setContentAtRow:indexPath.row using:delegate.searchResults];
+    if (searchConnectionError) {
+        [cell setError:@"Erro de ligação" type:DASearchConnectionError];
+        cell.autoresizingMask = (UIViewAutoresizingFlexibleWidth || UIViewAutoresizingFlexibleHeight);
+        
+    } else if (searchNoResults) {
+        [cell setError:@"Sem resultados" type:DASearchNoResults];
+        cell.autoresizingMask = (UIViewAutoresizingFlexibleWidth || UIViewAutoresizingFlexibleHeight);
+        
+    } else {
+        [cell setContentAtRow:indexPath.row using:delegate.searchResults];
+    }
     
     return cell;
 }
@@ -250,6 +288,8 @@
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     searchPrefix = (searchOption == 0);
+    // Cancel previous asynchronous request:
+    [NSObject cancelPreviousPerformRequestsWithTarget:delegate selector:@selector(searchDicionarioAberto:) object:nil];
     // Search asynchronously, reload results table later:
     [delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:controller.searchBar.text];
     return NO;
@@ -257,6 +297,8 @@
 
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+    // Cancel previous asynchronous request:
+    [NSObject cancelPreviousPerformRequestsWithTarget:delegate selector:@selector(searchDicionarioAberto:) object:nil];
     // Search asynchronously, reload results table later:
     [delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:searchString];
     return NO;

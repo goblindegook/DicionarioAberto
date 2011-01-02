@@ -3,7 +3,6 @@
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 23/12/2010.
-//  Copyright 2010 log - Open Source Consulting. All rights reserved.
 //
 
 #import "DARemote.h"
@@ -15,7 +14,6 @@ int const DARemoteSearchLike    = 3;
 
 @implementation DARemote
 
-// TODO: Connection error checking
 
 + (NSArray *)getEntries:(NSString *)query error:(NSError **)error {
     return [DARemote search:query type:DARemoteGetEntry error:error];
@@ -24,8 +22,10 @@ int const DARemoteSearchLike    = 3;
 
 + (NSArray *)search:(NSString *)query type:(int)type error:(NSError **)error {
 
+    NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
+    
     if ([query length] == 0)
-        return nil;
+        return entries;
     
     NSString *requestUrl;
     NSString *xPath;
@@ -51,7 +51,6 @@ int const DARemoteSearchLike    = 3;
     }
 
     BOOL shouldCacheResult = NO;
-    NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
 
     NSString *result;
     
@@ -63,11 +62,16 @@ int const DARemoteSearchLike    = 3;
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:requestUrl, [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
         shouldCacheResult = YES;
+        
+        if (result == nil) {
+            // Connection error
+            return nil;
+        }
     }
     
     CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
     
-    for (CXMLElement *ee in [doc nodesForXPath:xPath error:nil]) {
+    for (CXMLElement *ee in [doc nodesForXPath:xPath error:error]) {
         if (type == DARemoteGetEntry) {
             Entry *entry = [[Entry alloc] initFromXMLString:[ee XMLString] error:nil];
             if (entry) [entries addObject:entry];
@@ -111,6 +115,8 @@ int const DARemoteSearchLike    = 3;
         DASearchCache *cache = (DASearchCache *)[cachedResponses lastObject];
         NSLog(@"Fetched cached response '%@' (type %d)", [cache searchQuery], type);
         response = [cache searchResult];
+        
+        // TODO: Update cache date
     }
     
     return response;

@@ -8,19 +8,26 @@
 
 #import <Foundation/Foundation.h>
 
+extern int const DASearchConnectionError;
+extern int const DASearchNoResults;
 
 @interface SearchCell : UITableViewCell {
-    IBOutlet UILabel *definitionIndex;
-    IBOutlet UILabel *definitionOrth;
-    IBOutlet UILabel *definitionText;
-    IBOutlet UIView *definitionBackground;
+    IBOutlet UIView      *background;
+    IBOutlet UILabel     *definitionIndex;
+    IBOutlet UILabel     *definitionOrth;
+    IBOutlet UILabel     *definitionText;
+    IBOutlet UIImageView *errorImage;
+    IBOutlet UILabel     *errorMessage;
 }
 
-@property (nonatomic, retain) IBOutlet UILabel *definitionIndex;
-@property (nonatomic, retain) IBOutlet UILabel *definitionOrth;
-@property (nonatomic, retain) IBOutlet UILabel *definitionText;
-@property (nonatomic, retain) IBOutlet UIView *definitionBackground;
+@property (nonatomic, retain) IBOutlet UIView      *background;
+@property (nonatomic, retain) IBOutlet UILabel     *definitionIndex;
+@property (nonatomic, retain) IBOutlet UILabel     *definitionOrth;
+@property (nonatomic, retain) IBOutlet UILabel     *definitionText;
+@property (nonatomic, retain) IBOutlet UIImageView *errorImage;
+@property (nonatomic, retain) IBOutlet UILabel     *errorMessage;
 
 - (void)setContentAtRow:(NSUInteger)index using:(NSArray*)array;
+- (void)setError:(NSString *)message type:(int)type;
 
 @end

@@ -7,12 +7,17 @@
 
 #import "SearchCell.h"
 
+int const DASearchNoResults         = 1;
+int const DASearchConnectionError   = 2;
+
 @implementation SearchCell
 
+@synthesize background;
 @synthesize definitionIndex;
 @synthesize definitionOrth;
 @synthesize definitionText;
-@synthesize definitionBackground;
+@synthesize errorImage;
+@synthesize errorMessage;
 
 - (void)setContentAtRow:(NSUInteger)index using:(NSArray*)array {
     
@@ -32,6 +37,16 @@
     } else {
         self.definitionIndex.hidden = YES;
     }
+}
+
+
+- (void)setError:(NSString *)message type:(int)type {
+    self.errorMessage.text = message;
+}
+
+
+- (void)dealloc {
+    [super dealloc];
 }
 
 @end
