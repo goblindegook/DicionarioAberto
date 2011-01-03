@@ -116,7 +116,11 @@ int const DARemoteSearchLike    = 3;
         NSLog(@"Fetched cached response '%@' (type %d)", [cache searchQuery], type);
         response = [cache searchResult];
         
-        // TODO: Update cache date
+        [cache setSearchDate:now];
+    
+        if (![moc save:error]) {
+            NSLog(@"Error updating cached search response (type %d) '%@': %@", type, query, [*error userInfo]);
+        }
     }
     
     return response;
@@ -146,9 +150,30 @@ int const DARemoteSearchLike    = 3;
 }
 
 
-+ (BOOL)deleteCacheOlderThan:(NSDate *)date {
-    // TODO
-    return YES;
++ (BOOL)deleteCacheOlderThan:(NSDate *)date error:(NSError **)error {
+    NSManagedObjectContext *moc = [(DADelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    NSFetchRequest *request     = [[NSFetchRequest alloc] init];
+    BOOL success                = YES;
+    
+    [request setEntity:[NSEntityDescription entityForName:@"DASearchCache" inManagedObjectContext:moc]];
+    [request setPredicate:[NSPredicate predicateWithFormat:@"searchDate < %@", date]];
+    [request setIncludesPropertyValues:NO];
+    
+    NSArray *cache = [moc executeFetchRequest:request error:error];
+    
+    [request release];
+    
+    if (cache == nil) {
+        NSLog(@"Error obtaining cache elements to delete: %@", [*error userInfo]);
+        success = NO;
+        
+    } else {
+        for (NSManagedObject *cachedRequest in cache) {
+            [moc deleteObject:cachedRequest];
+        }
+    }
+    
+    return success;
 }
 
 
