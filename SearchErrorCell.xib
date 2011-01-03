@@ -49,7 +49,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBUIImageView" id="724909433">
 								<reference key="NSNextResponder" ref="543342948"/>
-								<int key="NSvFlags">311</int>
+								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{320, 320}</string>
 								<reference key="NSSuperview" ref="543342948"/>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -62,21 +62,20 @@
 							</object>
 							<object class="IBUIImageView" id="316368574">
 								<reference key="NSNextResponder" ref="543342948"/>
-								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{100, 20}, {120, 120}}</string>
+								<int key="NSvFlags">293</int>
+								<string key="NSFrame">{{100, 18}, {120, 120}}</string>
 								<reference key="NSSuperview" ref="543342948"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
 									<int key="NSColorSpace">3</int>
 									<bytes key="NSWhite">MC4zMzMzMzMzMzMzAA</bytes>
 								</object>
 								<int key="IBUIContentMode">4</int>
-								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 							<object class="IBUILabel" id="513733027">
 								<reference key="NSNextResponder" ref="543342948"/>
 								<int key="NSvFlags">290</int>
-								<string key="NSFrame">{{105, 110}, {110, 25}}</string>
+								<string key="NSFrame">{{105, 108}, {110, 25}}</string>
 								<reference key="NSSuperview" ref="543342948"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
@@ -124,9 +123,12 @@
 					<int key="NSColorSpace">1</int>
 					<bytes key="NSRGB">MSAxIDEAA</bytes>
 				</object>
+				<int key="IBUIContentMode">3</int>
+				<bool key="IBUIUserInteractionEnabled">NO</bool>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 				<int key="IBUISeparatorStyle">1</int>
 				<reference key="IBUIContentView" ref="543342948"/>
+				<int key="IBUITextAlignment">1</int>
 				<string key="IBUIReuseIdentifier">errorCell</string>
 			</object>
 		</object>

@@ -51,7 +51,7 @@
 - (BOOL) shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
- 
+
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -131,12 +131,12 @@
         }
         
         if (delegate.searchResults == nil) {
-            delegate.searchResults  = [NSArray arrayWithObject:@"Erro de ligação"];
+            delegate.searchResults  = [NSArray arrayWithObject:@"Connection error"];
             searchConnectionError   = YES;
             searchNoResults         = NO;
             
         } else if (![delegate.searchResults count]) {
-            delegate.searchResults  = [NSArray arrayWithObject:@"Não foram encontrados resultados"];
+            delegate.searchResults  = [NSArray arrayWithObject:@"No results"];
             searchConnectionError   = NO;
             searchNoResults         = YES;
             
@@ -155,15 +155,17 @@
         [self.searchDisplayController.searchResultsTableView reloadData];
         
     } else {
-        searching = NO;
-        searchNoResults = NO;
-        searchConnectionError = NO;
-        delegate.searchResults = nil;
+        searching               = NO;
+        searchNoResults         = NO;
+        searchConnectionError   = NO;
+        delegate.searchResults  = nil;
         
         [self.searchDisplayController.searchResultsTableView clearsContextBeforeDrawing];
     }
     
     letUserSelectRow = (searching && !searchNoResults && !searchConnectionError);
+    
+    self.searchDisplayController.searchResultsTableView.scrollEnabled = !searchNoResults && !searchConnectionError;
     
     [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
 }
@@ -204,11 +206,9 @@
     
     if (searchConnectionError) {
         [cell setError:@"Erro de ligação" type:DASearchConnectionError];
-        cell.autoresizingMask = (UIViewAutoresizingFlexibleWidth || UIViewAutoresizingFlexibleHeight);
         
     } else if (searchNoResults) {
         [cell setError:@"Sem resultados" type:DASearchNoResults];
-        cell.autoresizingMask = (UIViewAutoresizingFlexibleWidth || UIViewAutoresizingFlexibleHeight);
         
     } else {
         [cell setContentAtRow:indexPath.row using:delegate.searchResults];
@@ -217,11 +217,26 @@
     return cell;
 }
 
+
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section {
     return [delegate.searchResults count];
 }
 
+
 #pragma mark UITableViewDelegate Methods
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (searchConnectionError || searchNoResults) {
+        return (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
+            ? tableView.frame.size.height
+            : tableView.frame.size.height + 44;
+        
+    } else {
+        return 44;
+    }
+}
+
 
 - (NSIndexPath *)tableView:(UITableView *)tv willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (letUserSelectRow)
