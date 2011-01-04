@@ -44,5 +44,8 @@
 - (void) searchDicionarioAberto:(NSString *)query;
 - (void) dropShadowFor:(UITableView *)tableView;
 
+- (void) searchDicionarioAbertoSelector:(NSString *)query;
+- (void) reloadSearchDataSelector;
+
 @end
 

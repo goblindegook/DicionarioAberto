@@ -184,20 +184,7 @@ int const DARemoteSearchLike    = 3;
 #pragma mark Multi-threading selectors
 
 
-// Asynchronous call delegate wrapper method for search text changes
-+ (void) searchDicionarioAbertoSelector:(NSArray *)params {
-    NSAutoreleasePool   *pool   = [[NSAutoreleasePool alloc] init];
-    
-    RootController      *rc     = (RootController *)[params objectAtIndex:0];
-    NSString            *query  = (NSString *)[params objectAtIndex:1];
-    
-    [rc searchDicionarioAberto:query];
-    
-    [pool drain];
-}
-
-
-// Asynchronous call delegate wrapper method for clearing cache
+// Asynchronous call wrapper method for clearing cache
 + (void) clearSearchCacheSelector:(NSDate *)cutoff {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     [DARemote deleteCacheOlderThan:cutoff error:nil];

@@ -80,7 +80,7 @@
     [super dealloc];
 }
 
-- (void) dropShadowFor:(UITableView *)tableView {
+- (void)dropShadowFor:(UITableView *)tableView {
     
     if ([delegate.searchResults count]) {
         UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
@@ -113,7 +113,15 @@
 }
 
 
-- (void) searchDicionarioAberto:(NSString *)query {
+// Asynchronous call wrapper method for search text changes
+- (void)searchDicionarioAbertoSelector:(NSString *)query {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [self searchDicionarioAberto:query];
+    [pool drain];
+}
+
+
+- (void)searchDicionarioAberto:(NSString *)query {
     
     if ([query length] > 0) {
         searching = YES;
@@ -123,57 +131,65 @@
                             && [query hasPrefix:delegate.savedSearchText]
                             );
         
-        if (searchSaved) {
-            if (searchPrefix) {
-                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", query]];
-            } else {
-                delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF ENDSWITH[c] %@", query]];
-            }
+        if (searchSaved && searchPrefix) {
+            delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", query]];
+            
+        } else if (searchPrefix) {
+            delegate.searchResults = [DARemote search:query type:DARemoteSearchPrefix error:nil];
+            
         } else {
-            if (searchPrefix) {
-                delegate.searchResults = [DARemote search:query type:DARemoteSearchPrefix error:nil];
-            } else {
-                delegate.searchResults = [DARemote search:query type:DARemoteSearchSuffix error:nil];
-            }
+            delegate.searchResults = [DARemote search:query type:DARemoteSearchSuffix error:nil];
         }
         
         if (delegate.searchResults == nil) {
+            // Connection error
             delegate.searchResults  = [NSArray arrayWithObject:@"Connection error"];
             searchConnectionError   = YES;
             searchNoResults         = NO;
             
         } else if (![delegate.searchResults count]) {
+            // No results
             delegate.searchResults  = [NSArray arrayWithObject:@"No results"];
             searchConnectionError   = NO;
             searchNoResults         = YES;
             
         } else {
+            // OK
             searchConnectionError   = NO;
             searchNoResults         = NO;
-        }        
+        }
         
+        // Save result set in memory for reuse
         if (searchPrefix && !searchSaved && !searchConnectionError) {
             if ([query length] && [delegate.searchResults count] < 10) {
-                delegate.savedSearchText = [NSMutableString stringWithString:query];
+                delegate.savedSearchText    = [NSMutableString stringWithString:query];
                 delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
             }
         }
-        
-        [self.searchDisplayController.searchResultsTableView reloadData];
         
     } else {
         searching               = NO;
         searchNoResults         = NO;
         searchConnectionError   = NO;
         delegate.searchResults  = nil;
-        
-        [self.searchDisplayController.searchResultsTableView clearsContextBeforeDrawing];
     }
     
-    letUserSelectRow = (searching && !searchNoResults && !searchConnectionError);
+    // Update table view in the main thread because UIKit is not thread-safe
+    [self performSelectorOnMainThread:@selector(reloadSearchDataSelector) withObject:nil waitUntilDone:NO];
+}
+
+
+- (void)reloadSearchDataSelector {
+    if (searching) {
+        [self.searchDisplayController.searchResultsTableView reloadData];
+        letUserSelectRow = !searchNoResults && !searchConnectionError;
+    } else {
+        [self.searchDisplayController.searchResultsTableView clearsContextBeforeDrawing];
+        letUserSelectRow = NO;
+    }
     
     self.searchDisplayController.searchResultsTableView.scrollEnabled = !searchNoResults && !searchConnectionError;
-    
+
     [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
 }
 
@@ -273,21 +289,14 @@
 #pragma mark UISearchDisplayDelegate
 
 
-- (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
-    tableView.backgroundColor   = searchResultsTable.backgroundColor;
-    tableView.separatorColor    = searchResultsTable.separatorColor;
-    //tableView.separatorStyle    = searchResultsView.separatorStyle;
-}
-
-
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     searchPrefix = (searchOption == 0);
     
     // Cancel previous asynchronous request:
-    //[NSObject cancelPreviousPerformRequestsWithTarget:delegate selector:@selector(searchDicionarioAberto:) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(searchDicionarioAbertoSelector:) object:nil];
 
     // Search asynchronously, reload results table later:
-    [DARemote performSelectorInBackground:@selector(searchDicionarioAbertoSelector:) withObject:[NSArray arrayWithObjects:delegate.viewController, controller.searchBar.text, nil]];
+    [self performSelectorInBackground:@selector(searchDicionarioAbertoSelector:) withObject:controller.searchBar.text];
     
     return NO;
 }
@@ -295,10 +304,10 @@
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     // Cancel previous asynchronous request:
-    //[NSObject cancelPreviousPerformRequestsWithTarget:delegate selector:@selector(searchDicionarioAberto:) object:nil];
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(searchDicionarioAbertoSelector:) object:nil];
 
     // Search asynchronously, reload results table later:
-    [DARemote performSelectorInBackground:@selector(searchDicionarioAbertoSelector:) withObject:[NSArray arrayWithObjects:delegate.viewController, searchString, nil]];
+    [self performSelectorInBackground:@selector(searchDicionarioAbertoSelector:) withObject:searchString];
     
     return NO;
 }

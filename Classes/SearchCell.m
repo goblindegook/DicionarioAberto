@@ -42,6 +42,7 @@ int const DASearchConnectionError   = 2;
 
 - (void)setError:(NSString *)message type:(int)type {
     self.errorMessage.text = message;
+    // TODO: Set image
 }
 
 
