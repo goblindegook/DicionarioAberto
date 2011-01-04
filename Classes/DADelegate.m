@@ -10,7 +10,7 @@
 @implementation DADelegate
 
 @synthesize window;
-@synthesize viewController;
+@synthesize searchController;
 @synthesize navController;
 @synthesize searchResults;
 @synthesize savedSearchResults;
@@ -19,10 +19,10 @@
 #pragma mark -
 #pragma mark Application lifecycle
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
-        
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     // Add the navigation controller's view to the window and display.
-    navController.viewControllers = [NSArray arrayWithObject:viewController];
+    navController.viewControllers = [NSArray arrayWithObject:searchController];
     [window addSubview:navController.view];
     [window makeKeyAndVisible];
 
@@ -174,7 +174,7 @@
 
 
 - (void)dealloc {
-    [viewController release];
+    [searchController release];
     [window release];
     
     [managedObjectContext_ release];

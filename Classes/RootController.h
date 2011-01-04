@@ -8,8 +8,9 @@
 #import <UIKit/UIKit.h>
 #import "OBGradientView.h"
 
-#import "DefinitionController.h"
 #import "SearchCell.h"
+#import "DefinitionController.h"
+#import "InfoTableController.h"
 
 #import "DADelegate.h"
 #import "DASearchCache.h"
@@ -24,6 +25,7 @@
 #import "EntryEtymology.h"
 
 @interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
+    DADelegate *delegate;
     
     UITableView *searchResultsTable;
     
@@ -35,17 +37,15 @@
     BOOL searchNoResults;
     BOOL searchConnectionError;
     BOOL letUserSelectRow;
-    
-    DADelegate *delegate;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultsTable;
 
-- (void) searchDicionarioAberto:(NSString *)query;
-- (void) dropShadowFor:(UITableView *)tableView;
-
-- (void) searchDicionarioAbertoSelector:(NSString *)query;
-- (void) reloadSearchDataSelector;
+- (void)dropShadowFor:(UITableView *)tableView enabled:(BOOL)enabled;
+- (void)searchDicionarioAberto:(NSString *)query;
+- (void)searchDicionarioAbertoSelector:(NSString *)query;
+- (void)reloadSearchDataSelector;
+- (void)showInfoTable;
 
 @end
 

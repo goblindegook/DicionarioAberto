@@ -38,6 +38,10 @@
     
     self.title = @"Dicionário Aberto";
     
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [infoButton addTarget:self action:@selector(showInfoTable) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
+    
     searchResultsTable.hidden   = YES;
     
     searchPrefix                = YES;
@@ -80,9 +84,10 @@
     [super dealloc];
 }
 
-- (void)dropShadowFor:(UITableView *)tableView {
+
+- (void)dropShadowFor:(UITableView *)tableView enabled:(BOOL)enabled {
     
-    if ([delegate.searchResults count]) {
+    if (enabled) {
         UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
         UIColor *darkH = (id)[UIColor colorWithWhite:0 alpha:0.15].CGColor;
         UIColor *darkF = (id)[UIColor colorWithWhite:0 alpha:0.25].CGColor;
@@ -190,7 +195,16 @@
     
     self.searchDisplayController.searchResultsTableView.scrollEnabled = !searchNoResults && !searchConnectionError;
 
-    [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
+    [self dropShadowFor:self.searchDisplayController.searchResultsTableView enabled:(BOOL)[delegate.searchResults count]];
+}
+
+
+- (void) showInfoTable {
+    InfoTableController *infoTable = [[InfoTableController alloc] init];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    [delegate.navController pushViewController:infoTable animated:YES];
+    [infoTable release];
+    [self.navigationItem.backBarButtonItem release];
 }
 
 
@@ -270,15 +284,10 @@
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     DefinitionController *definition = [[DefinitionController alloc] initWithIndexPath:indexPath];
-    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa" style:UIBarButtonItemStyleBordered target:nil action:nil];
-    
     [delegate.navController pushViewController:definition animated:YES];
-    
     [definition release];
-    
     [tv deselectRowAtIndexPath:indexPath animated:YES];
-    
     [self.navigationItem.backBarButtonItem release];
 }
 
@@ -287,6 +296,13 @@
 
 
 #pragma mark UISearchDisplayDelegate
+
+
+- (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
+    tableView.backgroundColor   = searchResultsTable.backgroundColor;
+    // tableView.separatorColor    = searchResultsTable.separatorColor;
+    // tableView.separatorStyle    = searchResultsView.separatorStyle;
+}
 
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {

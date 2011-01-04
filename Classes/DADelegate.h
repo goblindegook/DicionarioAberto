@@ -23,7 +23,7 @@
 @interface DADelegate : NSObject <UIApplicationDelegate> {
     UIWindow *window;
     UINavigationController *navController;
-    RootController *viewController;
+    RootController *searchController;
     
     // Core Data
     NSManagedObjectContext *managedObjectContext_;
@@ -36,8 +36,8 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet RootController *viewController;
 @property (nonatomic, retain) IBOutlet UINavigationController *navController;
+@property (nonatomic, retain) IBOutlet RootController *searchController;
 @property (nonatomic, retain) NSArray *searchResults;
 @property (nonatomic, retain) NSArray *savedSearchResults;
 @property (nonatomic, retain) NSString *savedSearchText;

@@ -7,9 +7,9 @@
 
 #import "InfoTableController.h"
 
-
 @implementation InfoTableController
 
+@synthesize infoTableView;
 
 #pragma mark Instance Methods
 
@@ -33,7 +33,6 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
     self.title = @"Dicionário Aberto";
