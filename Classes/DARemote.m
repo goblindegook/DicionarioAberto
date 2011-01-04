@@ -6,6 +6,7 @@
 //
 
 #import "DARemote.h"
+#import "RootController.h"
 
 int const DARemoteGetEntry      = 0;
 int const DARemoteSearchPrefix  = 1;
@@ -116,7 +117,9 @@ int const DARemoteSearchLike    = 3;
         NSLog(@"Fetched cached response '%@' (type %d)", [cache searchQuery], type);
         response = [cache searchResult];
         
+        NSDate *now = [[NSDate alloc] init];
         [cache setSearchDate:now];
+        [now release];
     
         if (![moc save:error]) {
             NSLog(@"Error updating cached search response (type %d) '%@': %@", type, query, [*error userInfo]);
@@ -174,6 +177,31 @@ int const DARemoteSearchLike    = 3;
     }
     
     return success;
+}
+
+
+#pragma mark -
+#pragma mark Multi-threading selectors
+
+
+// Asynchronous call delegate wrapper method for search text changes
++ (void) searchDicionarioAbertoSelector:(NSArray *)params {
+    NSAutoreleasePool   *pool   = [[NSAutoreleasePool alloc] init];
+    
+    RootController      *rc     = (RootController *)[params objectAtIndex:0];
+    NSString            *query  = (NSString *)[params objectAtIndex:1];
+    
+    [rc searchDicionarioAberto:query];
+    
+    [pool drain];
+}
+
+
+// Asynchronous call delegate wrapper method for clearing cache
++ (void) clearSearchCacheSelector:(NSDate *)cutoff {
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [DARemote deleteCacheOlderThan:cutoff error:nil];
+    [pool drain];
 }
 
 

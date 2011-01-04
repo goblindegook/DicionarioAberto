@@ -69,22 +69,6 @@
 
 
 #pragma mark -
-#pragma mark Multi-threading selectors
-
-
-// Asynchronous call delegate wrapper method for search text changes
-- (void) searchDicionarioAberto:(NSString *)query {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    // NSManagedObjectContext objects are not thread-safe
-    // NSManagedObjectContext *managedObjectContext;
-    
-    [viewController searchDicionarioAberto:query];
-    [pool drain];
-}
-
-
-#pragma mark -
 #pragma mark Core Data stack
 
 /**

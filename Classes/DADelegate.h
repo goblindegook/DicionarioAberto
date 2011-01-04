@@ -48,7 +48,7 @@
 
 - (NSString *)applicationDocumentsDirectory;
 
-- (void) searchDicionarioAberto:(NSString *)query;
+//- (void) searchDicionarioAberto:(NSString *)query;
 
 @end
 

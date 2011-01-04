@@ -45,6 +45,13 @@
     searchNoResults             = NO;
     searchConnectionError       = NO;
     letUserSelectRow            = YES;
+    
+    //NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-3600 * 24 * 2)]; // 2d
+    NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-300)]; // 5m
+    
+    [DARemote performSelectorInBackground:@selector(clearSearchCacheSelector:) withObject:cutoff];
+    
+    [cutoff release];
 }
 
 
@@ -263,31 +270,7 @@
 #pragma mark UISearchBarDelegate
 
 
-
 #pragma mark UISearchDisplayDelegate
-
-- (void) searchDisplayControllerWillBeginSearch:(UISearchDisplayController *)controller {
-}
-
-
-- (void) searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller {
-}
-
-
-- (void) searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller {
-}
-
-
-- (void) searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller {
-}
-
-
-- (void) searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView {
-}
-
-
-- (void) searchDisplayController:(UISearchDisplayController *)controller willHideSearchResultsTableView:(UITableView *)tableView {
-}
 
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
@@ -297,25 +280,26 @@
 }
 
 
-- (void) searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView {
-}
-
-
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     searchPrefix = (searchOption == 0);
+    
     // Cancel previous asynchronous request:
-    [NSObject cancelPreviousPerformRequestsWithTarget:delegate selector:@selector(searchDicionarioAberto:) object:nil];
+    //[NSObject cancelPreviousPerformRequestsWithTarget:delegate selector:@selector(searchDicionarioAberto:) object:nil];
+
     // Search asynchronously, reload results table later:
-    [delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:controller.searchBar.text];
+    [DARemote performSelectorInBackground:@selector(searchDicionarioAbertoSelector:) withObject:[NSArray arrayWithObjects:delegate.viewController, controller.searchBar.text, nil]];
+    
     return NO;
 }
 
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     // Cancel previous asynchronous request:
-    [NSObject cancelPreviousPerformRequestsWithTarget:delegate selector:@selector(searchDicionarioAberto:) object:nil];
+    //[NSObject cancelPreviousPerformRequestsWithTarget:delegate selector:@selector(searchDicionarioAberto:) object:nil];
+
     // Search asynchronously, reload results table later:
-    [delegate performSelectorInBackground:@selector(searchDicionarioAberto:) withObject:searchString];
+    [DARemote performSelectorInBackground:@selector(searchDicionarioAbertoSelector:) withObject:[NSArray arrayWithObjects:delegate.viewController, searchString, nil]];
+    
     return NO;
 }
 
