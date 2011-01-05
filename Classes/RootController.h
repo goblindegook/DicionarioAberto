@@ -34,9 +34,9 @@
     
     BOOL searchPrefix;
     BOOL searching;
-    BOOL searchNoResults;
-    BOOL searchConnectionError;
     BOOL letUserSelectRow;
+
+    int searchStatus;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultsTable;
@@ -44,8 +44,11 @@
 - (void)dropShadowFor:(UITableView *)tableView enabled:(BOOL)enabled;
 - (void)searchDicionarioAberto:(NSString *)query;
 - (void)searchDicionarioAbertoSelector:(NSString *)query;
-- (void)reloadSearchDataSelector;
 - (void)showInfoTable;
+
+- (void)setSearchResultsOnMainThread:(NSArray *)results;
+- (void)setSavedSearchResultsOnMainThread:(NSArray *)results;
+- (void)reloadSearchDataOnMainThread;
 
 @end
 

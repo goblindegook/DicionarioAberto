@@ -13,6 +13,10 @@ int const DARemoteSearchPrefix  = 1;
 int const DARemoteSearchSuffix  = 2;
 int const DARemoteSearchLike    = 3;
 
+int const DARemoteSearchResponseOK           = 1;
+int const DARemoteSearchResponseEmpty        = 0;
+int const DARemoteSearchResponseNoConnection = -1;
+
 @implementation DARemote
 
 

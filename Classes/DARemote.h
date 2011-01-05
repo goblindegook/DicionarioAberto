@@ -16,6 +16,10 @@ extern int const DARemoteSearchPrefix;
 extern int const DARemoteSearchSuffix;
 extern int const DARemoteSearchLike;
 
+extern int const DARemoteSearchOK;
+extern int const DARemoteSearchEmpty;
+extern int const DARemoteSearchErrorConnection;
+
 @interface DARemote : NSObject {
 
 }

@@ -44,11 +44,10 @@
     
     searchResultsTable.hidden   = YES;
     
+    searching                   = NO;    
     searchPrefix                = YES;
-    searching                   = NO;
-    searchNoResults             = NO;
-    searchConnectionError       = NO;
     letUserSelectRow            = YES;
+    searchStatus                = DARemoteSearchOK;
     
     //NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-3600 * 24 * 2)]; // 2d
     NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-300)]; // 5m
@@ -147,58 +146,68 @@
         }
         
         if (delegate.searchResults == nil) {
-            // Connection error
-            delegate.searchResults  = [NSArray arrayWithObject:@"Connection error"];
-            searchConnectionError   = YES;
-            searchNoResults         = NO;
+            searchStatus = DARemoteSearchErrorConnection;
             
         } else if (![delegate.searchResults count]) {
-            // No results
-            delegate.searchResults  = [NSArray arrayWithObject:@"No results"];
-            searchConnectionError   = NO;
-            searchNoResults         = YES;
+            searchStatus = DARemoteSearchEmpty;
             
         } else {
-            // OK
-            searchConnectionError   = NO;
-            searchNoResults         = NO;
+            searchStatus = DARemoteSearchOK;
         }
         
         // Save result set in memory for reuse
-        if (searchPrefix && !searchSaved && !searchConnectionError) {
+        if (searchPrefix && !searchSaved && DARemoteSearchErrorConnection != searchStatus) {
             if ([query length] && [delegate.searchResults count] < 10) {
-                delegate.savedSearchText    = [NSMutableString stringWithString:query];
-                delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
+                [self performSelectorOnMainThread:@selector(setSavedSearchResultsOnMainThread:) withObject:[NSArray arrayWithObjects:query, delegate.searchResults, nil] waitUntilDone:YES];
+                // delegate.savedSearchText    = [NSMutableString stringWithString:query];
+                // delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
             }
         }
         
     } else {
         searching               = NO;
-        searchNoResults         = NO;
-        searchConnectionError   = NO;
+        searchStatus            = DARemoteSearchOK;
         delegate.searchResults  = nil;
     }
     
     // Update table view in the main thread because UIKit is not thread-safe
-    [self performSelectorOnMainThread:@selector(reloadSearchDataSelector) withObject:nil waitUntilDone:NO];
+    [self performSelectorOnMainThread:@selector(reloadSearchDataOnMainThread) withObject:nil waitUntilDone:NO];
 }
 
 
-- (void)reloadSearchDataSelector {
+- (void)setSearchResultsOnMainThread:(NSArray *)results {
+    assert([NSThread isMainThread]);
+    // TODO
+}
+
+
+- (void)setSavedSearchResultsOnMainThread:(NSArray *)results {
+    assert([NSThread isMainThread]);
+    
+    delegate.savedSearchText    = (NSMutableString *)[results objectAtIndex:0];
+    delegate.savedSearchResults = (NSMutableArray *)[results objectAtIndex:1];
+}
+
+
+- (void)reloadSearchDataOnMainThread {
+    assert([NSThread isMainThread]);
+    
     if (searching) {
         [self.searchDisplayController.searchResultsTableView reloadData];
-        letUserSelectRow = !searchNoResults && !searchConnectionError;
+        letUserSelectRow = (DARemoteSearchOK == searchStatus);
+        
     } else {
         [self.searchDisplayController.searchResultsTableView clearsContextBeforeDrawing];
         letUserSelectRow = NO;
     }
     
-    self.searchDisplayController.searchResultsTableView.scrollEnabled = !searchNoResults && !searchConnectionError;
+    self.searchDisplayController.searchResultsTableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
 
     [self dropShadowFor:self.searchDisplayController.searchResultsTableView enabled:(BOOL)[delegate.searchResults count]];
 }
 
 
+// InfoTableController
 - (void) showInfoTable {
     InfoTableController *infoTable = [[InfoTableController alloc] init];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa" style:UIBarButtonItemStyleBordered target:nil action:nil];
@@ -216,13 +225,13 @@
     static NSString *cellIdentifier;
     static NSString *cellNib;
     
-    if (searchConnectionError || searchNoResults) {
-        cellIdentifier  = @"errorCell";
-        cellNib         = @"SearchErrorCell";
-        
-    } else {
+    if (DARemoteSearchOK == searchStatus) {
         cellIdentifier  = @"searchCell";
         cellNib         = @"SearchCell";
+        
+    } else {
+        cellIdentifier  = @"errorCell";
+        cellNib         = @"SearchErrorCell";
     }
     
     SearchCell *cell = (SearchCell *)[tv dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -241,13 +250,13 @@
         }
     }
     
-    if (searchConnectionError) {
+    if (DARemoteSearchErrorConnection == searchStatus) {
         [cell setError:@"Erro de ligação" type:DASearchConnectionError];
         
-    } else if (searchNoResults) {
+    } else if (DARemoteSearchEmpty == searchStatus) {
         [cell setError:@"Sem resultados" type:DASearchNoResults];
         
-    } else {
+    } else if (DARemoteSearchOK == searchStatus) {
         [cell setContentAtRow:indexPath.row using:delegate.searchResults];
     }
     
@@ -256,7 +265,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section {
-    return [delegate.searchResults count];
+    return (DARemoteSearchOK == searchStatus) ? [delegate.searchResults count] : 1;
 }
 
 
@@ -264,7 +273,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (searchConnectionError || searchNoResults) {
+    if (DARemoteSearchOK != searchStatus) {
         return (UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation))
             ? tableView.frame.size.height
             : tableView.frame.size.height + 44;
