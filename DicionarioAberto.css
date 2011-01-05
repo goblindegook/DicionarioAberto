@@ -36,8 +36,7 @@ a {
     font-weight: normal;
 }
 
-.sense .definitions,
-.homonyms .entries {
+.sense .definitions {
     margin-bottom: 1em;
     padding-left: 1.75em;
 }
@@ -47,20 +46,27 @@ a {
     margin: .5em 0 .5em -1.75em;
 }
 
-.sense .definitions li {
+.sense .definitions li,
+.homonyms .entries li {
     font-family: Helvetica;
     font-size: .7em;
     color: #c00;
 }
 
-.sense .definitions li span.singledef {
+.sense .definitions li span.singledef,
+.homonyms .entries ol li .entry {
     font-size: 1.4em;
-}
-
-.sense .definitions li span.singledef {
     font-family: Palatino;
     line-height: 1.6em;
+}
+
+.sense .definitions li span.singledef,
+.homonyms .entries ol li.self .entry {
     color: #000;
+}
+
+.homonyms .entries ol li.self .entry {
+    font-weight: bold;
 }
 
 .singledef .usage {
@@ -78,17 +84,37 @@ aside h2 {
     font-weight: bold;
 }
 
-aside.homonyms {
+aside.homonyms h2 {
+    display: none;
 }
 
-aside .entries {
+aside.homonyms {
+    background-color: rgba(200, 200, 200, 0.5);
+    -webkit-border-radius: .5em;
+    border-radius: .5em;
+    padding: .5em 1em;
+}
+
+aside.homonyms .entries {
+    -webkit-column-count: 2;
+	-webkit-column-gap: .5em;
+    column-count: 2;
+    column-gap: 1em;
+    padding: 0;
+    margin: 0;
+}
+
+aside.homonyms .entries ol {
+    padding-left: 1em;
+    margin: 0;
+}
+
+aside .entries ol {
     list-item: none;
 }
 
 aside .term {
     font-size: 1em;
-    display: inline-block;
-    padding-right: 1em;
 }
 
 aside .term .index {

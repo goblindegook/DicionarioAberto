@@ -11,6 +11,8 @@
 #import "DAMarkup.h"
 #import "DARemote.h"
 
+#import "InfoTableController.h"
+
 #import "TouchXML.h"
 
 #import "Entry.h"
@@ -20,10 +22,9 @@
 #import "EntryEtymology.h"
 
 @interface DefinitionController : UIViewController <UIWebViewDelegate> {
+    DADelegate *delegate;
     NSIndexPath *index;
     IBOutlet UIWebView *definitionView;
-    DADelegate *delegate;
-    NSManagedObjectContext *managedObjectContext;
 }
 
 -(id)initWithIndexPath:(NSIndexPath *)indexPath;

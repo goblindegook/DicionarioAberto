@@ -39,6 +39,8 @@
 // Generate HTML entry
 - (NSString *)htmlEntries:(NSArray *)entries n:(NSInteger)n {
     
+    NSString *entryOrth = nil;
+    
     NSMutableString *content = [NSMutableString stringWithString:@""
      "<!DOCTYPE html>\n"
      "<html><head>"
@@ -48,6 +50,29 @@
      "</head><body>"
     ];
     
+    NSMutableString *homonyms = [NSMutableString stringWithString:@""];
+    
+    // Homonyms
+    if (n && entries.count > 1) {
+        [homonyms appendString:@"<aside class=\"homonyms\"><h2>Homónimos</h2><div class=\"entries\"><ol>"];
+        for (Entry *entry in entries) {
+            
+            if (entry.n == n) {
+                [homonyms appendString:@"<li class=\"term self\">"];
+            } else {
+                [homonyms appendString:@"<li class=\"term\">"];                
+            }
+            
+            [homonyms appendFormat:@"<a href=\"aberto://define:%d/%@\" class=\"entry\">%@</a>",
+             entry.n,
+             [[NSRegularExpression regularExpressionWithPattern:@"^([^:]+):\\d+" options:0 error:nil] stringByReplacingMatchesInString:entry.entryId options:0 range:NSMakeRange(0, [entry.entryId length]) withTemplate:@"$1"],
+             entry.entryForm.orth];
+            
+            [homonyms appendString:@"</li>"];
+        }
+        [homonyms appendString:@"</ol></div></aside>"];
+    }
+    
     // Loop over definition entries
     for (Entry *entry in entries) {
         // Skip entry:
@@ -55,16 +80,22 @@
             continue;
         }
         
+        if (entryOrth == nil) {
+            entryOrth = [DAMarkup markupToHTML:entry.entryForm.orth];
+        }
+        
         [content appendString:@"<h1 class=\"term\">"];
         if (entries.count > 1) {
             [content appendFormat:@"<span class=\"index\">%d</span>", entry.n];
         }
-        [content appendString:entry.entryForm.orth];
+        [content appendString:entryOrth];
         if ([entry.entryForm.phon length]) {
             [content appendFormat:@"<span class=\"phon\">, (%@)</span>", entry.entryForm.phon];
         }
         [content appendString:@"</h1>"];
-
+        
+        [content appendString:homonyms];
+        
         [content appendString:@"<section class=\"senses\">"];
         [content appendString:@"<section class=\"sense\">"];
         [content appendString:@"<ol class=\"definitions\">"];
@@ -74,11 +105,7 @@
             
             // Lexical category
             if (sense.gramGrp) {
-                //[content appendString:@"</ol>"];
-                //[content appendString:@"</section>"];
-                //[content appendString:@"<section class=\"sense\">"];
                 [content appendFormat:@"<div class=\"lex\">%@</div>", sense.gramGrp];
-                //[content appendString:@"<ol class=\"definitions\">"];
             }
             
             BOOL firstDef = YES;
@@ -110,26 +137,13 @@
         
         [content appendString:@"</section>"];
     }
-
-    // Homonyms
-    if (n && entries.count > 1) {
-        [content appendString:@"<aside class=\"homonyms\"><h2>Homónimos</h2><ol class=\"entries\">"];
-        for (Entry *entry in entries) {
-            if (entry.n != n) {
-                [content appendFormat:
-                 @"<li class=\"term\"><a href=\"aberto://define:%d/%@\" class=\"index\">%d</a></li>",
-                 entry.n,
-                 [[NSRegularExpression regularExpressionWithPattern:@"^([^:]+):\\d+" options:0 error:nil] stringByReplacingMatchesInString:entry.entryId options:0 range:NSMakeRange(0, [entry.entryId length]) withTemplate:@"$1"],
-                 entry.n];
-            }
-        }
-        [content appendString:@"</ol></aside>"];
+    
+    if (entryOrth) {
+        NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"footer" ofType:@"html" inDirectory:@"HTML"];
+        NSString *footer = [NSString stringWithContentsOfFile:footerPath encoding:NSUTF8StringEncoding error:nil];
+        [content appendString:[[NSRegularExpression regularExpressionWithPattern:@"%ENTRY%" options:0 error:nil] stringByReplacingMatchesInString:footer options:0 range:NSMakeRange(0, [footer length]) withTemplate:entryOrth]];
     }
         
-    NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"footer" ofType:@"html" inDirectory:@"HTML"];
-    
-    [content appendString:[NSString stringWithContentsOfFile:footerPath encoding:NSUTF8StringEncoding error:nil]];
-    
     [content appendString:@"</body></html>"];
     
     return content;
@@ -142,7 +156,7 @@
     NSArray *entries = [DARemote getEntries:entry error:nil];
     
     self.title = entry;
-    
+        
     NSString *html = [self htmlEntries:entries n:n];
     
     NSString *path = [[NSBundle mainBundle] bundlePath];
@@ -158,7 +172,9 @@
     
     delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
-    managedObjectContext = [delegate managedObjectContext];
+    UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
+    [infoButton addTarget:self action:@selector(showInfoTable) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
     
     definitionView.delegate = self;
     
@@ -173,6 +189,16 @@
     
     //[entries release];
 }
+
+
+- (void) showInfoTable {
+    InfoTableController *infoTable = [[InfoTableController alloc] init];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Definição" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    [delegate.navController pushViewController:infoTable animated:YES];
+    [infoTable release];
+    [self.navigationItem.backBarButtonItem release];
+}
+
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     
@@ -189,10 +215,15 @@
         
         if ([[url scheme] isEqualToString:@"aberto"]) {
             // Internal links
-            NSLog(@"Requested %@:%d", [url lastPathComponent], [[url port] integerValue]);
-            NSString *entry = [url lastPathComponent];
-            NSInteger n = [[url port] integerValue];
-            [self loadEntry:entry n:n];
+            
+            if ([[url host] isEqualToString:@"define"]) {
+                // Definition links (aberto://define:*/*)
+                NSLog(@"Requested %@:%d", [url lastPathComponent], [[url port] integerValue]);
+                NSString *entry = [url lastPathComponent];
+                NSInteger n = [[url port] integerValue];
+                [self loadEntry:entry n:n];
+            }
+            
             return NO;
             
         } else {
@@ -229,6 +260,5 @@
     [definitionView release];
     [super dealloc];
 }
-
 
 @end

@@ -55,6 +55,7 @@ int const DARemoteSearchLike    = 3;
 
     NSString *result;
     
+    // FIXME: Reading cache from a thread = bad idea
     result = [DARemote fetchCachedResultForQuery:query ofType:type error:error];
     
     if (result == nil) {
@@ -85,6 +86,7 @@ int const DARemoteSearchLike    = 3;
     [doc release];
     
     if (shouldCacheResult && [entries count]) {
+        // FIXME: Writing to cache from a thread = worse idea
         [DARemote cacheResult:(NSString *)result forQuery:(NSString *)query ofType:(int)type error:(NSError **)error];
     }
     
@@ -178,18 +180,5 @@ int const DARemoteSearchLike    = 3;
     
     return success;
 }
-
-
-#pragma mark -
-#pragma mark Multi-threading selectors
-
-
-// Asynchronous call wrapper method for clearing cache
-+ (void) clearSearchCacheSelector:(NSDate *)cutoff {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [DARemote deleteCacheOlderThan:cutoff error:nil];
-    [pool drain];
-}
-
 
 @end

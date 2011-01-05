@@ -7,12 +7,15 @@
 
 #import <UIKit/UIKit.h>
 #import "DADelegate.h"
+#import "InfoPageController.h"
 
 @interface InfoTableController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     DADelegate *delegate;
     UITableView *infoTableView;
+    NSArray *infoTableContents;
 }
 
 @property (nonatomic, retain) IBOutlet UITableView *infoTableView;
+@property (nonatomic, retain) NSArray *infoTableContents;
 
 @end
