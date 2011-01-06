@@ -7,13 +7,11 @@
 
 #import <UIKit/UIKit.h>
 
-#import "DADelegate.h"
-#import "DAMarkup.h"
-#import "DARemote.h"
-
 #import "InfoTableController.h"
 
-#import "TouchXML.h"
+#import "DADelegate.h"
+#import "DARemote.h"
+#import "DAParser.h"
 
 #import "Entry.h"
 #import "Form.h"
@@ -21,14 +19,15 @@
 #import "EntrySenseUsage.h"
 #import "EntryEtymology.h"
 
-@interface DefinitionController : UIViewController <UIWebViewDelegate> {
+@interface DefinitionController : UIViewController <UIWebViewDelegate, DARemoteDelegate> {
     DADelegate *delegate;
-    NSIndexPath *index;
     IBOutlet UIWebView *definitionView;
+    NSIndexPath *index;
 }
 
--(id)initWithIndexPath:(NSIndexPath *)indexPath;
--(NSString *)htmlEntries:(NSArray *)entries;
--(NSString *)htmlEntries:(NSArray *)entries n:(NSInteger)n;
+- (id)initWithIndexPath:(NSIndexPath *)indexPath;
+- (void)loadError:(NSString *)query;
+- (void)loadEntryFrom:(NSArray *)entries atIndex:(int)n;
+- (NSString *)htmlEntryFrom:(NSArray *)entries atIndex:(int)n;
 
 @end

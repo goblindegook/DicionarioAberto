@@ -50,7 +50,7 @@
 		DCD1453E12C37A1D00E26123 /* CXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1452F12C37A1D00E26123 /* CXMLNode.m */; };
 		DCD1453F12C37A1D00E26123 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1453212C37A1D00E26123 /* CTidy.m */; };
 		DCD147BC12C3DBE300E26123 /* DARemote.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD147BB12C3DBE300E26123 /* DARemote.m */; };
-		DCD147BF12C3DBEE00E26123 /* DAMarkup.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD147BE12C3DBEE00E26123 /* DAMarkup.m */; };
+		DCD147BF12C3DBEE00E26123 /* DAParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD147BE12C3DBEE00E26123 /* DAParser.m */; };
 		DCD2F7DC12CA8E99005D5604 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCD2F7DB12CA8E99005D5604 /* QuartzCore.framework */; };
 		DCE5014A12C15C4900D3F006 /* DefinitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE5014812C15C4900D3F006 /* DefinitionController.m */; };
 		DCE5014B12C15C4900D3F006 /* DefinitionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE5014912C15C4900D3F006 /* DefinitionController.xib */; };
@@ -134,8 +134,8 @@
 		DCD1453312C37A1D00E26123 /* TouchXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TouchXML.h; path = ../TouchXML/Source/TouchXML.h; sourceTree = SOURCE_ROOT; };
 		DCD147BA12C3DBE300E26123 /* DARemote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARemote.h; sourceTree = "<group>"; };
 		DCD147BB12C3DBE300E26123 /* DARemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARemote.m; sourceTree = "<group>"; };
-		DCD147BD12C3DBEE00E26123 /* DAMarkup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMarkup.h; sourceTree = "<group>"; };
-		DCD147BE12C3DBEE00E26123 /* DAMarkup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMarkup.m; sourceTree = "<group>"; };
+		DCD147BD12C3DBEE00E26123 /* DAParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAParser.h; sourceTree = "<group>"; };
+		DCD147BE12C3DBEE00E26123 /* DAParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAParser.m; sourceTree = "<group>"; };
 		DCD2F7DB12CA8E99005D5604 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DCE5014712C15C4900D3F006 /* DefinitionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefinitionController.h; sourceTree = "<group>"; };
 		DCE5014812C15C4900D3F006 /* DefinitionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefinitionController.m; sourceTree = "<group>"; };
@@ -175,8 +175,8 @@
 				DCD147C012C3DC1000E26123 /* Views */,
 				1D3623240D0F684500981E51 /* DADelegate.h */,
 				1D3623250D0F684500981E51 /* DADelegate.m */,
-				DCD147BD12C3DBEE00E26123 /* DAMarkup.h */,
-				DCD147BE12C3DBEE00E26123 /* DAMarkup.m */,
+				DCD147BD12C3DBEE00E26123 /* DAParser.h */,
+				DCD147BE12C3DBEE00E26123 /* DAParser.m */,
 				DCD147BA12C3DBE300E26123 /* DARemote.h */,
 				DCD147BB12C3DBE300E26123 /* DARemote.m */,
 			);
@@ -461,7 +461,7 @@
 				DCD1453E12C37A1D00E26123 /* CXMLNode.m in Sources */,
 				DCD1453F12C37A1D00E26123 /* CTidy.m in Sources */,
 				DCD147BC12C3DBE300E26123 /* DARemote.m in Sources */,
-				DCD147BF12C3DBEE00E26123 /* DAMarkup.m in Sources */,
+				DCD147BF12C3DBEE00E26123 /* DAParser.m in Sources */,
 				DC4E057B12C77D6F00B4BB0C /* SearchCell.m in Sources */,
 				DC34F42412CBC8CC00AF28B8 /* OBGradientView.m in Sources */,
 				DC34F68F12CC273000AF28B8 /* DAStorage.xcdatamodel in Sources */,

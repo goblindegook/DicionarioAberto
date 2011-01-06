@@ -13,18 +13,12 @@
 #import "InfoTableController.h"
 
 #import "DADelegate.h"
-#import "DASearchCache.h"
-#import "DAFavourites.h"
-#import "DAHistory.h"
 #import "DARemote.h"
+#import "DAParser.h"
 
 #import "Entry.h"
-#import "EntryForm.h"
-#import "EntrySense.h"
-#import "EntrySenseUsage.h"
-#import "EntryEtymology.h"
 
-@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
+@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, DARemoteDelegate> {
     DADelegate *delegate;
     
     UITableView *searchResultsTable;
@@ -43,12 +37,9 @@
 
 - (void)dropShadowFor:(UITableView *)tableView enabled:(BOOL)enabled;
 - (void)searchDicionarioAberto:(NSString *)query;
-- (void)searchDicionarioAbertoSelector:(NSString *)query;
+- (void)reloadSearchResultsTable;
 - (void)showInfoTable;
 
-- (void)setSearchResultsOnMainThread:(NSArray *)results;
-- (void)setSavedSearchResultsOnMainThread:(NSArray *)results;
-- (void)reloadSearchDataOnMainThread;
 
 @end
 

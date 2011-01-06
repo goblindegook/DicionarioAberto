@@ -1,18 +1,19 @@
 //
-//  DAMarkup.h
+//  DAParser.h
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 23/12/2010.
-//  Copyright 2010 log - Open Source Consulting. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import "TouchXML.h"
+#import "Entry.h"
 
-
-@interface DAMarkup : NSObject {
+@interface DAParser : NSObject {
 
 }
 
++ (NSArray *)parseAPIResponse:(NSString *)response list:(BOOL)list;
 +(NSString *)markupToHTML:(NSString *)string;
 
 @end

@@ -43,11 +43,11 @@
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
     
     searchResultsTable.hidden   = YES;
-    
-    searching                   = NO;    
-    searchPrefix                = YES;
-    letUserSelectRow            = YES;
-    searchStatus                = DARemoteSearchOK;
+
+    searchPrefix        = YES;
+    searching           = NO;
+    letUserSelectRow    = YES;
+    searchStatus        = DARemoteSearchOK;
     
     //NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-3600 * 24 * 2)]; // 2d
     NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-300)]; // 5m
@@ -117,92 +117,56 @@
 }
 
 
-// Asynchronous call wrapper method for search text changes
-- (void)searchDicionarioAbertoSelector:(NSString *)query {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    [self searchDicionarioAberto:query];
-    [pool drain];
-}
-
-
 - (void)searchDicionarioAberto:(NSString *)query {
     
     if ([query length] > 0) {
         searching = YES;
         
-        BOOL searchSaved = (searchPrefix
-                            && [delegate.savedSearchText length]
-                            && [query hasPrefix:delegate.savedSearchText]
-                            );
+        BOOL searchSaved = (searchPrefix && [delegate.savedSearchText length] && [query hasPrefix:delegate.savedSearchText]);
         
         if (searchSaved && searchPrefix) {
+            // Return subset of previously obtained results
             delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", query]];
-            
-        } else if (searchPrefix) {
-            delegate.searchResults = [DARemote search:query type:DARemoteSearchPrefix error:nil];
-            
-        } else {
-            delegate.searchResults = [DARemote search:query type:DARemoteSearchSuffix error:nil];
-        }
-        
-        if (delegate.searchResults == nil) {
-            searchStatus = DARemoteSearchErrorConnection;
-            
-        } else if (![delegate.searchResults count]) {
-            searchStatus = DARemoteSearchEmpty;
+            searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
+            [self reloadSearchResultsTable];
             
         } else {
-            searchStatus = DARemoteSearchOK;
-        }
-        
-        // Save result set in memory for reuse
-        if (searchPrefix && !searchSaved && DARemoteSearchErrorConnection != searchStatus) {
-            if ([query length] && [delegate.searchResults count] < 10) {
-                [self performSelectorOnMainThread:@selector(setSavedSearchResultsOnMainThread:) withObject:[NSArray arrayWithObjects:query, delegate.searchResults, nil] waitUntilDone:YES];
-                // delegate.savedSearchText    = [NSMutableString stringWithString:query];
-                // delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
+            int type = (searchPrefix) ? DARemoteSearchPrefix : DARemoteSearchSuffix;
+            
+            NSString *cachedResponse = [DARemote fetchCachedResultForQuery:query ofType:type error:nil];
+            
+            if (nil != cachedResponse) {
+                // Use cached response
+                delegate.searchResults = [DAParser parseAPIResponse:cachedResponse list:YES];
+                searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
+                [self reloadSearchResultsTable];
+                
+            } else {
+                // Perform new asynchronous request
+                DARemote *connection = [[DARemote alloc] initWithQuery:query ofType:type delegate:self];
+                if (nil == connection) {
+                    searchStatus = DARemoteSearchNoConnection;
+                    delegate.searchResults = nil;
+                    [self reloadSearchResultsTable];
+                }
+                [connection release];
             }
         }
         
     } else {
-        searching               = NO;
         searchStatus            = DARemoteSearchOK;
+        searching               = NO;
+        letUserSelectRow        = NO;
         delegate.searchResults  = nil;
-    }
-    
-    // Update table view in the main thread because UIKit is not thread-safe
-    [self performSelectorOnMainThread:@selector(reloadSearchDataOnMainThread) withObject:nil waitUntilDone:NO];
-}
-
-
-- (void)setSearchResultsOnMainThread:(NSArray *)results {
-    assert([NSThread isMainThread]);
-    // TODO
-}
-
-
-- (void)setSavedSearchResultsOnMainThread:(NSArray *)results {
-    assert([NSThread isMainThread]);
-    
-    delegate.savedSearchText    = (NSMutableString *)[results objectAtIndex:0];
-    delegate.savedSearchResults = (NSMutableArray *)[results objectAtIndex:1];
-}
-
-
-- (void)reloadSearchDataOnMainThread {
-    assert([NSThread isMainThread]);
-    
-    if (searching) {
-        [self.searchDisplayController.searchResultsTableView reloadData];
-        letUserSelectRow = (DARemoteSearchOK == searchStatus);
-        
-    } else {
         [self.searchDisplayController.searchResultsTableView clearsContextBeforeDrawing];
-        letUserSelectRow = NO;
     }
-    
-    self.searchDisplayController.searchResultsTableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
+}
 
+
+- (void)reloadSearchResultsTable {
+    letUserSelectRow = (DARemoteSearchOK == searchStatus);
+    self.searchDisplayController.searchResultsTableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
+    [self.searchDisplayController.searchResultsTableView reloadData];
     [self dropShadowFor:self.searchDisplayController.searchResultsTableView enabled:(BOOL)[delegate.searchResults count]];
 }
 
@@ -250,7 +214,7 @@
         }
     }
     
-    if (DARemoteSearchErrorConnection == searchStatus) {
+    if (DARemoteSearchNoConnection == searchStatus) {
         [cell setError:@"Erro de ligação" type:DASearchConnectionError];
         
     } else if (DARemoteSearchEmpty == searchStatus) {
@@ -301,10 +265,10 @@
 }
 
 
-#pragma mark UISearchBarDelegate
+#pragma mark UISearchBarDelegate Methods
 
 
-#pragma mark UISearchDisplayDelegate
+#pragma mark UISearchDisplayDelegate Methods
 
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
@@ -316,25 +280,47 @@
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     searchPrefix = (searchOption == 0);
-    
-    // Cancel previous asynchronous request:
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(searchDicionarioAbertoSelector:) object:nil];
-
-    // Search asynchronously, reload results table later:
-    [self performSelectorInBackground:@selector(searchDicionarioAbertoSelector:) withObject:controller.searchBar.text];
-    
+    [self searchDicionarioAberto:controller.searchBar.text];
     return NO;
 }
 
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
-    // Cancel previous asynchronous request:
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(searchDicionarioAbertoSelector:) object:nil];
-
-    // Search asynchronously, reload results table later:
-    [self performSelectorInBackground:@selector(searchDicionarioAbertoSelector:) withObject:searchString];
+    [self searchDicionarioAberto:searchString];
     
     return NO;
+}
+
+
+#pragma mark DARemoteDelegate Methods
+
+
+- (void)connectionDidFail:(DARemote *)connection {
+    searchStatus = DARemoteSearchNoConnection;
+
+    [self reloadSearchResultsTable];
+}
+
+
+- (void)connectionDidFinish:(DARemote *)connection {
+    NSString *response = [[NSString alloc] initWithData:connection.receivedData encoding:NSUTF8StringEncoding];
+    
+    delegate.searchResults = [DAParser parseAPIResponse:response list:YES];
+    searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
+    
+    if ([delegate.searchResults count]) {
+        [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
+    }
+    
+    [response release];
+     
+    // Save result set in memory for reuse
+    if (searchPrefix && [connection.query length] && [delegate.searchResults count] < 10) {
+        delegate.savedSearchText    = [NSMutableString stringWithString:connection.query];
+        delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
+    }
+
+    [self reloadSearchResultsTable];
 }
 
 

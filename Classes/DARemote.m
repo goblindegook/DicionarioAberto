@@ -13,96 +13,144 @@ int const DARemoteSearchPrefix  = 1;
 int const DARemoteSearchSuffix  = 2;
 int const DARemoteSearchLike    = 3;
 
-int const DARemoteSearchResponseOK           = 1;
-int const DARemoteSearchResponseEmpty        = 0;
-int const DARemoteSearchResponseNoConnection = -1;
+int const DARemoteSearchOK           = 1;
+int const DARemoteSearchEmpty        = 0;
+int const DARemoteSearchNoConnection = -1;
 
 @implementation DARemote
 
+@synthesize delegate;
+@synthesize receivedData;
+@synthesize lastModified;
+@synthesize connection;
+@synthesize query;
+@synthesize type;
 
-+ (NSArray *)getEntries:(NSString *)query error:(NSError **)error {
-    return [DARemote search:query type:DARemoteGetEntry error:error];
-}
 
-
-+ (NSArray *)search:(NSString *)query type:(int)type error:(NSError **)error {
-
-    NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
-    
-    if ([query length] == 0)
-        return entries;
-    
-    NSString *requestUrl;
-    NSString *xPath;
-
-    if (DARemoteGetEntry == type) {
-        requestUrl  = @"http://dicionario-aberto.net/search-xml/%@";
-        xPath       = @"//entry";
+- (id)initWithQuery:(NSString *)theQuery ofType:(int)theType delegate:(id<DARemoteDelegate>)theDelegate {
+    if (self = [super init]) {
+        self.query      = theQuery;
+        self.type       = theType;
+        self.delegate   = theDelegate;
         
-    } else if (DARemoteSearchPrefix == type) {
-        requestUrl  = @"http://dicionario-aberto.net/search-xml?prefix=%@";
-        xPath       = @"//list/entry";
+        NSString *urlFormat;
         
-    } else if (DARemoteSearchSuffix == type) {
-        requestUrl  = @"http://dicionario-aberto.net/search-xml?suffix=%@";
-        xPath       = @"//list/entry";
-        
-    } else if (DARemoteSearchLike == type) {
-        requestUrl  = @"http://dicionario-aberto.net/search-xml?like=%@";
-        xPath       = @"//list/entry";
-        
-    } else {
-        return nil;
-    }
-
-    BOOL shouldCacheResult = NO;
-
-    NSString *result;
-    
-    // FIXME: Reading cache from a thread = bad idea
-    result = [DARemote fetchCachedResultForQuery:query ofType:type error:error];
-    
-    if (result == nil) {
-        // Obtain definition from DicionarioAberto API
-        NSLog(@"Remote API call: search-xml '%@' (type %d)", query, type);
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:requestUrl, [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-        result = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:error];
-        shouldCacheResult = YES;
-        
-        if (result == nil) {
-            // Connection error
+        if (DARemoteGetEntry == theType) {
+            urlFormat = @"http://dicionario-aberto.net/search-xml/%@";
+        } else if (DARemoteSearchPrefix == theType) {
+            urlFormat = @"http://dicionario-aberto.net/search-xml?prefix=%@";
+        } else if (DARemoteSearchSuffix == theType) {
+            urlFormat = @"http://dicionario-aberto.net/search-xml?suffix=%@";
+        } else if (DARemoteSearchLike == theType) {
+            urlFormat = @"http://dicionario-aberto.net/search-xml?like=%@";
+        } else {
             return nil;
         }
-    }
-    
-    CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[result dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
-    
-    for (CXMLElement *ee in [doc nodesForXPath:xPath error:error]) {
-        if (type == DARemoteGetEntry) {
-            Entry *entry = [[Entry alloc] initFromXMLString:[ee XMLString] error:nil];
-            if (entry) [entries addObject:entry];
-            [entry release];
-        } else {
-            [entries addObject:[ee stringValue]];            
+        
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:urlFormat, [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+        
+        NSLog(@"Remote API call: %@", [url absoluteURL]);
+        
+        // Change to NSURLRequestUseProtocolCachePolicy later
+        
+        NSURLRequest *theRequest = [NSURLRequest requestWithURL:url
+                                                    cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
+                                                timeoutInterval:10];
+        
+        self.connection = [NSURLConnection connectionWithRequest:theRequest delegate:self];
+        
+        if (self.connection == nil) {
+            // Connection error
         }
     }
     
-    [doc release];
-    
-    if (shouldCacheResult && [entries count]) {
-        // FIXME: Writing to cache from a thread = worse idea
-        [DARemote cacheResult:(NSString *)result forQuery:(NSString *)query ofType:(int)type error:(NSError **)error];
-    }
-    
-    return entries;
+    return self;
 }
 
 
-#pragma mark -
+- (void)dealloc {
+    [query release];
+    [receivedData release];
+    [lastModified release];
+    [connection release];
+    [super dealloc];
+}
+
+
+#pragma mark NSURLConnection delegate methods
+
+
+- (void) connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+    /* This method is called when the server has determined that it has
+     enough information to create the NSURLResponse. It can be called
+     multiple times, for example in the case of a redirect, so each time
+     we reset the data capacity. */
+    
+    /* create the NSMutableData instance that will hold the received data */
+    
+    long long contentLength = [response expectedContentLength];
+    if (contentLength == NSURLResponseUnknownLength) {
+        contentLength = 500000;
+    }
+    self.receivedData = [NSMutableData dataWithCapacity:(NSUInteger)contentLength];
+    
+    /* Try to retrieve last modified date from HTTP header. If found, format
+     date so it matches format of cached image file modification date. */
+    
+    if ([response isKindOfClass:[NSHTTPURLResponse self]]) {
+        NSDictionary *headers = [(NSHTTPURLResponse *)response allHeaderFields];
+        NSString *modified = [headers objectForKey:@"Last-Modified"];
+        if (modified) {
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            
+            /* avoid problem if the user's locale is incompatible with HTTP-style dates */
+            [dateFormatter setLocale:[[[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"] autorelease]];
+            
+            [dateFormatter setDateFormat:@"EEE, dd MMM yyyy HH:mm:ss zzz"];
+            self.lastModified = [dateFormatter dateFromString:modified];
+            [dateFormatter release];
+        }
+        else {
+            /* default if last modified date doesn't exist (not an error) */
+            self.lastModified = [NSDate dateWithTimeIntervalSinceReferenceDate:0];
+        }
+    }
+}
+
+
+- (void) connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    /* Append the new data to the received data. */
+    [self.receivedData appendData:data];
+}
+
+
+- (NSCachedURLResponse *) connection:(NSURLConnection *)connection
+                   willCacheResponse:(NSCachedURLResponse *)cachedResponse
+{
+    /* this application does not use a NSURLCache disk or memory cache */
+    return nil;
+}
+
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [self.delegate connectionDidFail:self];
+}
+
+
+- (void) connectionDidFinishLoading:(NSURLConnection *)connection
+{
+    [self.delegate connectionDidFinish:self];
+}
+
+
 #pragma mark Caching
 
-
 + (NSString *)fetchCachedResultForQuery:(NSString *)query ofType:(int)type error:(NSError **)error {
+    assert([NSThread isMainThread]);
+    
     NSManagedObjectContext *moc = [(DADelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
     NSFetchRequest *request     = [[NSFetchRequest alloc] init];
     NSString *response          = nil;
@@ -126,7 +174,7 @@ int const DARemoteSearchResponseNoConnection = -1;
         NSDate *now = [[NSDate alloc] init];
         [cache setSearchDate:now];
         [now release];
-    
+        
         if (![moc save:error]) {
             NSLog(@"Error updating cached search response (type %d) '%@': %@", type, query, [*error userInfo]);
         }
@@ -136,20 +184,24 @@ int const DARemoteSearchResponseNoConnection = -1;
 }
 
 
-+ (BOOL)cacheResult:(NSString *)result forQuery:(NSString *)query ofType:(int)type error:(NSError **)error {
++ (BOOL)cacheResult:(NSString *)theResult forQuery:(NSString *)theQuery ofType:(int)theType error:(NSError **)error {
+    assert([NSThread isMainThread]);
+    
     NSManagedObjectContext *moc = [(DADelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
     NSDate *now                 = [[NSDate alloc] init];
     BOOL success                = YES;
     
+    NSLog(@"Caching search response (type %d) '%@'", theType, theQuery);
+    
     DASearchCache *cachedResponse = (DASearchCache *)[NSEntityDescription insertNewObjectForEntityForName:@"DASearchCache" inManagedObjectContext:moc];
     
-    [cachedResponse setSearchQuery:query];
-    [cachedResponse setSearchResult:result];
-    [cachedResponse setSearchType:[NSNumber numberWithInt:type]];
+    [cachedResponse setSearchQuery:theQuery];
+    [cachedResponse setSearchResult:theResult];
+    [cachedResponse setSearchType:[NSNumber numberWithInt:theType]];
     [cachedResponse setSearchDate:now];
     
     if (![moc save:error]) {
-        NSLog(@"Error caching search response (type %d) '%@': %@", type, query, [*error userInfo]);
+        NSLog(@"Error caching search response (type %d) '%@': %@", theType, theQuery, [*error userInfo]);
         success = NO;
     }
     
@@ -160,6 +212,8 @@ int const DARemoteSearchResponseNoConnection = -1;
 
 
 + (BOOL)deleteCacheOlderThan:(NSDate *)date error:(NSError **)error {
+    assert([NSThread isMainThread]);
+    
     NSManagedObjectContext *moc = [(DADelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
     NSFetchRequest *request     = [[NSFetchRequest alloc] init];
     BOOL success                = YES;
@@ -184,5 +238,6 @@ int const DARemoteSearchResponseNoConnection = -1;
     
     return success;
 }
+
 
 @end

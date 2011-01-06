@@ -1,15 +1,39 @@
 //
-//  DAMarkup.m
+//  DAParser.m
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 23/12/2010.
-//  Copyright 2010 log - Open Source Consulting. All rights reserved.
 //
 
-#import "DAMarkup.h"
+#import "DAParser.h"
 
 
-@implementation DAMarkup
+@implementation DAParser
+
+
++ (NSArray *)parseAPIResponse:(NSString *)response list:(BOOL)list {
+    NSMutableArray *entries = [[[NSMutableArray alloc] init] autorelease];
+    
+    NSString *xpath = (list) ? @"//list/entry" : @"//entry";
+    
+    CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[response dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    
+    for (CXMLElement *ee in [doc nodesForXPath:xpath error:nil]) {
+        if (list) {
+            [entries addObject:[ee stringValue]];
+            
+        } else {
+            Entry *entry = [[Entry alloc] initFromXMLString:[ee XMLString] error:nil];
+            if (entry) [entries addObject:entry];
+            [entry release];
+        }
+    }
+    
+    [doc release];
+    
+    return entries;
+}
+
 
 +(NSString *)markupToHTML:(NSString *)string {
     NSString *html = string;
