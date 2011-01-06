@@ -175,6 +175,7 @@
 
 - (void)dealloc {
     [searchController release];
+    [navController release];
     [window release];
     
     [managedObjectContext_ release];

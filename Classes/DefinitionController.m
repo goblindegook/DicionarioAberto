@@ -10,6 +10,9 @@
 
 @implementation DefinitionController
 
+@synthesize requestedEntry;
+@synthesize requestedN;
+
 - (id)initWithIndexPath:(NSIndexPath *)indexPath {
     if (self == [super init]) {
         index = indexPath;
@@ -28,11 +31,11 @@
 */
 
 - (void)viewWillAppear:(BOOL)animated {
-    // TOOD: Show this while view is constructed
+    // TODO: Show this while view is constructed
 }
 
 
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+// Additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -45,13 +48,11 @@
     definitionView.delegate = self;
     
     NSString *query = [delegate.searchResults objectAtIndex:index.row];
-    int n           = 0;
+    NSInteger first = [delegate.searchResults indexOfObject:query];
     
-    NSInteger lr = [delegate.searchResults indexOfObject:query];
+    self.requestedEntry = query;
+    self.requestedN     = (first > index.row) ? 0 : index.row - first + 1;
     
-    if (lr <= index.row)
-        n = index.row - lr + 1;
-        
     [self searchDicionarioAberto:query];
 }
 
@@ -74,10 +75,10 @@
             
             if ([[url host] isEqualToString:@"define"]) {
                 // Definition links (aberto://define:*/*)
-                NSLog(@"Requested %@:%d", [url lastPathComponent], [[url port] integerValue]);
-                NSString *request = [url lastPathComponent];
-                int n = [[url port] integerValue];
-                [self searchDicionarioAberto:request];
+                self.requestedEntry = [url lastPathComponent];
+                self.requestedN     = [[url port] integerValue];
+                NSLog(@"Requested %@:%d", self.requestedEntry, self.requestedN);
+                [self searchDicionarioAberto:self.requestedEntry];
             }
             
             return NO;
@@ -113,6 +114,7 @@
 
 - (void)dealloc {
     [index release];
+    [requestedEntry release];
     [definitionView release];
     [super dealloc];
 }
@@ -239,40 +241,40 @@
     if (nil != cachedResponse) {
         // Use cached response
         NSArray *entries = [DAParser parseAPIResponse:cachedResponse list:NO];
-        [self loadEntryFrom:entries atIndex:0];
+        [self loadEntryFrom:entries atIndex:self.requestedN];
         
     } else {
         // Perform new asynchronous request
         DARemote *connection = [[DARemote alloc] initWithQuery:query ofType:DARemoteGetEntry delegate:self];
         if (nil == connection) {
-            [self loadError:query];
+            // Connection error
+            [self loadNoConnection:query];
         }
         [connection release];
     }    
 }
 
 
-- (void)loadError:(NSString *)query {
-    // TODO
-    NSString *html = @"ERROR";
+- (void)loadNoConnection:(NSString *)query {
+    // TODO: Load error HTML file
+    self.title = @"Erro de ligação";
+    NSString *html = @"CONNECTION ERROR";
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     [definitionView loadHTMLString:html baseURL:baseURL];
 }
 
 
-- (void)loadEntryFrom:(NSArray *)list atIndex:(int)pos {
-    self.title = [[(Entry *)[list objectAtIndex:pos] entryForm] orth];
-    
-    NSString *html = [self htmlEntryFrom:list atIndex:pos];
+- (void)loadEntryFrom:(NSArray *)entries atIndex:(int)n {
+    self.title = self.requestedEntry;
+    NSString *html = [self htmlEntryFrom:entries atIndex:self.requestedN];
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    
     [definitionView loadHTMLString:html baseURL:baseURL];
 }
 
 
 - (void) showInfoTable {
     InfoTableController *infoTable = [[InfoTableController alloc] init];
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Definição" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleBordered target:nil action:nil];
     [delegate.navController pushViewController:infoTable animated:YES];
     [infoTable release];
     [self.navigationItem.backBarButtonItem release];
@@ -291,14 +293,12 @@
     NSString *response = [[NSString alloc] initWithData:connection.receivedData encoding:NSUTF8StringEncoding];
 
     NSArray *entries = [DAParser parseAPIResponse:response list:NO];
-    
     if ([entries count]) {
         [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
     }
-    
     [response release];
     
-    [self loadEntryFrom:entries atIndex:0];
+    [self loadEntryFrom:entries atIndex:self.requestedN];
 }
 
 @end

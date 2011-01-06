@@ -6,7 +6,6 @@
 //
 
 #import "DARemote.h"
-#import "RootController.h"
 
 int const DARemoteGetEntry      = 0;
 int const DARemoteSearchPrefix  = 1;

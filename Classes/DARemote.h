@@ -6,11 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "TouchXML.h"
 
 #import "DADelegate.h"
 #import "DASearchCache.h"
-#import "Entry.h"
 
 extern int const DARemoteGetEntry;
 extern int const DARemoteSearchPrefix;

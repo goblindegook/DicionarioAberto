@@ -21,34 +21,38 @@
 @class RootController;
 
 @interface DADelegate : NSObject <UIApplicationDelegate> {
+    // View controllers
     UIWindow *window;
     UINavigationController *navController;
     RootController *searchController;
+    
+    // Search results
+    NSArray *searchResults;
+    NSArray *savedSearchResults;
+    NSString *savedSearchText;
     
     // Core Data
     NSManagedObjectContext *managedObjectContext_;
     NSManagedObjectModel *managedObjectModel_;
     NSPersistentStoreCoordinator *persistentStoreCoordinator_;
-    
-    NSArray *searchResults;
-    NSArray *savedSearchResults;
-    NSString *savedSearchText;
 }
 
+// View controllers
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UINavigationController *navController;
 @property (nonatomic, retain) IBOutlet RootController *searchController;
+
+// Search results
 @property (nonatomic, retain) NSArray *searchResults;
 @property (nonatomic, retain) NSArray *savedSearchResults;
-@property (nonatomic, retain) NSString *savedSearchText;
+@property (nonatomic, copy) NSString *savedSearchText;
 
+// Core Data
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
 @property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
 @property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 - (NSString *)applicationDocumentsDirectory;
-
-//- (void) searchDicionarioAberto:(NSString *)query;
 
 @end
 
