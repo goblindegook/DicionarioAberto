@@ -38,6 +38,7 @@ extern int const DARemoteSearchNoConnection;
 @property (assign, readwrite) int type;
 
 - (id)initWithQuery:(NSString *)query ofType:(int)type delegate:(id<DARemoteDelegate>)theDelegate;
+- (void)cancel;
 
 + (NSString *)fetchCachedResultForQuery:(NSString *)query ofType:(int)type error:(NSError **)error;
 + (BOOL)cacheResult:(NSString *)result forQuery:(NSString *)query ofType:(int)type error:(NSError **)error;

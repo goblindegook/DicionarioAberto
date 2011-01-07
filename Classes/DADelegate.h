@@ -45,7 +45,7 @@
 // Search results
 @property (nonatomic, retain) NSArray *searchResults;
 @property (nonatomic, retain) NSArray *savedSearchResults;
-@property (nonatomic, copy) NSString *savedSearchText;
+@property (nonatomic, retain) NSString *savedSearchText;
 
 // Core Data
 @property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;

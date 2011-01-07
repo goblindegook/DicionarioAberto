@@ -25,6 +25,7 @@
     
     OBGradientView *tableHeaderView;
     OBGradientView *tableFooterView;
+    DARemote *connection;
     
     BOOL searchPrefix;
     BOOL searching;

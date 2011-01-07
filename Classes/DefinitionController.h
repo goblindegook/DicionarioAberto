@@ -32,6 +32,7 @@
 @property (readwrite, assign) int requestedN;
 
 - (id)initWithIndexPath:(NSIndexPath *)indexPath;
+- (void)searchDicionarioAberto:(NSString *)query;
 - (void)loadNoConnection:(NSString *)query;
 - (void)loadEntryFrom:(NSArray *)entries atIndex:(int)n;
 - (NSString *)htmlEntryFrom:(NSArray *)entries atIndex:(int)n;

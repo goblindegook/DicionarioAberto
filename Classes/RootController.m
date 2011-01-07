@@ -77,6 +77,7 @@
 
 
 - (void)dealloc {
+    [connection release];
     [searchResultsTable release];
     [tableHeaderView release];
     [tableFooterView release];
@@ -124,6 +125,12 @@
         
         BOOL searchSaved = (searchPrefix && [delegate.savedSearchText length] && [query hasPrefix:delegate.savedSearchText]);
         
+        if (connection != nil) {
+            connection.cancel;
+            [connection release];
+            connection = nil;
+        }
+        
         if (searchSaved && searchPrefix) {
             // Return subset of previously obtained results
             delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", query]];
@@ -131,6 +138,9 @@
             [self reloadSearchResultsTable];
             
         } else {
+            delegate.savedSearchText = nil;
+            delegate.savedSearchResults = nil;
+            
             int type = (searchPrefix) ? DARemoteSearchPrefix : DARemoteSearchSuffix;
             
             NSString *cachedResponse = [DARemote fetchCachedResultForQuery:query ofType:type error:nil];
@@ -143,13 +153,12 @@
                 
             } else {
                 // Perform new asynchronous request
-                DARemote *connection = [[DARemote alloc] initWithQuery:query ofType:type delegate:self];
+                connection = [[DARemote alloc] initWithQuery:query ofType:type delegate:self];
                 if (nil == connection) {
                     searchStatus = DARemoteSearchNoConnection;
                     delegate.searchResults = nil;
                     [self reloadSearchResultsTable];
                 }
-                [connection release];
             }
         }
         
@@ -256,6 +265,14 @@
 }
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (nil != connection) {
+        // Cancel any pending requests
+        connection.cancel;
+        [connection release];
+        connection = nil;
+    }
+    
     DefinitionController *definition = [[DefinitionController alloc] initWithIndexPath:indexPath];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa" style:UIBarButtonItemStyleBordered target:nil action:nil];
     [delegate.navController pushViewController:definition animated:YES];
@@ -287,7 +304,6 @@
 
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [self searchDicionarioAberto:searchString];
-    
     return NO;
 }
 
@@ -295,27 +311,27 @@
 #pragma mark DARemoteDelegate Methods
 
 
-- (void)connectionDidFail:(DARemote *)connection {
+- (void)connectionDidFail:(DARemote *)theConnection {
     searchStatus = DARemoteSearchNoConnection;
 
     [self reloadSearchResultsTable];
 }
 
 
-- (void)connectionDidFinish:(DARemote *)connection {
-    NSString *response = [[NSString alloc] initWithData:connection.receivedData encoding:NSUTF8StringEncoding];
+- (void)connectionDidFinish:(DARemote *)theConnection {
+    NSString *response = [[NSString alloc] initWithData:theConnection.receivedData encoding:NSUTF8StringEncoding];
     
     delegate.searchResults = [DAParser parseAPIResponse:response list:YES];
     searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
     
     if ([delegate.searchResults count]) {
-        [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
+        [DARemote cacheResult:response forQuery:theConnection.query ofType:connection.type error:nil];
     }
     
     [response release];
      
     // Save result set in memory for reuse
-    if (searchPrefix && [connection.query length] && [delegate.searchResults count] < 10) {
+    if (searchPrefix && [theConnection.query length] && [delegate.searchResults count] < 10) {
         delegate.savedSearchText    = [NSMutableString stringWithString:connection.query];
         delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
     }

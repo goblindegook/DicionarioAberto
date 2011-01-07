@@ -3,7 +3,6 @@
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 04/01/2011.
-//  Copyright 2011 log - Open Source Consulting. All rights reserved.
 //
 
 #import "InfoPageController.h"
@@ -12,12 +11,14 @@
 @implementation InfoPageController
 
 
-- (id)initWithIndexPath:(NSIndexPath *)indexPath {
+- (id)initWithURI:(NSURL *)theURI title:(NSString *)theTitle {
     if (self == [super init]) {
-        index = indexPath;
+        pageURI     = theURI;
+        pageTitle   = theTitle;
     }
     return self;
 }
+
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -36,19 +37,47 @@
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
+    [super viewDidLoad];
     delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    
+    [self webView:infoPageView loadURI:pageURI];
 }
+
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     
 }
 
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     
 }
 
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)urlRequest navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        NSURL *url = [urlRequest URL];
+        
+        if ([[url scheme] isEqualToString:@"aberto"]) {
+            // Internal links
+            
+            if ([[url host] isEqualToString:@"define"]) {
+                // Definition links (aberto://define:*/*)
+                
+            } else if ([[url host] isEqualToString:@"static"]) {
+                // Static page links (aberto://static/*)
+                pageURI = url;
+                [self webView:infoPageView loadURI:pageURI];
+            }
+            
+            return NO;
+            
+        } else {
+            [[UIApplication sharedApplication] openURL:url];
+            return NO;
+        }
+    }
+    
     return YES;
 }
 
@@ -66,6 +95,7 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+
 - (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
@@ -73,9 +103,22 @@
 }
 
 
-
 - (void)dealloc {
+    [infoPageView release];
+    [pageTitle release];
+    //[pageURI release];
     [super dealloc];
+}
+
+
+- (void)webView:(UIWebView *)wv loadURI:(NSURL *)url {
+    NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+    NSString *path = [[NSBundle mainBundle] pathForResource:[[url pathComponents] lastObject] ofType:nil inDirectory:@"HTML"];
+    NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+
+    self.title = pageTitle;
+    
+    [wv loadHTMLString:html baseURL:baseURL];
 }
 
 

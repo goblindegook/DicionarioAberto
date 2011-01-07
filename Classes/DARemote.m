@@ -56,10 +56,18 @@ int const DARemoteSearchNoConnection = -1;
                                                     cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                 timeoutInterval:10];
         
-        self.connection = [NSURLConnection connectionWithRequest:theRequest delegate:self];
+        if (DARemoteGetEntry == theType) {
+            self.connection = [NSURLConnection connectionWithRequest:theRequest delegate:self];            
+        } else {
+            // Delayed request
+            self.connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self startImmediately:NO];
+            [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+            [NSTimer scheduledTimerWithTimeInterval:0.2 target:self.connection selector:@selector(start) userInfo:nil repeats:NO];            
+        }
         
         if (self.connection == nil) {
             // Connection error
+            return self;
         }
     }
     
@@ -68,10 +76,13 @@ int const DARemoteSearchNoConnection = -1;
 
 
 - (void)dealloc {
+    if (connection != nil) {
+        [connection cancel];
+    }
+    [connection release];
     [query release];
     [receivedData release];
     [lastModified release];
-    [connection release];
     [super dealloc];
 }
 
@@ -130,6 +141,12 @@ int const DARemoteSearchNoConnection = -1;
 {
     /* this application does not use a NSURLCache disk or memory cache */
     return nil;
+}
+
+
+- (void)cancel {
+    NSLog(@"Cancelling request for '%@'", self.query);
+    [connection cancel];
 }
 
 

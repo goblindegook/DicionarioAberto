@@ -11,7 +11,7 @@
 
 @interface InfoTableController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     DADelegate *delegate;
-    UITableView *infoTableView;
+    IBOutlet UITableView *infoTableView;
     NSArray *infoTableContents;
 }
 
