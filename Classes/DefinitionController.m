@@ -13,9 +13,11 @@
 @synthesize requestedEntry;
 @synthesize requestedN;
 
-- (id)initWithIndexPath:(NSIndexPath *)indexPath {
+
+- (id)initWithRequest:(NSString *)entry atIndex:(int)n {
     if (self == [super init]) {
-        index = indexPath;
+        requestedEntry = [entry copy];
+        requestedN = n;
     }
     return self;
 }
@@ -39,21 +41,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
-    
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(showInfoTable) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
     
     definitionView.delegate = self;
     
-    NSString *query = [delegate.searchResults objectAtIndex:index.row];
-    NSInteger first = [delegate.searchResults indexOfObject:query];
-    
-    self.requestedEntry = query;
-    self.requestedN     = (first > index.row) ? 0 : index.row - first + 1;
-    
-    [self searchDicionarioAberto:query];
+    [self searchDicionarioAberto:requestedEntry];
 }
 
 
@@ -113,7 +107,6 @@
 
 
 - (void)dealloc {
-    [index release];
     [requestedEntry release];
     [definitionView release];
     [super dealloc];
@@ -266,14 +259,15 @@
 
 
 - (void)loadEntryFrom:(NSArray *)entries atIndex:(int)n {
-    self.title = self.requestedEntry;
-    NSString *html = [self htmlEntryFrom:entries atIndex:self.requestedN];
+    self.title = requestedEntry;
+    NSString *html = [self htmlEntryFrom:entries atIndex:requestedN];
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     [definitionView loadHTMLString:html baseURL:baseURL];
 }
 
 
 - (void) showInfoTable {
+    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     InfoTableController *infoTable = [[InfoTableController alloc] init];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleBordered target:nil action:nil];
     [delegate.navController pushViewController:infoTable animated:YES];
@@ -297,9 +291,10 @@
     if ([entries count]) {
         [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
     }
-    [response release];
     
     [self loadEntryFrom:entries atIndex:self.requestedN];
+
+    [response release];
 }
 
 @end

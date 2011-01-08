@@ -238,7 +238,12 @@
 
 
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section {
-    return (DARemoteSearchOK == searchStatus) ? [delegate.searchResults count] : 1;
+    if (delegate.searchResults != nil) {
+        return (DARemoteSearchOK == searchStatus) ? [delegate.searchResults count] : 1;
+        
+    } else {
+        return 0;
+    }
 }
 
 
@@ -272,8 +277,13 @@
         [connection release];
         connection = nil;
     }
+
+    NSString *query = [delegate.searchResults objectAtIndex:indexPath.row];
+    NSInteger first = [delegate.searchResults indexOfObject:query];
+    NSInteger n     = (first > indexPath.row) ? 0 : indexPath.row - first + 1;
     
-    DefinitionController *definition = [[DefinitionController alloc] initWithIndexPath:indexPath];
+    DefinitionController *definition = [[DefinitionController alloc] initWithRequest:query atIndex:n];
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa" style:UIBarButtonItemStyleBordered target:nil action:nil];
     [delegate.navController pushViewController:definition animated:YES];
     [definition release];

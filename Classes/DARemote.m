@@ -56,13 +56,16 @@ int const DARemoteSearchNoConnection = -1;
                                                     cachePolicy:NSURLRequestReloadIgnoringLocalCacheData
                                                 timeoutInterval:10];
         
+        //self.connection = [NSURLConnection connectionWithRequest:theRequest delegate:self];
+        
         if (DARemoteGetEntry == theType) {
-            self.connection = [NSURLConnection connectionWithRequest:theRequest delegate:self];            
+            self.connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self startImmediately:YES];
+            
         } else {
-            // Delayed request
+            // Delay request for 100ms
             self.connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self startImmediately:NO];
             [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-            [NSTimer scheduledTimerWithTimeInterval:0.2 target:self.connection selector:@selector(start) userInfo:nil repeats:NO];            
+            [NSTimer scheduledTimerWithTimeInterval:0.1 target:self.connection selector:@selector(start) userInfo:nil repeats:NO];
         }
         
         if (self.connection == nil) {

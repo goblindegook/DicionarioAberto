@@ -4,6 +4,7 @@ body {
     background-image: url('Images/Background.png');
     background-repeat: repeat-x repeat-y;
     padding: .5em;
+    text-rendering: optimitzeLegibility;
 }
 
 a {
@@ -137,11 +138,16 @@ article.info {
 }
 
 article.info h1 {
+    padding: 0;
+    letter-spacing: 0.05em;
     font-size: 1.3em;
+    margin: 0 0 1em;
 }
 
 article.info h2 {
     font-size: 1.25em;
+    font-style: italic;
+    margin: 0 0 1em;
 }
 
 article.info ul {
@@ -161,6 +167,8 @@ article.info p {
     text-indent: 1.5em;
 }
 
+article.info h1 + p,
+article.info h2 + p,
 article.info p:first-child {
     text-indent: 0;
 } 
@@ -195,6 +203,7 @@ article.credits h2 {
     padding: 0;
     margin: 0 0 .3em;
     line-height: 1.4em;
+    text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 0;
 }
 
 article.credits p {
@@ -204,6 +213,7 @@ article.credits p {
     margin: 0 0 3em;
     line-height: 1.6em;
     color: rgba(0, 0, 0, 0.75);
+    text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 0;
 }
 
 article.credits p.components {

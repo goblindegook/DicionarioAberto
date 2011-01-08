@@ -57,8 +57,6 @@
             @"Novo Diccionário de 1913", @"section",
             [NSArray arrayWithObjects:
              [NSDictionary dictionaryWithObjectsAndKeys:
-              @"Introdução",                    @"title", @"page", @"type", @"aberto://static/intro0.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
               @"I. Razão da obra",              @"title", @"page", @"type", @"aberto://static/intro1.html", @"uri", nil],
              [NSDictionary dictionaryWithObjectsAndKeys:
               @"II. Materiaes da obra",         @"title", @"page", @"type", @"aberto://static/intro2.html", @"uri", nil],

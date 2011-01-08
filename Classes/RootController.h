@@ -22,7 +22,6 @@
     DADelegate *delegate;
     
     UITableView *searchResultsTable;
-    
     OBGradientView *tableHeaderView;
     OBGradientView *tableFooterView;
     DARemote *connection;

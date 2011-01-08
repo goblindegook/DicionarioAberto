@@ -20,10 +20,7 @@
 #import "InfoTableController.h"
 
 @interface DefinitionController : UIViewController <UIWebViewDelegate, DARemoteDelegate> {
-    DADelegate *delegate;
     IBOutlet UIWebView *definitionView;
-    NSIndexPath *index;
-    
     NSString *requestedEntry;
     int requestedN;
 }
@@ -31,7 +28,7 @@
 @property (nonatomic, copy) NSString *requestedEntry;
 @property (readwrite, assign) int requestedN;
 
-- (id)initWithIndexPath:(NSIndexPath *)indexPath;
+- (id)initWithRequest:(NSString *)entry atIndex:(int)n;
 - (void)searchDicionarioAberto:(NSString *)query;
 - (void)loadNoConnection:(NSString *)query;
 - (void)loadEntryFrom:(NSArray *)entries atIndex:(int)n;
