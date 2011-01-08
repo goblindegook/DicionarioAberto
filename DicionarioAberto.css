@@ -3,99 +3,107 @@ body {
     background: #ffe;
     background-image: url('Images/Background.png');
     background-repeat: repeat-x repeat-y;
-    padding: .2em;
+    padding: .5em;
 }
 
 a {
-    color: #c00;
+    color: rgba(180, 0, 0, 1);
     text-decoration: none;
 }
 
-.senses {
+/* DEFINITION */
+
+article.definition {
+}
+
+article.definition .senses {
     margin-bottom: 1.5em;
 }
 
-.senses a {
+article.definition .senses a {
     font-style: italic;
 }
 
-.term {
+article.definition .term {
     font-size: 1.3em;
 }
 
-.term .index {
-    color: #c00;
+article.definition .term .index {
+    color: rgba(180, 0, 0, 1);
     font-size: .6em;
     vertical-align: top;
     font-weight: normal;
-    /* font-style: italic; */
     font-family: Helvetica;
 }
 
-.term .phon {
+article.definition .term .phon {
     font-weight: normal;
 }
 
-.sense .definitions {
+article.definition .sense .definitions {
     margin-bottom: 1em;
     padding-left: 1.75em;
 }
 
-.sense .lex {
+article.definition .sense .lex {
     font-style: italic;
     margin: .5em 0 .5em -1.75em;
 }
 
-.sense .definitions li,
-.homonyms .entries li {
+article.definition .sense .definitions li,
+article.definition .homonyms .entries li {
     font-family: Helvetica;
     font-size: .7em;
-    color: #c00;
+    color: rgba(180, 0, 0, 1);
 }
 
-.sense .definitions li span.singledef,
-.homonyms .entries ol li .entry {
+article.definition .sense .definitions li span.singledef,
+article.definition .homonyms .entries ol li .entry {
     font-size: 1.4em;
     font-family: Palatino;
     line-height: 1.6em;
 }
 
-.sense .definitions li span.singledef,
-.homonyms .entries ol li.self .entry {
+article.definition .sense .definitions li span.singledef,
+article.definition .homonyms .entries ol li.self .entry {
     color: #000;
 }
 
-.homonyms .entries ol li.self .entry {
+article.definition .homonyms .entries ol li.self .entry {
     font-weight: bold;
 }
 
-.singledef .usage {
+article.definition .singledef .usage {
     font-style: italic;
 }
 
-.etym {
+article.definition .etym {
     margin-bottom: 1.3em;
 }
 
-aside h2 {
+article.definition aside h2 {
     font-size: 1em;
     margin-top: .5em;
     margin-bottom: 0;
     font-weight: bold;
 }
 
-aside.homonyms h2 {
+article.definition aside.homonyms h2 {
     display: none;
 }
 
-aside.homonyms {
-    background-color: rgba(200, 200, 200, 0.5);
-    -webkit-border-radius: .5em;
-    border-radius: .5em;
+article.definition aside.homonyms {
+    /* background-color: rgba(200, 200, 200, 0.5); */
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     padding: .5em 1em;
+    border-radius: .5em;
+    -webkit-border-radius: .5em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.075), inset 0 1px rgba(255, 255, 255, 0.15), inset 0 10px rgba(255, 255, 255, 0.1), inset 0 10px 20px rgba(255, 255, 255, 0.15), inset 0 -10px 30px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.075), inset 0 1px rgba(255, 255, 255, 0.15), inset 0 10px rgba(255, 255, 255, 0.1), inset 0 10px 20px rgba(255, 255, 255, 0.15), inset 0 -10px 30px rgba(0, 0, 0, 0.1);
 }
 
-aside.homonyms .entries {
+article.definition aside.homonyms .entries {
     -webkit-column-count: 2;
 	-webkit-column-gap: .5em;
     column-count: 2;
@@ -104,22 +112,111 @@ aside.homonyms .entries {
     margin: 0;
 }
 
-aside.homonyms .entries ol {
+article.definition aside.homonyms .entries ol {
     padding-left: 1em;
     margin: 0;
 }
 
-aside .entries ol {
+article.definition aside .entries ol {
     list-item: none;
 }
 
-aside .term {
+article.definition aside .term {
     font-size: 1em;
 }
 
-aside .term .index {
+article.definition aside .term .index {
     font-size: .8em;
 }
+
+/* INFO */
+
+article.info {
+    font-family: Palatino;
+    padding: .5em;
+}
+
+article.info h1 {
+    font-size: 1.3em;
+}
+
+article.info h2 {
+    font-size: 1.25em;
+}
+
+article.info ul {
+    padding-left: 1.5em;
+}
+
+article.info p,
+article.info li {
+    font-size: .9em;
+    line-height: 1.6em;
+    padding: 0;
+    margin: 0;
+    text-align: justify;
+}
+
+article.info p {
+    text-indent: 1.5em;
+}
+
+article.info p:first-child {
+    text-indent: 0;
+} 
+
+article.info footer {
+    text-align: justify;
+}
+
+/* CREDITS */
+
+article.credits {
+    font-family: Helvetica;
+    padding: 1em .5em;
+}
+
+article.credits h1 {
+    font-family: Palatino;
+    font-variant: small-caps;
+    text-transform: lowercase;
+    font-size: 1.6em;
+    margin: 0 0 1.5em;
+    padding: 0;
+    text-align: center;
+    letter-spacing: 0.05em;
+    color: rgba(180, 0, 0, 1);
+    text-shadow: rgba(0, 0, 0, 0.2) -1px -1px 0;
+}
+
+article.credits h2 {
+    font-size: .82em;
+    text-align: center;
+    padding: 0;
+    margin: 0 0 .3em;
+    line-height: 1.4em;
+}
+
+article.credits p {
+    font-size: .8em;
+    text-align: center;
+    padding: 0;
+    margin: 0 0 3em;
+    line-height: 1.6em;
+    color: rgba(0, 0, 0, 0.75);
+}
+
+article.credits p.components {
+    font-size: .7em;
+}
+
+article.credits p.license {
+    margin: 0;
+    font-size: .7em;
+}
+
+
+/* FOOTER */
 
 footer {
     font-family: Helvetica;

@@ -45,7 +45,7 @@
             @"Dicionário Aberto", @"section",
             [NSArray arrayWithObjects:
              [NSDictionary dictionaryWithObjectsAndKeys:
-              @"Sobre o Dicionário Aberto",     @"title", @"page", @"type", @"aberto://static/about.html", @"uri", nil],
+              @"Sobre o Dicionário",            @"title", @"page", @"type", @"aberto://static/about.html", @"uri", nil],
              [NSDictionary dictionaryWithObjectsAndKeys:
               @"Informação legal",              @"title", @"page", @"type", @"aberto://static/legal.html", @"uri", nil],
              [NSDictionary dictionaryWithObjectsAndKeys:
@@ -54,7 +54,7 @@
             nil],
            
            [NSDictionary dictionaryWithObjectsAndKeys:
-            @"Novo Diccionário da Língua Portuguesa", @"section",
+            @"Novo Diccionário de 1913", @"section",
             [NSArray arrayWithObjects:
              [NSDictionary dictionaryWithObjectsAndKeys:
               @"Introdução",                    @"title", @"page", @"type", @"aberto://static/intro0.html", @"uri", nil],

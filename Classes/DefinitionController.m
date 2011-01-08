@@ -132,11 +132,12 @@
                                 "<meta charset=\"UTF-8\">"
                                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"DicionarioAberto.css\">"
                                 "</head><body>"
+                                "<article class=\"definition\">"
                                 ];
     
     NSMutableString *homonyms = [NSMutableString stringWithString:@""];
     
-    // Homonyms
+    // List homonyms
     if (n && entries.count > 1) {
         [homonyms appendString:@"<aside class=\"homonyms\"><h2>Homónimos</h2><div class=\"entries\"><ol>"];
         for (Entry *entry in entries) {
@@ -223,12 +224,12 @@
     }
     
     if (entryOrth) {
-        NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"footer" ofType:@"html" inDirectory:@"HTML"];
+        NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"_def_footer" ofType:@"html" inDirectory:@"HTML"];
         NSString *footer = [NSString stringWithContentsOfFile:footerPath encoding:NSUTF8StringEncoding error:nil];
         [content appendString:[[NSRegularExpression regularExpressionWithPattern:@"%ENTRY%" options:0 error:nil] stringByReplacingMatchesInString:footer options:0 range:NSMakeRange(0, [footer length]) withTemplate:entryOrth]];
     }
     
-    [content appendString:@"</body></html>"];
+    [content appendString:@"</article></body></html>"];
     
     return content;
 }

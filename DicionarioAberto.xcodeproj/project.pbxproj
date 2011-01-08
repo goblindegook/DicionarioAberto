@@ -38,6 +38,7 @@
 		DCB0EC5A12CD2B1400323C98 /* DAFavourites.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB0EC5612CD2B1400323C98 /* DAFavourites.m */; };
 		DCB0EC5B12CD2B1400323C98 /* DASearchCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB0EC5812CD2B1400323C98 /* DASearchCache.m */; };
 		DCB0EC6912CD2B9E00323C98 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCB0EC6812CD2B9E00323C98 /* CoreData.framework */; };
+		DCCB3D1912D7F8FB00ECC178 /* JS in Resources */ = {isa = PBXBuildFile; fileRef = DCCB3D1112D7F8FB00ECC178 /* JS */; };
 		DCD1453412C37A1D00E26123 /* CXMLDocument_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1451B12C37A1D00E26123 /* CXMLDocument_CreationExtensions.m */; };
 		DCD1453512C37A1D00E26123 /* CXMLNode_CreationExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1451D12C37A1D00E26123 /* CXMLNode_CreationExtensions.m */; };
 		DCD1453612C37A1D00E26123 /* CXMLDocument_PrivateExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1451F12C37A1D00E26123 /* CXMLDocument_PrivateExtensions.m */; };
@@ -109,6 +110,7 @@
 		DCB0EC5712CD2B1400323C98 /* DASearchCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASearchCache.h; path = Model/DASearchCache.h; sourceTree = "<group>"; };
 		DCB0EC5812CD2B1400323C98 /* DASearchCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DASearchCache.m; path = Model/DASearchCache.m; sourceTree = "<group>"; };
 		DCB0EC6812CD2B9E00323C98 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DCCB3D1112D7F8FB00ECC178 /* JS */ = {isa = PBXFileReference; lastKnownFileType = folder; path = JS; sourceTree = "<group>"; };
 		DCD1451A12C37A1D00E26123 /* CXMLDocument_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLDocument_CreationExtensions.h; sourceTree = "<group>"; };
 		DCD1451B12C37A1D00E26123 /* CXMLDocument_CreationExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CXMLDocument_CreationExtensions.m; sourceTree = "<group>"; };
 		DCD1451C12C37A1D00E26123 /* CXMLNode_CreationExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXMLNode_CreationExtensions.h; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 				DC6AD39C12D3D88100FB5415 /* NIB */,
 				DCE9746412C2F7C900BC3FB3 /* HTML */,
 				DCE972E012C2C84A00BC3FB3 /* Images */,
+				DCCB3D1112D7F8FB00ECC178 /* JS */,
 				8D1107310486CEB800E47090 /* DicionarioAberto-Info.plist */,
 				DCE972EC12C2C8AB00BC3FB3 /* DicionarioAberto.css */,
 			);
@@ -433,6 +436,7 @@
 				DC24BE9712D1365E000C052C /* SearchErrorCell.xib in Resources */,
 				DC6AD39B12D3D87000FB5415 /* InfoTableController.xib in Resources */,
 				DC16780A12D66319006B821D /* InfoPageController.xib in Resources */,
+				DCCB3D1912D7F8FB00ECC178 /* JS in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
