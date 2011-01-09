@@ -4,7 +4,8 @@ body {
     background-image: url('Images/Background.png');
     background-repeat: repeat-x repeat-y;
     padding: .5em;
-    text-rendering: optimitzeLegibility;
+    text-rendering: optimizeLegibility;
+    -webkit-text-size-adjust: auto;
 }
 
 a {

@@ -162,7 +162,7 @@
     
     InfoPageController *infoPage = [[InfoPageController alloc] initWithURI:[NSURL URLWithString:[rowDictionary objectForKey:@"uri"]] title:[rowDictionary objectForKey:@"title"]];
     
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Info" style:UIBarButtonItemStyleBordered target:nil action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Índice" style:UIBarButtonItemStyleBordered target:nil action:nil];
     
     [delegate.navController pushViewController:infoPage animated:YES];
     
