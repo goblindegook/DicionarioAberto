@@ -52,11 +52,9 @@
 
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)urlRequest navigationType:(UIWebViewNavigationType)navigationType {
@@ -118,16 +116,11 @@
     
     NSString *entryOrth = nil;
     
-    NSMutableString *content = [NSMutableString stringWithString:@""
-                                "<!DOCTYPE html>\n"
-                                "<html><head>"
-                                "<title></title>"
-                                "<meta charset=\"UTF-8\">"
-                                "<meta name=\"viewport\" content=\"width=device-width; initial-scale=1.0; maximum-scale=1.0;\">"
-                                "<link rel=\"stylesheet\" type=\"text/css\" href=\"DicionarioAberto.css\">"
-                                "</head><body>"
-                                "<article class=\"definition\">"
-                                ];
+    NSMutableString *content = [NSMutableString stringWithString:@""];
+    
+    // Header
+    NSString *headerPath = [[NSBundle mainBundle] pathForResource:@"_def_header" ofType:@"html" inDirectory:@"HTML"];
+    [content appendString:[NSString stringWithContentsOfFile:headerPath encoding:NSUTF8StringEncoding error:nil]];
     
     NSMutableString *homonyms = [NSMutableString stringWithString:@""];
     
@@ -217,13 +210,10 @@
         [content appendString:@"</section>"];
     }
     
-    if (entryOrth) {
-        NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"_def_footer" ofType:@"html" inDirectory:@"HTML"];
-        NSString *footer = [NSString stringWithContentsOfFile:footerPath encoding:NSUTF8StringEncoding error:nil];
-        [content appendString:[[NSRegularExpression regularExpressionWithPattern:@"%ENTRY%" options:0 error:nil] stringByReplacingMatchesInString:footer options:0 range:NSMakeRange(0, [footer length]) withTemplate:entryOrth]];
-    }
-    
-    [content appendString:@"</article></body></html>"];
+    // Footer
+    NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"_def_footer" ofType:@"html" inDirectory:@"HTML"];
+    NSString *footer = [NSString stringWithContentsOfFile:footerPath encoding:NSUTF8StringEncoding error:nil];
+    [content appendString:[[NSRegularExpression regularExpressionWithPattern:@"%ENTRY%" options:0 error:nil] stringByReplacingMatchesInString:footer options:0 range:NSMakeRange(0, [footer length]) withTemplate:entryOrth]];
     
     return content;
 }

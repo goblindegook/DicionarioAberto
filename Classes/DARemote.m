@@ -59,13 +59,14 @@ int const DARemoteSearchNoConnection = -1;
         //self.connection = [NSURLConnection connectionWithRequest:theRequest delegate:self];
         
         if (DARemoteGetEntry == theType) {
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
             self.connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self startImmediately:YES];
             
         } else {
             // Delay request for 100ms
             self.connection = [[NSURLConnection alloc] initWithRequest:theRequest delegate:self startImmediately:NO];
             [self.connection scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-            [NSTimer scheduledTimerWithTimeInterval:0.1 target:self.connection selector:@selector(start) userInfo:nil repeats:NO];
+            [NSTimer scheduledTimerWithTimeInterval:0.15 target:self selector:@selector(processRequest) userInfo:nil repeats:NO];
         }
         
         if (self.connection == nil) {
@@ -87,6 +88,12 @@ int const DARemoteSearchNoConnection = -1;
     [receivedData release];
     [lastModified release];
     [super dealloc];
+}
+
+
+- (void)processRequest {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+    [self.connection start];
 }
 
 
@@ -149,18 +156,21 @@ int const DARemoteSearchNoConnection = -1;
 
 - (void)cancel {
     NSLog(@"Cancelling request for '%@'", self.query);
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [connection cancel];
 }
 
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.delegate connectionDidFail:self];
 }
 
 
 - (void) connectionDidFinishLoading:(NSURLConnection *)connection
 {
+    [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [self.delegate connectionDidFinish:self];
 }
 
