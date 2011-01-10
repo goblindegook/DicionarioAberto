@@ -72,6 +72,11 @@
             
             return NO;
             
+        } else if ([[url scheme] isEqualToString:@"file"] &&
+                   ([[url fragment] hasPrefix:@"fn"] || [[url fragment] hasPrefix:@"rfn"])) {
+            // Footnote links
+            return YES;
+            
         } else {
             [[UIApplication sharedApplication] openURL:url];
             return NO;
