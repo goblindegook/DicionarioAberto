@@ -248,8 +248,9 @@ article.credits p.components {
 }
 
 article.credits p.license {
-    margin: 0;
+    margin: 0 0 1em;
     font-size: .7em;
+    text-align: justify;
 }
 
 
@@ -320,11 +321,6 @@ footer {
 	-webkit-box-orient: vertical;
 	-webkit-box-align: stretch;
 	-webkit-box-pack: center;
-}
-
-.overlay > .wrap > .inner > * {
-    -webkit-box-flex: 0;
-    display: block;
 }
 */
 
