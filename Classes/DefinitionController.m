@@ -243,7 +243,7 @@
 - (void)loadNoConnection:(NSString *)query {
     // TODO: Load error HTML file
     self.title = @"Erro de ligação";
-    NSString *html = @"CONNECTION ERROR";
+    NSString *html = @"CONNECTION ERROR"; // TODO: Connection error page
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     [definitionView loadHTMLString:html baseURL:baseURL];
 }
@@ -251,7 +251,12 @@
 
 - (void)loadEntryFrom:(NSArray *)entries atIndex:(int)n {
     self.title = requestedEntry;
-    NSString *html = [self htmlEntryFrom:entries atIndex:requestedN];
+    NSString *html;
+    if (entries && [entries count]) {
+        html = [self htmlEntryFrom:entries atIndex:requestedN];
+    } else {
+        html = @"NOT FOUND"; // TODO: Not found page
+    }
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     [definitionView loadHTMLString:html baseURL:baseURL];
 }

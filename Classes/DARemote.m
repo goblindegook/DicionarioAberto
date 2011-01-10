@@ -13,8 +13,10 @@ int const DARemoteSearchSuffix  = 2;
 int const DARemoteSearchLike    = 3;
 
 int const DARemoteSearchOK           = 1;
+int const DARemoteSearchWait         = 2;
 int const DARemoteSearchEmpty        = 0;
 int const DARemoteSearchNoConnection = -1;
+
 
 @implementation DARemote
 
@@ -28,7 +30,7 @@ int const DARemoteSearchNoConnection = -1;
 
 - (id)initWithQuery:(NSString *)theQuery ofType:(int)theType delegate:(id<DARemoteDelegate>)theDelegate {
     if (self = [super init]) {
-        self.query      = theQuery;
+        self.query      = [theQuery lowercaseString];
         self.type       = theType;
         self.delegate   = theDelegate;
         

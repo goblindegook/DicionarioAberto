@@ -23,6 +23,7 @@ function gestureEnd (e) {
 }
 
 
+
 document.addEventListener('DOMContentLoaded', function () {
     var body = document.getElementById('da');
     if (body) {

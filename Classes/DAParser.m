@@ -21,14 +21,13 @@
     for (CXMLElement *ee in [doc nodesForXPath:xpath error:nil]) {
         if (list) {
             [entries addObject:[ee stringValue]];
-            
         } else {
             Entry *entry = [[Entry alloc] initFromXMLString:[ee XMLString] error:nil];
             if (entry) [entries addObject:entry];
             [entry release];
         }
     }
-    
+        
     [doc release];
     
     return entries;

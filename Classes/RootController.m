@@ -157,8 +157,11 @@
                 if (nil == connection) {
                     searchStatus = DARemoteSearchNoConnection;
                     delegate.searchResults = nil;
-                    [self reloadSearchResultsTable];
+                } else if (!delegate.searchResults) {
+                    searchStatus = DARemoteSearchWait;
+                    delegate.searchResults = [NSArray arrayWithObjects:nil];
                 }
+                [self reloadSearchResultsTable];
             }
         }
         
@@ -224,10 +227,13 @@
     }
     
     if (DARemoteSearchNoConnection == searchStatus) {
-        [cell setError:@"Erro de ligação" type:DASearchConnectionError];
+        [cell setError:@"Erro de ligação" type:searchStatus];
         
     } else if (DARemoteSearchEmpty == searchStatus) {
-        [cell setError:@"Sem resultados" type:DASearchNoResults];
+        [cell setError:@"Sem resultados" type:searchStatus];
+
+    } else if (DARemoteSearchWait == searchStatus) {
+        [cell setError:@"Aguarde" type:searchStatus];
         
     } else if (DARemoteSearchOK == searchStatus) {
         [cell setContentAtRow:indexPath.row using:delegate.searchResults];

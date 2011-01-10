@@ -16,6 +16,7 @@ extern int const DARemoteSearchSuffix;
 extern int const DARemoteSearchLike;
 
 extern int const DARemoteSearchOK;
+extern int const DARemoteSearchWait;
 extern int const DARemoteSearchEmpty;
 extern int const DARemoteSearchNoConnection;
 
