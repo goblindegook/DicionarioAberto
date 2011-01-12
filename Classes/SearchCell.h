@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
-extern int const DASearchConnectionError;
-extern int const DASearchNoResults;
+#import "DARemote.h"
 
 @interface SearchCell : UITableViewCell {
     IBOutlet UIView      *background;

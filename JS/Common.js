@@ -23,18 +23,20 @@ function gestureEnd (e) {
 }
 
 
-
 document.addEventListener('DOMContentLoaded', function () {
-    var body = document.getElementById('da');
-    if (body) {
-        body.addEventListener("gestureend", gestureEnd, false);
-    }
-    
     if (Hyphenator) {
         Hyphenator.config({
             minwordlength : 4
         });
         Hyphenator.run();
+    }
+});
+
+
+document.addEventListener('load', function () {
+    var body = document.getElementById('da');
+    if (body) {
+        body.addEventListener("gestureend", gestureEnd, false);
     }
 });
 

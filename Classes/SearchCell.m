@@ -7,9 +7,6 @@
 
 #import "SearchCell.h"
 
-int const DASearchNoResults         = 1;
-int const DASearchConnectionError   = 2;
-
 @implementation SearchCell
 
 @synthesize background;
@@ -42,7 +39,16 @@ int const DASearchConnectionError   = 2;
 
 - (void)setError:(NSString *)message type:(int)type {
     self.errorMessage.text = message;
-    // TODO: Set image
+    
+    if (DARemoteSearchWait == type) {
+        self.errorImage.image = [UIImage imageNamed:@"Images/IconWait.png"];
+        
+    } else if (DARemoteSearchEmpty == type) {
+        self.errorImage.image = [UIImage imageNamed:@"Images/IconError.png"];
+        
+    } else if (DARemoteSearchNoConnection == type) {
+        self.errorImage.image = [UIImage imageNamed:@"Images/IconError.png"];
+    }
 }
 
 

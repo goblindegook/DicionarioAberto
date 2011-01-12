@@ -23,6 +23,7 @@
     
     // Add the navigation controller's view to the window and display.
     navController.viewControllers = [NSArray arrayWithObject:searchController];
+    
     [window addSubview:navController.view];
     [window makeKeyAndVisible];
 
@@ -174,6 +175,7 @@
 
 
 - (void)dealloc {
+    
     [searchController release];
     [navController release];
     [window release];
@@ -190,4 +192,13 @@
 }
 
 
+@end
+
+
+@implementation UINavigationBar (CustomImage)
+- (void)drawRect:(CGRect)rect
+{
+    UIImage *image = [UIImage imageNamed: @"Images/BackgroundNavigation.png"];
+    [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+}
 @end
