@@ -1,6 +1,6 @@
 body {
     font-family: Palatino;
-    background: #ffe;
+    background-color: rgba(248, 245, 238, 1);
     background-image: url('Images/Background.png');
     background-repeat: repeat-x repeat-y;
     padding: .5em;
@@ -247,14 +247,49 @@ article.credits p.components {
     font-size: .7em;
 }
 
+article.credits .caption {
+    font-size: .7em;
+    line-height: 1.4em;
+    margin: 0 0 .3em;
+    padding: 0;
+    text-align: center;
+}
+
 article.credits p.license {
     margin: 0 0 1em;
     font-size: .7em;
     text-align: justify;
 }
 
+article.credits .onleft {
+    display: block;
+    float: left;
+    margin-left: 16px;
+}
+
+article.credits .onright {
+    display: block;
+    float: right;
+    margin-right: 16px;
+}
+
+article.credits p.logo-da {
+    margin: 0;
+}
+
+.logo-github {
+    margin: 4px 0;
+}
+
+.logo-creative-commons {
+    margin: 12px 0;
+}
 
 /* FOOTER */
+
+.clear {
+    clear: both;
+}
 
 footer {
     font-family: Helvetica;

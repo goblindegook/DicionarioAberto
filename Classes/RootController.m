@@ -89,8 +89,8 @@
     
     if (enabled) {
         UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
-        UIColor *darkH = (id)[UIColor colorWithWhite:0 alpha:0.15].CGColor;
-        UIColor *darkF = (id)[UIColor colorWithWhite:0 alpha:0.25].CGColor;
+        UIColor *darkH = (id)[UIColor colorWithWhite:0 alpha:0.3].CGColor;
+        UIColor *darkF = (id)[UIColor colorWithWhite:0 alpha:0.5].CGColor;
         
         if (tableHeaderView == nil) {
             tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
@@ -179,7 +179,7 @@
     letUserSelectRow = (DARemoteSearchOK == searchStatus);
     self.searchDisplayController.searchResultsTableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
     [self.searchDisplayController.searchResultsTableView reloadData];
-    [self dropShadowFor:self.searchDisplayController.searchResultsTableView enabled:(BOOL)[delegate.searchResults count]];
+    [self dropShadowFor:self.searchDisplayController.searchResultsTableView enabled:letUserSelectRow];
 }
 
 

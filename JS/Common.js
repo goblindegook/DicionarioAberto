@@ -30,13 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
         });
         Hyphenator.run();
     }
-});
-
-
-document.addEventListener('load', function () {
+    
     var body = document.getElementById('da');
     if (body) {
         body.addEventListener("gestureend", gestureEnd, false);
     }
 });
-

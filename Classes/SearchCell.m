@@ -30,6 +30,7 @@
     if (cellIndex) {
         self.definitionIndex.hidden = NO;
         self.definitionIndex.text = [NSString stringWithFormat:@"%d", cellIndex];
+        self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:128 green:0 blue:0 alpha:1];
         
     } else {
         self.definitionIndex.hidden = YES;

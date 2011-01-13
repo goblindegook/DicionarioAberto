@@ -45,7 +45,7 @@
 					<object class="IBUIImageView" id="771433784">
 						<reference key="NSNextResponder" ref="774585933"/>
 						<int key="NSvFlags">258</int>
-						<string key="NSFrameSize">{320, 480}</string>
+						<string key="NSFrame">{{0, 44}, {320, 480}}</string>
 						<reference key="NSSuperview" ref="774585933"/>
 						<int key="IBUIContentMode">2</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
@@ -259,8 +259,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAACAgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="723877142"/>
-							<reference ref="771433784"/>
 							<reference ref="434102447"/>
+							<reference ref="771433784"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -317,9 +317,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAACAgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAwigAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">AUIgAABDJgAAA</bytes>
-					</object>
+					<object class="NSAffineTransform"/>
 					<string>{{419, 242}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
