@@ -329,7 +329,6 @@
 
 - (void)connectionDidFail:(DARemote *)theConnection {
     searchStatus = DARemoteSearchNoConnection;
-
     [self reloadSearchResultsTable];
 }
 
