@@ -24,15 +24,16 @@ function gestureEnd (e) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    if (Hyphenator) {
+
+    var body = document.getElementById('da');
+    if (body) {
+        body.addEventListener("gestureend", gestureEnd, false);
+    }
+                          
+    if (typeof Hyphenator != 'undefined') {
         Hyphenator.config({
             minwordlength : 4
         });
         Hyphenator.run();
-    }
-    
-    var body = document.getElementById('da');
-    if (body) {
-        body.addEventListener("gestureend", gestureEnd, false);
     }
 });

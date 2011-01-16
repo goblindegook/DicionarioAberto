@@ -67,7 +67,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* DADelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* DADelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* DicionarioAberto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DicionarioAberto.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Aberto.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aberto.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E5210DE3E06400AC0155 /* RootController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RootController.xib; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* DicionarioAberto.app */,
+				1D6058910D05DD3D006BFB54 /* Aberto.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -394,7 +394,7 @@
 			);
 			name = DicionarioAberto;
 			productName = DicionarioAberto;
-			productReference = 1D6058910D05DD3D006BFB54 /* DicionarioAberto.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Aberto.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -501,7 +501,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DicionarioAberto_Prefix.pch;
 				INFOPLIST_FILE = "DicionarioAberto-Info.plist";
-				PRODUCT_NAME = DicionarioAberto;
+				PRODUCT_NAME = Aberto;
 			};
 			name = Debug;
 		};
@@ -513,7 +513,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DicionarioAberto_Prefix.pch;
 				INFOPLIST_FILE = "DicionarioAberto-Info.plist";
-				PRODUCT_NAME = DicionarioAberto;
+				PRODUCT_NAME = Aberto;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

@@ -49,8 +49,9 @@
     letUserSelectRow    = YES;
     searchStatus        = DARemoteSearchOK;
     
-    //NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-3600 * 24 * 2)]; // 2d
-    NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-300)]; // 5m
+    NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-3600 * 24 * 2)]; // 2d
+    
+    // NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-300)]; // 5m
     
     [DARemote deleteCacheOlderThan:cutoff error:nil];
     
@@ -88,17 +89,16 @@
 - (void)dropShadowFor:(UITableView *)tableView enabled:(BOOL)enabled {
     
     if (enabled) {
-        UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
-        UIColor *darkH = (id)[UIColor colorWithWhite:0 alpha:0.3].CGColor;
-        UIColor *darkF = (id)[UIColor colorWithWhite:0 alpha:0.5].CGColor;
         
-        if (tableHeaderView == nil) {
+        if (tableHeaderView == nil && tableFooterView == nil) {
+            UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
+            UIColor *darkH = (id)[UIColor colorWithWhite:0 alpha:0.3].CGColor;
+            UIColor *darkF = (id)[UIColor colorWithWhite:0 alpha:0.5].CGColor;
+            
             tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
             tableHeaderView.colors = [NSArray arrayWithObjects:(id)light, (id)darkH, nil];
             tableHeaderView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-        }
-        
-        if (tableFooterView == nil) {
+            
             tableFooterView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
             tableFooterView.colors = [NSArray arrayWithObjects:(id)darkF, (id)light, nil];
             tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
@@ -135,7 +135,6 @@
             // Return subset of previously obtained results
             delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", query]];
             searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
-            [self reloadSearchResultsTable];
             
         } else {
             delegate.savedSearchText = nil;
@@ -149,7 +148,11 @@
                 // Use cached response
                 delegate.searchResults = [DAParser parseAPIResponse:cachedResponse list:YES];
                 searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
-                [self reloadSearchResultsTable];
+                
+                if (searchPrefix && [delegate.searchResults count] < 10) {
+                    delegate.savedSearchText    = [NSMutableString stringWithString:connection.query];
+                    delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
+                }
                 
             } else {
                 // Perform new asynchronous request
@@ -161,8 +164,9 @@
                     searchStatus = DARemoteSearchWait;
                     delegate.searchResults = [NSArray arrayWithObjects:nil];
                 }
-                [self reloadSearchResultsTable];
             }
+            
+            [self reloadSearchResultsTable];
         }
         
     } else {
@@ -179,7 +183,7 @@
     letUserSelectRow = (DARemoteSearchOK == searchStatus);
     self.searchDisplayController.searchResultsTableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
     [self.searchDisplayController.searchResultsTableView reloadData];
-    [self dropShadowFor:self.searchDisplayController.searchResultsTableView enabled:letUserSelectRow];
+    //[self dropShadowFor:self.searchDisplayController.searchResultsTableView enabled:letUserSelectRow];
 }
 
 
