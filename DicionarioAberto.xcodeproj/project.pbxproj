@@ -17,7 +17,6 @@
 		28D7ACF80DDB3853001CB0EB /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* RootController.m */; };
 		DC16780A12D66319006B821D /* InfoPageController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC16780912D66319006B821D /* InfoPageController.xib */; };
 		DC24BE9712D1365E000C052C /* SearchErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC24BE9612D1365E000C052C /* SearchErrorCell.xib */; };
-		DC34F42412CBC8CC00AF28B8 /* OBGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = DC34F42312CBC8CC00AF28B8 /* OBGradientView.m */; };
 		DC34F68F12CC273000AF28B8 /* DAStorage.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = DC34F68E12CC273000AF28B8 /* DAStorage.xcdatamodel */; };
 		DC3E6ABE12C02B0B007B852E /* Entry.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6ABD12C02B0B007B852E /* Entry.m */; };
 		DC3E6ACE12C02DBA007B852E /* EntryForm.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6ACD12C02DBA007B852E /* EntryForm.m */; };
@@ -34,6 +33,7 @@
 		DC4E05FE12C8152D00B4BB0C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F712C8152D00B4BB0C /* Icon@2x.png */; };
 		DC4E05FF12C8152D00B4BB0C /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */; };
 		DC6AD39B12D3D87000FB5415 /* InfoTableController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC6AD39A12D3D87000FB5415 /* InfoTableController.xib */; };
+		DCA18FF012E39238000E1FB3 /* OBGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCA18FEF12E39237000E1FB3 /* OBGradientView.m */; };
 		DCB0EC5912CD2B1400323C98 /* DAHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB0EC5412CD2B1400323C98 /* DAHistory.m */; };
 		DCB0EC5A12CD2B1400323C98 /* DAFavourites.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB0EC5612CD2B1400323C98 /* DAFavourites.m */; };
 		DCB0EC5B12CD2B1400323C98 /* DASearchCache.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB0EC5812CD2B1400323C98 /* DASearchCache.m */; };
@@ -79,8 +79,6 @@
 		8D1107310486CEB800E47090 /* DicionarioAberto-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "DicionarioAberto-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		DC16780912D66319006B821D /* InfoPageController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoPageController.xib; sourceTree = "<group>"; };
 		DC24BE9612D1365E000C052C /* SearchErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchErrorCell.xib; sourceTree = "<group>"; };
-		DC34F42212CBC8CC00AF28B8 /* OBGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBGradientView.h; path = OBGradientView/OBGradientView.h; sourceTree = "<group>"; };
-		DC34F42312CBC8CC00AF28B8 /* OBGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBGradientView.m; path = OBGradientView/OBGradientView.m; sourceTree = "<group>"; };
 		DC34F68E12CC273000AF28B8 /* DAStorage.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = DAStorage.xcdatamodel; sourceTree = "<group>"; };
 		DC3E6ABC12C02B0B007B852E /* Entry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entry.h; sourceTree = "<group>"; };
 		DC3E6ABD12C02B0B007B852E /* Entry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entry.m; sourceTree = "<group>"; };
@@ -103,6 +101,8 @@
 		DC4E05F712C8152D00B4BB0C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		DC6AD39A12D3D87000FB5415 /* InfoTableController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoTableController.xib; sourceTree = "<group>"; };
+		DCA18FEE12E39237000E1FB3 /* OBGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBGradientView.h; sourceTree = "<group>"; };
+		DCA18FEF12E39237000E1FB3 /* OBGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBGradientView.m; sourceTree = "<group>"; };
 		DCB0EC5312CD2B1400323C98 /* DAHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DAHistory.h; path = Model/DAHistory.h; sourceTree = "<group>"; };
 		DCB0EC5412CD2B1400323C98 /* DAHistory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DAHistory.m; path = Model/DAHistory.m; sourceTree = "<group>"; };
 		DCB0EC5512CD2B1400323C98 /* DAFavourites.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DAFavourites.h; path = Model/DAFavourites.h; sourceTree = "<group>"; };
@@ -172,7 +172,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				DC34F42512CBC8D300AF28B8 /* OBGradientView */,
+				DCA18FED12E39237000E1FB3 /* OBGradientView */,
 				DCD1454012C37A2D00E26123 /* TouchXML */,
 				DCE0568112CD200100CE291D /* Model */,
 				DC3E6ACF12C02E0B007B852E /* Entry */,
@@ -243,15 +243,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		DC34F42512CBC8D300AF28B8 /* OBGradientView */ = {
-			isa = PBXGroup;
-			children = (
-				DC34F42212CBC8CC00AF28B8 /* OBGradientView.h */,
-				DC34F42312CBC8CC00AF28B8 /* OBGradientView.m */,
-			);
-			name = OBGradientView;
-			sourceTree = "<group>";
-		};
 		DC3E6ACF12C02E0B007B852E /* Entry */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +287,16 @@
 			);
 			name = Icons;
 			sourceTree = "<group>";
+		};
+		DCA18FED12E39237000E1FB3 /* OBGradientView */ = {
+			isa = PBXGroup;
+			children = (
+				DCA18FEE12E39237000E1FB3 /* OBGradientView.h */,
+				DCA18FEF12E39237000E1FB3 /* OBGradientView.m */,
+			);
+			name = OBGradientView;
+			path = ../OBGradientView/OBGradientView;
+			sourceTree = SOURCE_ROOT;
 		};
 		DCD1451912C37A1D00E26123 /* Creation */ = {
 			isa = PBXGroup;
@@ -478,13 +479,13 @@
 				DCD147BC12C3DBE300E26123 /* DARemote.m in Sources */,
 				DCD147BF12C3DBEE00E26123 /* DAParser.m in Sources */,
 				DC4E057B12C77D6F00B4BB0C /* SearchCell.m in Sources */,
-				DC34F42412CBC8CC00AF28B8 /* OBGradientView.m in Sources */,
 				DC34F68F12CC273000AF28B8 /* DAStorage.xcdatamodel in Sources */,
 				DCB0EC5912CD2B1400323C98 /* DAHistory.m in Sources */,
 				DCB0EC5A12CD2B1400323C98 /* DAFavourites.m in Sources */,
 				DCB0EC5B12CD2B1400323C98 /* DASearchCache.m in Sources */,
 				DCEBA19712D2AC7F00215DD4 /* InfoTableController.m in Sources */,
 				DCEBA1AD12D2AE6700215DD4 /* InfoPageController.m in Sources */,
+				DCA18FF012E39238000E1FB3 /* OBGradientView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

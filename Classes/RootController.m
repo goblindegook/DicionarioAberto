@@ -86,35 +86,24 @@
 }
 
 
-- (void)dropShadowFor:(UITableView *)tableView enabled:(BOOL)enabled {
+- (void)dropShadowFor:(UITableView *)tableView {
+    UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
+    UIColor *dark = (id)[UIColor colorWithWhite:0 alpha:0.3].CGColor;
     
-    if (enabled) {
-        
-        if (tableHeaderView == nil && tableFooterView == nil) {
-            UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
-            UIColor *darkH = (id)[UIColor colorWithWhite:0 alpha:0.3].CGColor;
-            UIColor *darkF = (id)[UIColor colorWithWhite:0 alpha:0.5].CGColor;
-            
-            tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
-            tableHeaderView.colors = [NSArray arrayWithObjects:(id)light, (id)darkH, nil];
-            tableHeaderView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-            
-            tableFooterView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
-            tableFooterView.colors = [NSArray arrayWithObjects:(id)darkF, (id)light, nil];
-            tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-        }
-        
-        tableView.tableHeaderView = tableHeaderView;
-        tableView.tableFooterView = tableFooterView;
-        
-        [tableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
-        
-    } else {
-        tableView.tableHeaderView = nil;
-        tableView.tableFooterView = nil;
-        
-        [tableView setContentInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    if (tableHeaderView == nil) {
+        tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
+        tableHeaderView.colors = [NSArray arrayWithObjects:(id)light, (id)dark, nil];
+        tableHeaderView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
     }
+    
+    if (tableFooterView == nil) {
+        tableFooterView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
+        tableFooterView.colors = [NSArray arrayWithObjects:(id)dark, (id)light, nil];
+        tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+    }
+    
+    tableView.tableHeaderView = tableHeaderView;
+    tableView.tableFooterView = tableFooterView;
 }
 
 
@@ -150,7 +139,7 @@
                 searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
                 
                 if (searchPrefix && [delegate.searchResults count] < 10) {
-                    delegate.savedSearchText    = [NSMutableString stringWithString:connection.query];
+                    delegate.savedSearchText    = [NSMutableString stringWithString:query];
                     delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
                 }
                 
@@ -165,9 +154,9 @@
                     delegate.searchResults = [NSArray arrayWithObjects:nil];
                 }
             }
-            
-            [self reloadSearchResultsTable];
         }
+        
+        [self reloadSearchResultsTable];
         
     } else {
         searchStatus            = DARemoteSearchOK;
@@ -183,7 +172,11 @@
     letUserSelectRow = (DARemoteSearchOK == searchStatus);
     self.searchDisplayController.searchResultsTableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
     [self.searchDisplayController.searchResultsTableView reloadData];
-    //[self dropShadowFor:self.searchDisplayController.searchResultsTableView enabled:letUserSelectRow];
+    [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
+
+    if (DARemoteSearchOK == searchStatus) {
+        [self.searchDisplayController.searchResultsTableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
+    }
 }
 
 
@@ -310,8 +303,8 @@
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
     tableView.backgroundColor   = searchResultsTable.backgroundColor;
-    // tableView.separatorColor    = searchResultsTable.separatorColor;
-    // tableView.separatorStyle    = searchResultsView.separatorStyle;
+    tableView.separatorColor    = searchResultsTable.separatorColor;
+    //tableView.separatorStyle    = searchResultsTable.separatorStyle;
 }
 
 
@@ -325,6 +318,15 @@
 - (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [self searchDicionarioAberto:searchString];
     return NO;
+}
+
+
+- (void) searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
+    // Prevent UISearchDisplayController from resetting the content inset after resigning the firstResponder
+    
+    if (DARemoteSearchOK == searchStatus) {
+        [tableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
+    }
 }
 
 

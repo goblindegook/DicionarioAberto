@@ -35,7 +35,7 @@
 
 @property (nonatomic, retain) IBOutlet UITableView *searchResultsTable;
 
-- (void)dropShadowFor:(UITableView *)tableView enabled:(BOOL)enabled;
+- (void)dropShadowFor:(UITableView *)tableView;
 - (void)searchDicionarioAberto:(NSString *)query;
 - (void)reloadSearchResultsTable;
 - (void)showInfoTable;
