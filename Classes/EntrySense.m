@@ -6,7 +6,6 @@
 //
 
 #import "EntrySense.h"
-#import "EntrySenseUsage.h"
 
 @implementation EntrySense
 

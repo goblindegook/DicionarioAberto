@@ -5,9 +5,6 @@
 //  Created by Luís Rodrigues on 21/12/2010.
 //
 
-#import <Foundation/Foundation.h>
-
-
 @interface EntryForm : NSObject {
     NSMutableString *orth;
     NSMutableString *phon;

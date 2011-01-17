@@ -6,7 +6,6 @@
 //  Copyright 2010 log - Open Source Consulting. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "DARemote.h"
 
 @interface SearchCell : UITableViewCell {

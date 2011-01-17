@@ -5,11 +5,8 @@
 //  Created by Luís Rodrigues on 21/12/2010.
 //
 
-#import "TouchXML.h"
+
 #import "Entry.h"
-#import "EntryForm.h"
-#import "EntrySense.h"
-#import "EntryEtymology.h"
 
 @implementation Entry
 

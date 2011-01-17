@@ -33,6 +33,7 @@
 		DC4E05FE12C8152D00B4BB0C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F712C8152D00B4BB0C /* Icon@2x.png */; };
 		DC4E05FF12C8152D00B4BB0C /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */; };
 		DC6AD39B12D3D87000FB5415 /* InfoTableController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC6AD39A12D3D87000FB5415 /* InfoTableController.xib */; };
+		DC886E2312E3CBA100A854BA /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC886E2212E3CBA100A854BA /* CoreFoundation.framework */; };
 		DCA18FF012E39238000E1FB3 /* OBGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = DCA18FEF12E39237000E1FB3 /* OBGradientView.m */; };
 		DCB0EC5912CD2B1400323C98 /* DAHistory.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB0EC5412CD2B1400323C98 /* DAHistory.m */; };
 		DCB0EC5A12CD2B1400323C98 /* DAFavourites.m in Sources */ = {isa = PBXBuildFile; fileRef = DCB0EC5612CD2B1400323C98 /* DAFavourites.m */; };
@@ -101,6 +102,7 @@
 		DC4E05F712C8152D00B4BB0C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
 		DC6AD39A12D3D87000FB5415 /* InfoTableController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoTableController.xib; sourceTree = "<group>"; };
+		DC886E2212E3CBA100A854BA /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		DCA18FEE12E39237000E1FB3 /* OBGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBGradientView.h; sourceTree = "<group>"; };
 		DCA18FEF12E39237000E1FB3 /* OBGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBGradientView.m; sourceTree = "<group>"; };
 		DCB0EC5312CD2B1400323C98 /* DAHistory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DAHistory.h; path = Model/DAHistory.h; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				DCD2F7DC12CA8E99005D5604 /* QuartzCore.framework in Frameworks */,
 				DCB0EC6912CD2B9E00323C98 /* CoreData.framework in Frameworks */,
+				DC886E2312E3CBA100A854BA /* CoreFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +242,7 @@
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				DCD2F7DB12CA8E99005D5604 /* QuartzCore.framework */,
 				DCB0EC6812CD2B9E00323C98 /* CoreData.framework */,
+				DC886E2212E3CBA100A854BA /* CoreFoundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

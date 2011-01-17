@@ -7,7 +7,6 @@
 
 #import "EntrySenseUsage.h"
 
-
 @implementation EntrySenseUsage
 
 @synthesize type;

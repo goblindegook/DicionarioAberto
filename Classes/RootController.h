@@ -5,7 +5,6 @@
 //  Created by Luís Rodrigues on 20/12/2010.
 //
 
-#import <UIKit/UIKit.h>
 #import "OBGradientView.h"
 
 #import "SearchCell.h"

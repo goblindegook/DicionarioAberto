@@ -5,8 +5,6 @@
 //  Created by Luís Rodrigues on 21/12/2010.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "DADelegate.h"
 #import "DARemote.h"
 #import "DAParser.h"

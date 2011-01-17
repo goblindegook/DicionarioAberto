@@ -5,7 +5,6 @@
 //  Created by Luís Rodrigues on 21/12/2010.
 //
 
-#import <Foundation/Foundation.h>
 #import "EntrySenseUsage.h"
 
 @interface EntrySense : NSObject {

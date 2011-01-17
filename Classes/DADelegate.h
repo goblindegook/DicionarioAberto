@@ -5,8 +5,6 @@
 //  Created by Luís Rodrigues on 20/12/2010.
 //
 
-#import <UIKit/UIKit.h>
-
 #import "DASearchCache.h"
 #import "DAFavourites.h"
 #import "DAHistory.h"
