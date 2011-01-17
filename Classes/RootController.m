@@ -172,11 +172,9 @@
     letUserSelectRow = (DARemoteSearchOK == searchStatus);
     self.searchDisplayController.searchResultsTableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
     [self.searchDisplayController.searchResultsTableView reloadData];
+    
     [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
-
-    if (DARemoteSearchOK == searchStatus) {
-        [self.searchDisplayController.searchResultsTableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
-    }
+    [self.searchDisplayController.searchResultsTableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
 }
 
 
@@ -323,10 +321,7 @@
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
     // Prevent UISearchDisplayController from resetting the content inset after resigning the firstResponder
-    
-    if (DARemoteSearchOK == searchStatus) {
-        [tableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
-    }
+    [tableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
 }
 
 
