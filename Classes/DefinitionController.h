@@ -18,6 +18,11 @@
 #import "InfoTableController.h"
 
 @interface DefinitionController : UIViewController <UIWebViewDelegate, DARemoteDelegate> {
+    
+    IBOutlet UIScrollView *definitionScrollView;
+    IBOutlet UIWebView *prevDefinitionView;
+    IBOutlet UIWebView *nextDefinitionView;
+    
     IBOutlet UIWebView *definitionView;
     NSString *requestedEntry;
     int requestedN;
@@ -28,8 +33,8 @@
 
 - (id)initWithRequest:(NSString *)entry atIndex:(int)n;
 - (void)searchDicionarioAberto:(NSString *)query;
-- (void)loadNoConnection:(NSString *)query;
-- (void)loadEntryFrom:(NSArray *)entries atIndex:(int)n;
+- (void)loadNoConnection:(UIWebView *)wv withString:(NSString *)query;
+- (void)loadEntry:(UIWebView *)wv withArray:(NSArray *)entries atIndex:(int)n;
 - (NSString *)htmlEntryFrom:(NSArray *)entries atIndex:(int)n;
 
 @end

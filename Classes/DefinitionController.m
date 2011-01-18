@@ -33,7 +33,7 @@
 */
 
 - (void)viewWillAppear:(BOOL)animated {
-    // TODO: Show this while view is constructed
+    // TODO: Show loading indicator
 }
 
 
@@ -107,6 +107,11 @@
 - (void)dealloc {
     [requestedEntry release];
     [definitionView release];
+    
+    [definitionScrollView release];
+    [nextDefinitionView release];
+    [prevDefinitionView release];
+    
     [super dealloc];
 }
 
@@ -226,21 +231,21 @@
     if (nil != cachedResponse) {
         // Use cached response
         NSArray *entries = [DAParser parseAPIResponse:cachedResponse list:NO];
-        [self loadEntryFrom:entries atIndex:self.requestedN];
+        [self loadEntry:definitionView withArray:entries atIndex:self.requestedN];
         
     } else {
         // Perform new asynchronous request
         DARemote *connection = [[DARemote alloc] initWithQuery:query ofType:DARemoteGetEntry delegate:self];
         if (nil == connection) {
             // Connection error
-            [self loadNoConnection:query];
+            [self loadNoConnection:definitionView withString:query];
         }
         [connection release];
     }    
 }
 
 
-- (void)loadNoConnection:(NSString *)query {
+- (void)loadNoConnection:(UIWebView *)wv withString:(NSString *)query {
     // TODO: Load error HTML file
     self.title = @"Erro de ligação";
     NSString *html = @"CONNECTION ERROR"; // TODO: Connection error page
@@ -249,7 +254,7 @@
 }
 
 
-- (void)loadEntryFrom:(NSArray *)entries atIndex:(int)n {
+- (void)loadEntry:(UIWebView *)wv withArray:(NSArray *)entries atIndex:(int)n {
     self.title = requestedEntry;
     NSString *html;
     if (entries && [entries count]) {
@@ -258,7 +263,7 @@
         html = @"NOT FOUND"; // TODO: Not found page
     }
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    [definitionView loadHTMLString:html baseURL:baseURL];
+    [wv loadHTMLString:html baseURL:baseURL];
 }
 
 
@@ -288,7 +293,7 @@
         [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
     }
     
-    [self loadEntryFrom:entries atIndex:self.requestedN];
+    [self loadEntry:definitionView withArray:entries atIndex:self.requestedN];
 
     [response release];
 }
