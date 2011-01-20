@@ -44,6 +44,9 @@
     swipeLeft.delegate = self;
     [container addGestureRecognizer:swipeLeft];
     
+    // Navigation bar shadow
+    navBarShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.6].CGColor, (id)[UIColor colorWithWhite:0 alpha:0].CGColor, nil];
+    
     definitionView1.delegate = self;
     definitionView2.delegate = self;
     

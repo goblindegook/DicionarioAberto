@@ -92,12 +92,25 @@
 							<bytes key="NSRGB">MCAwIDAAA</bytes>
 						</object>
 						<bool key="IBUIOpaque">NO</bool>
-						<float key="IBUIAlpha">0.60000002384185791</float>
+						<float key="IBUIAlpha">0.89999997615814209</float>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
 						<bool key="IBUIHidesForSinglePage">YES</bool>
 						<int key="IBUINumberOfPages">3</int>
+					</object>
+					<object class="IBUIView" id="1004809560">
+						<reference key="NSNextResponder" ref="191373211"/>
+						<int key="NSvFlags">290</int>
+						<string key="NSFrameSize">{320, 10}</string>
+						<reference key="NSSuperview" ref="191373211"/>
+						<object class="NSColor" key="IBUIBackgroundColor">
+							<int key="NSColorSpace">3</int>
+							<bytes key="NSWhite">MCAwAA</bytes>
+						</object>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 460}</string>
@@ -178,6 +191,14 @@
 					</object>
 					<int key="connectionID">21</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">navBarShadow</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="1004809560"/>
+					</object>
+					<int key="connectionID">23</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -195,6 +216,7 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="610170993"/>
 							<reference ref="94333871"/>
+							<reference ref="1004809560"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -234,6 +256,12 @@
 						<reference key="object" ref="952651842"/>
 						<reference key="parent" ref="610170993"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">22</int>
+						<reference key="object" ref="1004809560"/>
+						<reference key="parent" ref="191373211"/>
+						<string key="objectName">Navigation Bar Shadow</string>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -249,6 +277,9 @@
 					<string>13.IBPluginDependency</string>
 					<string>13.IBViewBoundsToFrameTransform</string>
 					<string>20.IBPluginDependency</string>
+					<string>22.CustomClassName</string>
+					<string>22.IBPluginDependency</string>
+					<string>22.IBViewBoundsToFrameTransform</string>
 					<string>5.IBPluginDependency</string>
 					<string>5.IBViewBoundsToFrameTransform</string>
 				</object>
@@ -265,6 +296,11 @@
 						<bytes key="NSTransformStruct">AQAAAABD1AAAA</bytes>
 					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>OBGradientView</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAwQAAAA</bytes>
+					</object>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<object class="NSAffineTransform"/>
 				</object>
@@ -285,7 +321,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">21</int>
+			<int key="maxID">23</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptionsV3.1+">
@@ -311,6 +347,7 @@
 							<string>container</string>
 							<string>definitionView1</string>
 							<string>definitionView2</string>
+							<string>navBarShadow</string>
 							<string>pager</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -318,6 +355,7 @@
 							<string>UIView</string>
 							<string>UIWebView</string>
 							<string>UIWebView</string>
+							<string>OBGradientView</string>
 							<string>UIPageControl</string>
 						</object>
 					</object>
@@ -328,6 +366,7 @@
 							<string>container</string>
 							<string>definitionView1</string>
 							<string>definitionView2</string>
+							<string>navBarShadow</string>
 							<string>pager</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -343,6 +382,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">definitionView2</string>
 								<string key="candidateClassName">UIWebView</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">navBarShadow</string>
+								<string key="candidateClassName">OBGradientView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">pager</string>

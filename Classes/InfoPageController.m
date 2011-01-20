@@ -39,6 +39,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
+
+    // Navigation bar shadow
+    navBarShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.6].CGColor, (id)[UIColor colorWithWhite:0 alpha:0].CGColor, nil];
+    
     [self webView:infoPageView loadURI:pageURI];
 }
 
@@ -109,9 +113,9 @@
 
 
 - (void)dealloc {
+    [navBarShadow release];
     [infoPageView release];
     [pageTitle release];
-    //[pageURI release];
     [super dealloc];
 }
 

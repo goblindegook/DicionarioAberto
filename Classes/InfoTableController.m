@@ -78,6 +78,10 @@
             nil],
            
            nil];
+    
+    
+    // Navigation bar shadow
+    navBarShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.6].CGColor, (id)[UIColor colorWithWhite:0 alpha:0].CGColor, nil];
 }
 
 
@@ -100,6 +104,7 @@
 
 
 - (void)dealloc {
+    [navBarShadow release];
     [infoTableView release];
     [infoTableContents release];
     [super dealloc];
