@@ -296,6 +296,10 @@ footer {
     font-size: .7em;
 }
 
+footer.pager {
+    padding-bottom: 22pt;
+}
+
 
 /* FOOTNOTE OVERLAY */
 

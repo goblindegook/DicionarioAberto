@@ -3,37 +3,24 @@
 //  DicionarioAberto
 //
 //  Created by Luís Rodrigues on 21/12/2010.
-//  Copyright 2010 log - Open Source Consulting. All rights reserved.
 //
 
 #import "DefinitionController.h"
 
+
 @implementation DefinitionController
-
-@synthesize requestedEntry;
-@synthesize requestedN;
-
 
 - (id)initWithRequest:(NSString *)entry atIndex:(int)n {
     if (self == [super init]) {
-        requestedEntry = [entry copy];
-        requestedN = n;
+        requestResults = nil;
+        requestEntry = [entry copy];
+        requestN = n;
     }
     return self;
 }
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
 
 - (void)viewWillAppear:(BOOL)animated {
-    // TODO: Show loading indicator
 }
 
 
@@ -41,46 +28,28 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // Navigation bar
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(showInfoTable) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
     
-    definitionView.delegate = self;
+    // Swipe gestures
+    swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRightAction)];
+    swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
+    swipeRight.delegate = self;
+    [container addGestureRecognizer:swipeRight];
     
-    [self searchDicionarioAberto:requestedEntry];
-}
-
-
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-}
-
-- (void)webViewDidFinishLoad:(UIWebView *)webView {
-}
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)urlRequest navigationType:(UIWebViewNavigationType)navigationType {
+    swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeLeftAction)];
+    swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
+    swipeLeft.delegate = self;
+    [container addGestureRecognizer:swipeLeft];
     
-    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        NSURL *url = [urlRequest URL];
-        
-        if ([[url scheme] isEqualToString:@"aberto"]) {
-            // Internal links
-            
-            if ([[url host] isEqualToString:@"define"]) {
-                // Definition links (aberto://define:*/*)
-                self.requestedEntry = [url lastPathComponent];
-                self.requestedN     = [[url port] integerValue];
-                NSLog(@"Requested %@:%d", self.requestedEntry, self.requestedN);
-                [self searchDicionarioAberto:self.requestedEntry];
-            }
-            
-            return NO;
-            
-        } else {
-            [[UIApplication sharedApplication] openURL:url];
-            return NO;
-        }
-    }
-    return YES;
+    definitionView1.delegate = self;
+    definitionView2.delegate = self;
+    
+    transitioning = NO;
+    
+    [self searchDicionarioAberto:requestEntry];
 }
 
 
@@ -93,7 +62,6 @@
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
     // Release any cached data, images, etc that aren't in use.
 }
 
@@ -105,13 +73,14 @@
 
 
 - (void)dealloc {
-    [requestedEntry release];
-    [definitionView release];
-    
-    [definitionScrollView release];
-    [nextDefinitionView release];
-    [prevDefinitionView release];
-    
+    [swipeLeft release];
+    [swipeRight release];
+    [pager release];
+    [definitionView1 release];
+    [definitionView2 release];
+    [container release];
+    [requestEntry release];
+    [requestResults release];
     [super dealloc];
 }
 
@@ -126,29 +95,6 @@
     // Header
     NSString *headerPath = [[NSBundle mainBundle] pathForResource:@"_def_header" ofType:@"html" inDirectory:@"HTML"];
     [content appendString:[NSString stringWithContentsOfFile:headerPath encoding:NSUTF8StringEncoding error:nil]];
-    
-    NSMutableString *homonyms = [NSMutableString stringWithString:@""];
-    
-    // List homonyms
-    if (n && entries.count > 1) {
-        [homonyms appendString:@"<aside class=\"homonyms\"><h2>Homónimos</h2><div class=\"entries\"><ol>"];
-        for (Entry *entry in entries) {
-            
-            if (entry.n == n) {
-                [homonyms appendString:@"<li class=\"term self\">"];
-            } else {
-                [homonyms appendString:@"<li class=\"term\">"];                
-            }
-            
-            [homonyms appendFormat:@"<a href=\"aberto://define:%d/%@\" class=\"entry\">%@</a>",
-             entry.n,
-             [[NSRegularExpression regularExpressionWithPattern:@"^([^:]+):\\d+" options:0 error:nil] stringByReplacingMatchesInString:entry.entryId options:0 range:NSMakeRange(0, [entry.entryId length]) withTemplate:@"$1"],
-             entry.entryForm.orth];
-            
-            [homonyms appendString:@"</li>"];
-        }
-        [homonyms appendString:@"</ol></div></aside>"];
-    }
     
     // Loop over definition entries
     for (Entry *entry in entries) {
@@ -170,8 +116,6 @@
             [content appendFormat:@"<span class=\"phon\">, (%@)</span>", entry.entryForm.phon];
         }
         [content appendString:@"</h1>"];
-        
-        [content appendString:homonyms];
         
         [content appendString:@"<section class=\"senses\">"];
         [content appendString:@"<section class=\"sense\">"];
@@ -217,9 +161,14 @@
     
     // Footer
     NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"_def_footer" ofType:@"html" inDirectory:@"HTML"];
-    NSString *footer = [NSString stringWithContentsOfFile:footerPath encoding:NSUTF8StringEncoding error:nil];
-    [content appendString:[[NSRegularExpression regularExpressionWithPattern:@"%ENTRY%" options:0 error:nil] stringByReplacingMatchesInString:footer options:0 range:NSMakeRange(0, [footer length]) withTemplate:entryOrth]];
+    NSMutableString *footer = [NSMutableString stringWithContentsOfFile:footerPath encoding:NSUTF8StringEncoding error:nil];
     
+    footer = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"%ENTRY%" options:0 error:nil] stringByReplacingMatchesInString:footer options:0 range:NSMakeRange(0, [footer length]) withTemplate:entryOrth];
+
+    footer = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"%FOOTER_CLASS%" options:0 error:nil] stringByReplacingMatchesInString:footer options:0 range:NSMakeRange(0, [footer length]) withTemplate:(n && [entries count] > 1) ? @"pager" : @""];
+    
+    [content appendString:footer];
+              
     return content;
 }
 
@@ -228,20 +177,22 @@
     // Obtain definition from DicionarioAberto API    
     NSString *cachedResponse = [DARemote fetchCachedResultForQuery:query ofType:DARemoteGetEntry error:nil];
     
+    requestResults = nil;
+    
     if (nil != cachedResponse) {
         // Use cached response
-        NSArray *entries = [DAParser parseAPIResponse:cachedResponse list:NO];
-        [self loadEntry:definitionView withArray:entries atIndex:self.requestedN];
+        requestResults = [[DAParser parseAPIResponse:cachedResponse list:NO] copy];
+        [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
         
     } else {
         // Perform new asynchronous request
         DARemote *connection = [[DARemote alloc] initWithQuery:query ofType:DARemoteGetEntry delegate:self];
         if (nil == connection) {
             // Connection error
-            [self loadNoConnection:definitionView withString:query];
+            [self loadNoConnection:definitionView1 withString:query];
         }
         [connection release];
-    }    
+    }
 }
 
 
@@ -250,24 +201,69 @@
     self.title = @"Erro de ligação";
     NSString *html = @"CONNECTION ERROR"; // TODO: Connection error page
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    [definitionView loadHTMLString:html baseURL:baseURL];
+    [definitionView1 loadHTMLString:html baseURL:baseURL];
 }
 
 
 - (void)loadEntry:(UIWebView *)wv withArray:(NSArray *)entries atIndex:(int)n {
-    self.title = requestedEntry;
+    self.title = requestEntry;
     NSString *html;
     if (entries && [entries count]) {
-        html = [self htmlEntryFrom:entries atIndex:requestedN];
+        html = [self htmlEntryFrom:entries atIndex:n];
     } else {
         html = @"NOT FOUND"; // TODO: Not found page
     }
+
+    pager.numberOfPages = [entries count];
+    pager.currentPage = (n) ? n - 1 : 1;
+    
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     [wv loadHTMLString:html baseURL:baseURL];
 }
 
 
-- (void) showInfoTable {
+- (void)performTransitionTo:(int)n {
+
+    if (n == requestN) {
+        return;
+    }
+    
+    CATransition *transition    = [CATransition animation];
+    transition.duration         = 0.5;
+    transition.timingFunction   = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type             = (n < requestN) ? kCATransitionMoveIn   : kCATransitionReveal;
+    transition.subtype          = (n < requestN) ? kCATransitionFromLeft : kCATransitionFromRight;
+    transition.delegate         = self;
+    
+    [container.layer addAnimation:transition forKey:nil];
+    
+    requestN = n;
+    transitioning = YES;
+    
+    [self loadEntry:definitionView2 withArray:requestResults atIndex:requestN];
+    
+    definitionView1.hidden = YES;
+    definitionView2.hidden = NO;
+    
+    UIWebView *tmp = definitionView2;
+    definitionView2 = definitionView1;
+    definitionView1 = tmp;
+}
+
+
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag {
+    transitioning = NO;
+}
+
+
+- (IBAction)changePage:(id)sender {
+    if (!transitioning) {
+        [self performTransitionTo:(pager.currentPage + 1)];
+    }
+}
+
+
+- (void)showInfoTable {
     DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     InfoTableController *infoTable = [[InfoTableController alloc] init];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleBordered target:nil action:nil];
@@ -276,25 +272,88 @@
     [self.navigationItem.backBarButtonItem release];
 }
 
+#pragma mark -
+#pragma mark UIWebViewDelegate Methods
 
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)urlRequest navigationType:(UIWebViewNavigationType)navigationType {
+    
+    if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        NSURL *url = [urlRequest URL];
+        
+        if ([[url scheme] isEqualToString:@"aberto"]) {
+            // Internal links
+            
+            if ([[url host] isEqualToString:@"define"]) {
+                // Definition links (aberto://define:*/*)
+                requestEntry = [[url lastPathComponent] copy];
+                requestN     = [[url port] integerValue];
+                NSLog(@"Requested %@:%d", requestEntry, requestN);
+                [self searchDicionarioAberto:requestEntry];
+            }
+            return NO;
+            
+        } else {
+            [[UIApplication sharedApplication] openURL:url];
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+#pragma mark -
+#pragma mark UIGestureRecognizerDelegate Methods
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+- (void)swipeRightAction {
+    if (!transitioning && pager.currentPage > 0) {
+        pager.currentPage = pager.currentPage - 1;
+        [self performTransitionTo:(pager.currentPage + 1)];
+    }
+}
+
+
+- (void)swipeLeftAction {
+    if (!transitioning && pager.currentPage < pager.numberOfPages) {
+        pager.currentPage = pager.currentPage + 1;
+        [self performTransitionTo:(pager.currentPage + 1)];
+    }
+}
+
+
+#pragma mark -
 #pragma mark DARemoteDelegate Methods
 
 
 - (void)connectionDidFail:(DARemote *)connection {
-    // Error
+    // TODO: Load error HTML file
+    self.title = @"Serviço indisponível";
+    NSString *html = @"SERVICE UNAVAILABLE"; // TODO: Connection error page
+    NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+    [definitionView1 loadHTMLString:html baseURL:baseURL];
 }
 
 
 - (void)connectionDidFinish:(DARemote *)connection {
     NSString *response = [[NSString alloc] initWithData:connection.receivedData encoding:NSUTF8StringEncoding];
 
-    NSArray *entries = [DAParser parseAPIResponse:response list:NO];
-    if ([entries count]) {
+    requestResults = [[DAParser parseAPIResponse:response list:NO] copy];
+    
+    if (requestResults && [requestResults count]) {
         [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
     }
     
-    [self loadEntry:definitionView withArray:entries atIndex:self.requestedN];
-
+    [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
+    
     [response release];
 }
 

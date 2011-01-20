@@ -17,24 +17,30 @@
 
 #import "InfoTableController.h"
 
-@interface DefinitionController : UIViewController <UIWebViewDelegate, DARemoteDelegate> {
+@interface DefinitionController : UIViewController <UIWebViewDelegate, UIGestureRecognizerDelegate, DARemoteDelegate> {
+    IBOutlet UIView *container;
+    IBOutlet UIWebView *definitionView1;
+    IBOutlet UIWebView *definitionView2;
+    IBOutlet UIPageControl *pager;
     
-    IBOutlet UIScrollView *definitionScrollView;
-    IBOutlet UIWebView *prevDefinitionView;
-    IBOutlet UIWebView *nextDefinitionView;
-    
-    IBOutlet UIWebView *definitionView;
-    NSString *requestedEntry;
-    int requestedN;
-}
+    UISwipeGestureRecognizer *swipeLeft;
+    UISwipeGestureRecognizer *swipeRight;
 
-@property (nonatomic, copy) NSString *requestedEntry;
-@property (readwrite, assign) int requestedN;
+    NSMutableArray *requestResults;
+    NSMutableString *requestEntry;
+    int requestN;
+    BOOL transitioning;
+}
 
 - (id)initWithRequest:(NSString *)entry atIndex:(int)n;
 - (void)searchDicionarioAberto:(NSString *)query;
 - (void)loadNoConnection:(UIWebView *)wv withString:(NSString *)query;
 - (void)loadEntry:(UIWebView *)wv withArray:(NSArray *)entries atIndex:(int)n;
 - (NSString *)htmlEntryFrom:(NSArray *)entries atIndex:(int)n;
+
+- (IBAction)changePage:(id)sender;
+
+- (void)swipeLeftAction;
+- (void)swipeRightAction;
 
 @end
