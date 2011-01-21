@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>InfoTableContents</key>
+	<array>
+		<dict>
+			<key>Section</key>
+			<string>Dicionário Aberto</string>
+			<key>Rows</key>
+			<array>
+				<dict>
+					<key>Title</key>
+					<string>Sobre o Dicionário</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/about.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>Informação legal</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/legal.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>Ficha técnica</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/credits.html</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Section</key>
+			<string>Novo Diccionário de 1913</string>
+			<key>Rows</key>
+			<array>
+				<dict>
+					<key>Title</key>
+					<string>I. Razão da obra</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/intro1.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>II. Materiaes da obra</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/intro2.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>III. Processo da obra</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/intro3.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>IV. A orthografia</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/intro4.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>V. A pronúncia</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/intro5.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>VI. A accentuação gráphica</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/intro6.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>VII. A etymologia</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/intro7.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>VIII. A grammática</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/intro8.html</string>
+				</dict>
+				<dict>
+					<key>Title</key>
+					<string>Sinaes e abreviaturas</string>
+					<key>Type</key>
+					<string>Page</string>
+					<key>URI</key>
+					<string>aberto://static/abbrev.html</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

@@ -9,9 +9,6 @@
 
 @implementation InfoTableController
 
-@synthesize infoTableView;
-@synthesize infoTableContents;
-
 #pragma mark Instance Methods
 
 /*
@@ -38,47 +35,7 @@
     
     self.title = @"Dicionário Aberto";
     
-    self.infoTableContents
-        = [NSArray arrayWithObjects:
-           
-           [NSDictionary dictionaryWithObjectsAndKeys:
-            @"Dicionário Aberto", @"section",
-            [NSArray arrayWithObjects:
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"Sobre o Dicionário",            @"title", @"page", @"type", @"aberto://static/about.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"Informação legal",              @"title", @"page", @"type", @"aberto://static/legal.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"Ficha técnica",                 @"title", @"page", @"type", @"aberto://static/credits.html", @"uri", nil],
-             nil], @"rows",
-            nil],
-           
-           [NSDictionary dictionaryWithObjectsAndKeys:
-            @"Novo Diccionário de 1913", @"section",
-            [NSArray arrayWithObjects:
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"I. Razão da obra",              @"title", @"page", @"type", @"aberto://static/intro1.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"II. Materiaes da obra",         @"title", @"page", @"type", @"aberto://static/intro2.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"III. Processo da obra",         @"title", @"page", @"type", @"aberto://static/intro3.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"IV. A orthografia",             @"title", @"page", @"type", @"aberto://static/intro4.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"V. A pronúncia",                @"title", @"page", @"type", @"aberto://static/intro5.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"VI. A accentuação gráphica",    @"title", @"page", @"type", @"aberto://static/intro6.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"VII. A etymologia",             @"title", @"page", @"type", @"aberto://static/intro7.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"VIII. A grammática",            @"title", @"page", @"type", @"aberto://static/intro8.html", @"uri", nil],
-             [NSDictionary dictionaryWithObjectsAndKeys:
-              @"Sinaes e abreviaturas",         @"title", @"page", @"type", @"aberto://static/abbrev.html", @"uri", nil],
-             nil], @"rows",
-            nil],
-           
-           nil];
-    
+    infoTableContents = [(NSArray *)[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"InfoTableContents" ofType:@"plist"]] objectForKey:@"InfoTableContents"] retain];
     
     // Navigation bar shadow
     navBarShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.6].CGColor, (id)[UIColor colorWithWhite:0 alpha:0].CGColor, nil];
@@ -123,10 +80,10 @@
         cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
     }
     
-    NSDictionary *sectionDictionary = [self.infoTableContents objectAtIndex:indexPath.section];
-    NSDictionary *rowDictionary = [[sectionDictionary objectForKey:@"rows"] objectAtIndex:indexPath.row];
+    NSDictionary *sectionDictionary = [infoTableContents objectAtIndex:indexPath.section];
+    NSDictionary *rowDictionary = [[sectionDictionary objectForKey:@"Rows"] objectAtIndex:indexPath.row];
     
-    cell.textLabel.text = [rowDictionary objectForKey:@"title"];
+    cell.textLabel.text = [rowDictionary objectForKey:@"Title"];
     //cell.detailTextLabel.text = [rowDictionary objectForKey:@"uri"];
     
     return cell;
@@ -134,19 +91,19 @@
 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tv {
-    return [self.infoTableContents count];
+    return [infoTableContents count];
 }
 
 
 - (NSInteger)tableView:(UITableView *)tv numberOfRowsInSection:(NSInteger)section {
-    NSDictionary *sectionDictionary = [self.infoTableContents objectAtIndex:section];
-    return [[sectionDictionary objectForKey:@"rows"] count];
+    NSDictionary *sectionDictionary = [infoTableContents objectAtIndex:section];
+    return [[sectionDictionary objectForKey:@"Rows"] count];
 }
 
 
 - (NSString *)tableView:(UITableView *)tv titleForHeaderInSection:(NSInteger)section {
-    NSDictionary *sectionDictionary = [self.infoTableContents objectAtIndex:section];
-    return [sectionDictionary objectForKey:@"section"];
+    NSDictionary *sectionDictionary = [infoTableContents objectAtIndex:section];
+    return [sectionDictionary objectForKey:@"Section"];
 }
 
 
@@ -160,12 +117,12 @@
 
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *sectionDictionary = [self.infoTableContents objectAtIndex:indexPath.section];
-    NSDictionary *rowDictionary = [[sectionDictionary objectForKey:@"rows"] objectAtIndex:indexPath.row];
+    NSDictionary *sectionDictionary = [infoTableContents objectAtIndex:indexPath.section];
+    NSDictionary *rowDictionary = [[sectionDictionary objectForKey:@"Rows"] objectAtIndex:indexPath.row];
     
     NSLog(@"Selected (%d, %d)", indexPath.section, indexPath.row);
     
-    InfoPageController *infoPage = [[InfoPageController alloc] initWithURI:[NSURL URLWithString:[rowDictionary objectForKey:@"uri"]] title:[rowDictionary objectForKey:@"title"]];
+    InfoPageController *infoPage = [[InfoPageController alloc] initWithURI:[NSURL URLWithString:[rowDictionary objectForKey:@"URI"]] title:[rowDictionary objectForKey:@"Title"]];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Índice" style:UIBarButtonItemStyleBordered target:nil action:nil];
     

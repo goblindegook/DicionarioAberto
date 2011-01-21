@@ -16,6 +16,8 @@
 @synthesize errorImage;
 @synthesize errorMessage;
 
+#pragma mark Instance Methods
+
 - (void)setContentAtRow:(NSUInteger)index using:(NSArray*)array {
     
     NSString *cellEntry = [array objectAtIndex:index];

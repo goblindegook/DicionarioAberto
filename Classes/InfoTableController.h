@@ -16,7 +16,7 @@
     NSArray *infoTableContents;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *infoTableView;
-@property (nonatomic, retain) NSArray *infoTableContents;
+//@property (nonatomic, retain) IBOutlet UITableView *infoTableView;
+//@property (nonatomic, retain) NSArray *infoTableContents;
 
 @end

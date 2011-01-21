@@ -10,6 +10,7 @@
 
 @implementation InfoPageController
 
+#pragma mark Instance Methods
 
 - (id)initWithURI:(NSURL *)theURI title:(NSString *)theTitle {
     if (self == [super init]) {
@@ -47,13 +48,45 @@
 }
 
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    // Return YES for supported orientations
+    return YES;
+}
+
+
+- (void)didReceiveMemoryWarning {
+    // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+    // Release any cached data, images, etc that aren't in use.
+}
+
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
+}
+
+
+- (void)dealloc {
+    [infoPageView release];
+    [navBarShadow release];
+    [super dealloc];
+}
+
+
+#pragma mark -
+#pragma mark UIWebViewDelegate Methods
+
+
 - (void)webViewDidStartLoad:(UIWebView *)webView {
     
 }
 
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    
+    webView.hidden = NO;
 }
 
 
@@ -91,36 +124,9 @@
 }
 
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return YES;
-}
-
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
-
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-
-- (void)dealloc {
-    [navBarShadow release];
-    [infoPageView release];
-    [pageTitle release];
-    [super dealloc];
-}
-
-
 - (void)webView:(UIWebView *)wv loadURI:(NSURL *)url {
+    wv.hidden = YES;
+    
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     NSString *path = [[NSBundle mainBundle] pathForResource:[[url pathComponents] lastObject] ofType:nil inDirectory:@"HTML"];
     NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];

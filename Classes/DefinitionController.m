@@ -7,8 +7,9 @@
 
 #import "DefinitionController.h"
 
-
 @implementation DefinitionController
+
+#pragma mark Instance Methods
 
 - (id)initWithRequest:(NSString *)entry atIndex:(int)n {
     if (self == [super init]) {

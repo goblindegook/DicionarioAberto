@@ -3,7 +3,7 @@ body {
     background-color: rgba(248, 245, 238, 1);
     background-image: url('Images/Background.png');
     background-repeat: repeat-x repeat-y;
-    padding: .5em;
+    padding: 8pt;
     text-rendering: optimizeLegibility;
     -webkit-text-size-adjust: auto;
 }
@@ -19,7 +19,7 @@ article.definition {
 }
 
 article.definition .senses {
-    margin-bottom: 1.5em;
+    margin-bottom: 20pt;
 }
 
 article.definition .senses a {
@@ -27,22 +27,22 @@ article.definition .senses a {
 }
 
 article.definition .term {
-    font-size: 1.3em;
+    font-size: 16pt;
 }
 
 article.definition .term .index {
     color: rgba(180, 0, 0, 1);
-    font-size: .6em;
+    font-size: 8pt;
     vertical-align: super;
     font-weight: normal;
     font-family: Helvetica;
 }
 
 a.footnote {
-    font-size: .6em;
+    font-size: 6pt;
     vertical-align: super;
     font-family: Helvetica;
-    padding-bottom: .4em;
+    padding-bottom: 4pt;
 }
 
 article.definition .term .phon {
@@ -50,25 +50,28 @@ article.definition .term .phon {
 }
 
 article.definition .sense .definitions {
-    margin-bottom: 1em;
-    padding-left: 1.75em;
+    margin-bottom: 16pt;
+    padding-left: 18pt;
+    padding-right: 8pt;
 }
 
 article.definition .sense .lex {
+    font-size: 12pt;
+    line-height: 1.6em;
     font-style: italic;
-    margin: .5em 0 .5em -1.75em;
+    margin: 8pt 0 8pt -16pt;
 }
 
 article.definition .sense .definitions li,
 article.definition .homonyms .entries li {
     font-family: Helvetica;
-    font-size: .7em;
+    font-size: 8pt;
     color: rgba(180, 0, 0, 1);
 }
 
 article.definition .sense .definitions li span.singledef,
 article.definition .homonyms .entries ol li .entry {
-    font-size: 1.4em;
+    font-size: 12pt;
     font-family: Palatino;
     line-height: 1.6em;
 }
@@ -87,43 +90,14 @@ article.definition .singledef .usage {
 }
 
 article.definition .etym {
-    margin-bottom: 1.3em;
+    margin-bottom: 24pt;
 }
 
 article.definition aside h2 {
-    font-size: 1em;
-    margin-top: .5em;
+    font-size: 12pt;
+    margin-top: 8pt;
     margin-bottom: 0;
     font-weight: bold;
-}
-
-article.definition aside.homonyms h2 {
-    display: none;
-}
-
-article.definition aside.homonyms {
-    background-color: rgba(0, 0, 0, 0.1);
-    border-top: 1px solid rgba(255, 255, 255, 0.3);
-    border-left: 1px solid rgba(255, 255, 255, 0.3);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-    border-right: 1px solid rgba(0, 0, 0, 0.3);
-    padding: .5em 1em;
-    -webkit-border-radius: 11px;
-    -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.075), inset 0 1px rgba(255, 255, 255, 0.15), inset 0 10px rgba(255, 255, 255, 0.1), inset 0 10px 20px rgba(255, 255, 255, 0.15), inset 0 -10px 30px rgba(0, 0, 0, 0.1);
-}
-
-article.definition aside.homonyms .entries {
-    -webkit-column-count: 2;
-	-webkit-column-gap: .5em;
-    column-count: 2;
-    column-gap: 1em;
-    padding: 0;
-    margin: 0;
-}
-
-article.definition aside.homonyms .entries ol {
-    padding-left: 1em;
-    margin: 0;
 }
 
 article.definition aside .entries ol {
@@ -131,40 +105,41 @@ article.definition aside .entries ol {
 }
 
 article.definition aside .term {
-    font-size: 1em;
+    font-size: 12pt;
 }
 
 article.definition aside .term .index {
-    font-size: .8em;
+    font-size: 8pt;
 }
 
 /* INFO */
 
 article.info {
     font-family: Palatino;
-    padding: .5em;
+    padding: 8pt;
 }
 
 article.info h1 {
     padding: 0;
     letter-spacing: 0.05em;
-    font-size: 1.3em;
-    margin: 0 0 1em;
+    font-size: 16pt;
+    margin: 0 0 16pt;
 }
 
 article.info h2 {
-    font-size: 1.25em;
+    font-size: 12pt;
     font-style: italic;
-    margin: 0 0 1em;
+    margin: 0 0 16pt;
 }
 
 article.info ul {
-    padding-left: 1.5em;
+    padding-left: 16pt;
 }
 
 article.info p,
 article.info li {
-    font-size: .9em;
+    font-family: Palatino;
+    font-size: 11pt;
     line-height: 1.6em;
     padding: 0;
     margin: 0;
@@ -172,14 +147,14 @@ article.info li {
 }
 
 article.info p {
-    text-indent: 1.5em;
+    text-indent: 16pt;
 }
 
 article.info p.separator {
     text-align: center;
     text-indent: 0;
-    margin: 1.1em 0 .9em;
-    letter-spacing: 1em;
+    margin: 16pt 0 8pt;
+    letter-spacing: 8pt;
 }
 
 article.info h1 + p,
@@ -195,7 +170,8 @@ article.info table.abbrev {
 }
 
 article.info table.abbrev td {
-    font-size: .9em;
+    font-family: Palatino;
+    font-size: 11pt;
     line-height: 1.6em;
     vertical-align: top;
 }
@@ -208,15 +184,15 @@ article.info footer {
 
 article.credits {
     font-family: Helvetica;
-    padding: 1em .5em;
+    padding: 16pt 8pt 0;
 }
 
 article.credits h1 {
     font-family: Palatino;
     font-variant: small-caps;
     text-transform: lowercase;
-    font-size: 1.6em;
-    margin: 0 0 1.5em;
+    font-size: 18pt;
+    margin: 4pt 0 24pt;
     padding: 0;
     text-align: center;
     letter-spacing: 0.05em;
@@ -225,36 +201,36 @@ article.credits h1 {
 }
 
 article.credits h2 {
-    font-size: .82em;
+    font-size: 10pt;
     text-align: center;
     padding: 0;
-    margin: 0 0 .3em;
-    line-height: 1.4em;
+    margin: 0 0 2pt;
+    line-height: 1.6em;
     text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 0;
 }
 
 article.credits p {
-    font-size: .8em;
+    font-size: 10pt;
     text-align: center;
     padding: 0;
-    margin: 0 0 3em;
+    margin: 0 0 24pt;
     line-height: 1.6em;
     color: rgba(0, 0, 0, 0.75);
     text-shadow: rgba(255, 255, 255, 0.8) 1px 1px 0;
 }
 
 article.credits p.components {
-    font-size: .7em;
+    font-size: 8pt;
 }
 
 article.credits .credit-log {
-    font-size: .7em;
+    font-size: 8pt;
     font-weight: bold;
 }
 
 article.credits p.license {
-    margin: 0 0 1em;
-    font-size: .7em;
+    margin: 0 0 8pt;
+    font-size: 8pt;
     text-align: justify;
 }
 
@@ -267,7 +243,7 @@ article.credits .onleft {
 article.credits .onright {
     display: block;
     float: right;
-    margin-right: 16px;
+    margin-right: 8pt;
 }
 
 article.credits p.logo-da {
@@ -291,75 +267,30 @@ article.credits p.logo-da {
 footer {
     font-family: Helvetica;
     border-top: 1px solid #ccb;
-    margin-top: 1.8em;
-    padding-top: .5em;
-    font-size: .7em;
+    margin-top: 16pt;
+    padding-top: 8pt;
+    font-size: 8pt;
 }
 
 footer.pager {
     padding-bottom: 22pt;
 }
 
-
-/* FOOTNOTE OVERLAY */
-
-/*
-.overlay:target {
-    display: -webkit-box;
-}
-
-.overlay
-{
-    display: display;
-	background: rgba(0, 0, 0, 0.8);
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    
-	-webkit-box-orient: horizontal;
-	-webkit-box-align: stretch;
-	-webkit-box-pack: center;
-    -webkit-user-select: none;
-}
-*/
-
 .overlay > .wrap
 {
     display: block;
-    margin: 1em 0;
-    padding: 1em;
+    margin: 16pt 0;
+    padding: 8pt 16pt;
 	color: rgba(0, 0, 0, 1);
-    
     background-color: rgba(0, 0, 0, 0.1);
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     border-left: 1px solid rgba(255, 255, 255, 0.3);
     border-bottom: 1px solid rgba(0, 0, 0, 0.3);
     border-right: 1px solid rgba(0, 0, 0, 0.3);
-    padding: .5em 1em;
     -webkit-border-radius: 11px;
     -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.075), inset 0 1px rgba(255, 255, 255, 0.15), inset 0 10px rgba(255, 255, 255, 0.1), inset 0 10px 20px rgba(255, 255, 255, 0.15), inset 0 -10px 30px rgba(0, 0, 0, 0.1);
-    /*
-	position: relative;
-    overflow-y: auto;
-	-webkit-box-orient: vertical;
-	-webkit-box-align: stretch;
-	-webkit-box-pack: center;
-    */
 }
-
-/*
-.overlay > .wrap > .inner
-{
-    position: relative;
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	-webkit-box-align: stretch;
-	-webkit-box-pack: center;
-}
-*/
 
 article.info .overlay + p.separator {
-    margin-top: 1.8em;
+    margin-top: 24pt;
 }

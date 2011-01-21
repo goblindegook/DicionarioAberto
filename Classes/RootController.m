@@ -51,8 +51,6 @@
     
     NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-3600 * 24 * 2)]; // 2d
     
-    // NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-300)]; // 5m
-    
     [DARemote deleteCacheOlderThan:cutoff error:nil];
     
     [cutoff release];
