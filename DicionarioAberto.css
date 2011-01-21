@@ -159,10 +159,12 @@ article.info p.separator {
 
 article.info h1 + p,
 article.info h2 + p,
+article.info ul + p,
+article.info ol + p,
 article.info p.separator + p,
 article.info p:first-child {
     text-indent: 0;
-} 
+}
 
 article.info table.abbrev {
     margin-right: auto;
@@ -228,22 +230,28 @@ article.credits .credit-log {
     font-weight: bold;
 }
 
-article.credits p.license {
+article p.license {
     margin: 0 0 8pt;
     font-size: 8pt;
+    line-height: 1.6em;
+    padding: 0;
+    font-family: Helvetica;
     text-align: justify;
+    text-indent: 0;
 }
 
 article.credits .onleft {
     display: block;
     float: left;
-    margin-left: 16px;
+    width: 48%;
+    margin: 0 auto;
 }
 
 article.credits .onright {
     display: block;
     float: right;
-    margin-right: 8pt;
+    width: 48%;
+    margin: 0 auto;
 }
 
 article.credits p.logo-da {
