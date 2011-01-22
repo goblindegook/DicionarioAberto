@@ -41,6 +41,9 @@
     [super viewDidLoad];
     delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
 
+    // Activity indicator
+    activityIndicator.layer.cornerRadius = 8.0f;
+    
     // Navigation bar shadow
     navBarShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.6].CGColor, (id)[UIColor colorWithWhite:0 alpha:0].CGColor, nil];
     
@@ -87,6 +90,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     webView.hidden = NO;
+    activityIndicator.hidden = YES;
 }
 
 
@@ -100,6 +104,7 @@
             
             if ([[url host] isEqualToString:@"define"]) {
                 // Definition links (aberto://define:*/*)
+                // TODO?
                 
             } else if ([[url host] isEqualToString:@"static"]) {
                 // Static page links (aberto://static/*)
@@ -132,6 +137,7 @@
     NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 
     self.title = pageTitle;
+    activityIndicator.hidden = NO;
     
     [wv loadHTMLString:html baseURL:baseURL];
 }

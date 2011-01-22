@@ -34,6 +34,9 @@
     [infoButton addTarget:self action:@selector(showInfoTable) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
     
+    // Activity indicator
+    activityIndicator.layer.cornerRadius = 8.0f;
+    
     // Swipe gestures
     swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRightAction)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
@@ -80,6 +83,7 @@
     [swipeLeft release];
     [swipeRight release];
     [pager release];
+    [activityIndicator release];
     [definitionView1 release];
     [definitionView2 release];
     [container release];
@@ -194,7 +198,10 @@
         if (nil == connection) {
             // Connection error
             [self loadNoConnection:definitionView1 withString:query];
+        } else {
+            activityIndicator.hidden = NO;
         }
+
         [connection release];
     }
 }
@@ -203,6 +210,7 @@
 - (void)loadNoConnection:(UIWebView *)wv withString:(NSString *)query {
     // TODO: Load error HTML file
     self.title = @"Erro de ligação";
+    activityIndicator.hidden = YES;
     NSString *html = @"CONNECTION ERROR"; // TODO: Connection error page
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     [definitionView1 loadHTMLString:html baseURL:baseURL];
@@ -211,6 +219,8 @@
 
 - (void)loadEntry:(UIWebView *)wv withArray:(NSArray *)entries atIndex:(int)n {
     self.title = requestEntry;
+    activityIndicator.hidden = YES;
+    
     NSString *html;
     if (entries && [entries count]) {
         html = [self htmlEntryFrom:entries atIndex:n];
@@ -243,15 +253,10 @@
     
     requestN = n;
     transitioning = YES;
-    
-    [self loadEntry:definitionView2 withArray:requestResults atIndex:requestN];
-    
-    definitionView1.hidden = YES;
-    definitionView2.hidden = NO;
-    
-    UIWebView *tmp = definitionView2;
-    definitionView2 = definitionView1;
-    definitionView1 = tmp;
+
+    [self loadEntry:definitionView2 withArray:requestResults atIndex:n];
+
+    // Switch views only when definitionView2 finishes loading, see webViewDidFinishLoad
 }
 
 
@@ -283,6 +288,15 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    // Animate only when 
+    if (transitioning && webView == definitionView2) {
+        definitionView1.hidden = YES;
+        definitionView2.hidden = NO;
+        
+        UIWebView *tmp = definitionView2;
+        definitionView2 = definitionView1;
+        definitionView1 = tmp;
+    }
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)urlRequest navigationType:(UIWebViewNavigationType)navigationType {
@@ -339,11 +353,7 @@
 
 
 - (void)connectionDidFail:(DARemote *)connection {
-    // TODO: Load error HTML file
-    self.title = @"Serviço indisponível";
-    NSString *html = @"SERVICE UNAVAILABLE"; // TODO: Connection error page
-    NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    [definitionView1 loadHTMLString:html baseURL:baseURL];
+    [self loadNoConnection:definitionView1 withString:connection.query];
 }
 
 

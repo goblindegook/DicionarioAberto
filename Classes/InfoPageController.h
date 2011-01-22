@@ -12,7 +12,7 @@
     DADelegate *delegate;
     IBOutlet OBGradientView *navBarShadow;
     IBOutlet UIWebView *infoPageView;
-    
+    IBOutlet UIView *activityIndicator;
     NSString *pageTitle;
     NSURL *pageURI;
 }

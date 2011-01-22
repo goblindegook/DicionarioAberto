@@ -23,6 +23,7 @@
     IBOutlet UIWebView *definitionView1;
     IBOutlet UIWebView *definitionView2;
     IBOutlet UIPageControl *pager;
+    IBOutlet UIView *activityIndicator;
     IBOutlet OBGradientView *navBarShadow;
     
     UISwipeGestureRecognizer *swipeLeft;

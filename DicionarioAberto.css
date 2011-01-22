@@ -266,6 +266,15 @@ article.credits p.logo-da {
     margin: 12px 0;
 }
 
+article hr {
+    border: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 1px;
+    margin-top: 12pt;
+    margin-bottom: 12pt;
+    text-align: center;
+}
+
 /* FOOTER */
 
 .clear {
