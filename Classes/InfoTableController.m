@@ -35,7 +35,7 @@
     
     self.title = @"Dicionário Aberto";
     
-    infoTableContents = [(NSArray *)[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"InfoTableContents" ofType:@"plist"]] objectForKey:@"InfoTableContents"] retain];
+    infoTableContents = [(NSArray *)[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DAInfoTableContents" ofType:@"plist"]] objectForKey:@"InfoTableContents"] retain];
     
     // Navigation bar shadow
     navBarShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.6].CGColor, (id)[UIColor colorWithWhite:0 alpha:0].CGColor, nil];

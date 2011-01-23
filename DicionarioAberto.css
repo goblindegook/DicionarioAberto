@@ -28,6 +28,7 @@ article.definition .senses a {
 
 article.definition .term {
     font-size: 16pt;
+    text-transform: lowercase;
 }
 
 article.definition .term .index {
@@ -60,6 +61,7 @@ article.definition .sense .lex {
     line-height: 1.6em;
     font-style: italic;
     margin: 8pt 0 8pt -16pt;
+    text-transform: lowercase;
 }
 
 article.definition .sense .definitions li,

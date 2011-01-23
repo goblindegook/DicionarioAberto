@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Abrev.</key>
+	<string>Abreviatura</string>
+	<key>a. C.</key>
+	<string>Antes do Chrísto</string>
+	<key>Açor.</key>
+	<string>Açoreano</string>
+	<key>Adj.</key>
+	<string>Adjectivo</string>
+	<key>Adj. f.</key>
+	<string>Adjectivo feminino</string>
+	<key>Adv.</key>
+	<string>Adverbio</string>
+	<key>Afr.</key>
+	<string>Africano</string>
+	<key>Agr.</key>
+	<string>Agricultura</string>
+	<key>al.</key>
+	<string>Alemão</string>
+	<key>alat.</key>
+	<string>Alatinado</string>
+	<key>alt. al.</key>
+	<string>Alto alemão</string>
+	<key>alter.</key>
+	<string>Alteração</string>
+	<key>Anat.</key>
+	<string>Anatomia</string>
+	<key>Angl.</key>
+	<string>Anglicismo</string>
+	<key>angl. sax.</key>
+	<string>Anglo saxão</string>
+	<key>Ant.</key>
+	<string>Antigo</string>
+	<key>ant. alt. al.</key>
+	<string>Antigo alto alemão</string>
+	<key>Anthrop.</key>
+	<string>Anthropologia</string>
+	<key>apher.</key>
+	<string>Aphérese</string>
+	<key>ár.</key>
+	<string>Árabe</string>
+	<key>Arith.</key>
+	<string>Arithmética</string>
+	<key>art. def.</key>
+	<string>Artigo definido</string>
+	<key>Artilh.</key>
+	<string>Artilharia</string>
+	<key>as.</key>
+	<string>Asiático</string>
+	<key>Arm.</key>
+	<string>Armaria</string>
+	<key>Astrol.</key>
+	<string>Astrologia</string>
+	<key>aum.</key>
+	<string>Aumentativo</string>
+	<key>Bacter.</key>
+	<string>Bacteriologia</string>
+	<key>berb.</key>
+	<string>Berbere</string>
+	<key>Bibl. Nac.</key>
+	<string>Bibliotheca Nacional</string>
+	<key>Biol.</key>
+	<string>Biologia</string>
+	<key>b. lat.</key>
+	<string>Baixo latim</string>
+	<key>borg.</key>
+	<string>Borgonhês</string>
+	<key>Bot.</key>
+	<string>Botânica</string>
+	<key>Bras.</key>
+	<string>Brasileiro</string>
+	<key>bret.</key>
+	<string>Bretão</string>
+	<key>Burl.</key>
+	<string>Burlesco</string>
+	<key>Caboverd.</key>
+	<string>Caboverdeano</string>
+	<key>car.</key>
+	<string>Caraíba</string>
+	<key>Carp.</key>
+	<string>Carpintaria</string>
+	<key>carth.</key>
+	<string>Carthaginês</string>
+	<key>cast.</key>
+	<string>Castelhano</string>
+	<key>celt.</key>
+	<string>Céltico</string>
+	<key>Cf.</key>
+	<string>Confira</string>
+	<key>chancell.</key>
+	<string>Chancellaria</string>
+	<key>Chapel.</key>
+	<string>Chapelaria</string>
+	<key>chil.</key>
+	<string>Chileno</string>
+	<key>chin.</key>
+	<string>Chinês</string>
+	<key>Chul.</key>
+	<string>Chulo</string>
+	<key>Chron.</key>
+	<string>Chronologia</string>
+	<key>Cir.</key>
+	<string>Cirurgia</string>
+	<key>cit.</key>
+	<string>Citado</string>
+	<key>comp.</key>
+	<string>Comparativo</string>
+	<key>conc.</key>
+	<string>Concani</string>
+	<key>cong.</key>
+	<string>Conguês</string>
+	<key>conj.</key>
+	<string>Conjuncção</string>
+	<key>Constr.</key>
+	<string>Construcção</string>
+	<key>contr.</key>
+	<string>Contracção</string>
+	<key>corr.</key>
+	<string>Corruptela</string>
+	<key>Cp.</key>
+	<string>Compare</string>
+	<key>Cutel.</key>
+	<string>Cutelaria</string>
+	<key>Cyn.</key>
+	<string>Cynegética</string>
+	<key>def.</key>
+	<string>Defectivo</string>
+	<key>defin.</key>
+	<string>Definido</string>
+	<key>dem.</key>
+	<string>Deminutivo</string>
+	<key>demonstr.</key>
+	<string>Demonstrativo</string>
+	<key>der.</key>
+	<string>Derivado</string>
+	<key>des.</key>
+	<string>Desusado</string>
+	<key>deprec.</key>
+	<string>Depreciativo</string>
+	<key>diccion.</key>
+	<string>Diccionário</string>
+	<key>din.</key>
+	<string>Dinamarquês</string>
+	<key>doc.</key>
+	<string>Documento</string>
+	<key>eccles.</key>
+	<string>Ecclesiastico</string>
+	<key>Econ. polít.</key>
+	<string>Economia Política</string>
+	<key>ed.</key>
+	<string>Edição</string>
+	<key>egýp.</key>
+	<string>Egýpcio</string>
+	<key>Enol.</key>
+	<string>Enologia</string>
+	<key>Entom.</key>
+	<string>Entomologia</string>
+	<key>Equit.</key>
+	<string>Equitação</string>
+	<key>escand.</key>
+	<string>Escandinavo</string>
+	<key>escoc.</key>
+	<string>Escocês</string>
+	<key>Escol.</key>
+	<string>Escolar</string>
+	<key>Espir.</key>
+	<string>Espiritismo</string>
+	<key>etym.</key>
+	<string>Etymologia</string>
+	<key>ex.</key>
+	<string>Exemplo</string>
+	<key>ext.</key>
+	<string>Extensivo</string>
+	<key>Extrem.</key>
+	<string>Extremenho</string>
+	<key>euphon.</key>
+	<string>Euphonia</string>
+	<key>f.</key>
+	<string>Substantivo feminino</string>
+	<key>fol.</key>
+	<string>Fôlha</string>
+	<key>fam.</key>
+	<string>Familiar</string>
+	<key>fem.</key>
+	<string>Flexão feminina</string>
+	<key>fig.</key>
+	<string>Figurado</string>
+	<key>Fin.</key>
+	<string>Finanças</string>
+	<key>flam.</key>
+	<string>Flamengo</string>
+	<key>flex.</key>
+	<string>Flexão</string>
+	<key>fr.</key>
+	<string>Francês</string>
+	<key>freq.</key>
+	<string>Verbo frequentativo</string>
+	<key>Gal.</key>
+	<string>Gallicismo</string>
+	<key>Gall.</key>
+	<string>Gallego</string>
+	<key>gên.</key>
+	<string>Gênero</string>
+	<key>Geneal.</key>
+	<string>Genealogia</string>
+	<key>Geod.</key>
+	<string>Geodesia</string>
+	<key>Geogr.</key>
+	<string>Geographia</string>
+	<key>Geol.</key>
+	<string>Geologia</string>
+	<key>Geom.</key>
+	<string>Geometria</string>
+	<key>germ.</key>
+	<string>Germânico</string>
+	<key>Gír.</key>
+	<string>Gíria</string>
+	<key>Glot.</key>
+	<string>Glóttica</string>
+	<key>got.</key>
+	<string>Gótico</string>
+	<key>gr.</key>
+	<string>Grego</string>
+	<key>Gram.</key>
+	<string>Grammática</string>
+	<key>guar.</key>
+	<string>Guarani</string>
+	<key>hebr.</key>
+	<string>Hebreu</string>
+	<key>Heráld.</key>
+	<string>Heráldica</string>
+	<key>hind.</key>
+	<string>Hindustani</string>
+	<key>Hist. Nat.</key>
+	<string>História Natural</string>
+	<key>holl.</key>
+	<string>Hollandês</string>
+	<key>hung.</key>
+	<string>Húngaro</string>
+	<key>hybr.</key>
+	<string>Hýbrido</string>
+	<key>Hydrogr.</key>
+	<string>Hydrographia</string>
+	<key>hyp.</key>
+	<string>Hypothético</string>
+	<key>Icht.</key>
+	<string>Icthyologia</string>
+	<key>id.</key>
+	<string>Idem</string>
+	<key>imper.</key>
+	<string>Imperativo</string>
+	<key>impess.</key>
+	<string>Impessoal</string>
+	<key>impropr.</key>
+	<string>Em sentido impróprio</string>
+	<key>inch.</key>
+	<string>Inchoativo</string>
+	<key>ind.</key>
+	<string>Indiano</string>
+	<key>inf.</key>
+	<string>Infantil</string>
+	<key>infl.</key>
+	<string>Influência</string>
+	<key>ingl.</key>
+	<string>Inglês</string>
+	<key>interj.</key>
+	<string>Interjeição</string>
+	<key>interrog.</key>
+	<string>Interrogação</string>
+	<key>iron.</key>
+	<string>Ironia</string>
+	<key>it.</key>
+	<string>Italiano</string>
+	<key>Ital.</key>
+	<string>Italianismo</string>
+	<key>jap.</key>
+	<string>Japonês</string>
+	<key>jav.</key>
+	<string>Javanês</string>
+	<key>Jur.</key>
+	<string>Jurisprudência</string>
+	<key>kilogr.</key>
+	<string>Kilogramma</string>
+	<key>lat.</key>
+	<string>Latim</string>
+	<key>lat. barb.</key>
+	<string>Latim bárbaro</string>
+	<key>lat. bot.</key>
+	<string>Latim botânico</string>
+	<key>lisb.</key>
+	<string>Lisboêta</string>
+	<key>Lit.</key>
+	<string>Literatura</string>
+	<key>loc.</key>
+	<string>Locução</string>
+	<key>loc. adv.</key>
+	<string>Locução adverbial</string>
+	<key>loc. conj.</key>
+	<string>Locução conjunccional</string>
+	<key>loc. prep.</key>
+	<string>Locução prepositiva</string>
+	<key>loc. pron.</key>
+	<string>Locução pronomial</string>
+	<key>lund.</key>
+	<string>Lundês</string>
+	<key>m.</key>
+	<string>Substantivo masculino</string>
+	<key>Mad.</key>
+	<string>Ilha da Madeira</string>
+	<key>mal.</key>
+	<string>Malaio</string>
+	<key>malab.</key>
+	<string>Malabárico</string>
+	<key>Marcen.</key>
+	<string>Marcenaria</string>
+	<key>Marn.</key>
+	<string>Marnotos</string>
+	<key>Mathem.</key>
+	<string>Mathemática</string>
+	<key>Med.</key>
+	<string>Medicina</string>
+	<key>med. lat.</key>
+	<string>Médio latim</string>
+	<key>metáth.</key>
+	<string>Metáthese</string>
+	<key>mex.</key>
+	<string>Mexicano</string>
+	<key>Mil.</key>
+	<string>Militar</string>
+	<key>Miner.</key>
+	<string>Mineralogia</string>
+	<key>mod.</key>
+	<string>Moderno</string>
+	<key>ms.</key>
+	<string>Manuscrito</string>
+	<key>Mús.</key>
+	<string>Música</string>
+	<key>myth.</key>
+	<string>Mythológico</string>
+	<key>n.</key>
+	<string>Nome</string>
+	<key>N.</key>
+	<string>Norte</string>
+	<key>Náut.</key>
+	<string>Náutica</string>
+	<key>neerl.</key>
+	<string>Neerlandês</string>
+	<key>neol.</key>
+	<string>Neologismo</string>
+	<key>nord.</key>
+	<string>Nórdico</string>
+	<key>norm.</key>
+	<string>Normando</string>
+	<key>n. p.</key>
+	<string>Nome próprio</string>
+	<key>num.</key>
+	<string>Numeral</string>
+	<key>obsol.</key>
+	<string>Obsoleto</string>
+	<key>onom.</key>
+	<string>Onomatopeia</string>
+	<key>Ópt.</key>
+	<string>Óptica</string>
+	<key>or.</key>
+	<string>Origem</string>
+	<key>Ornit.</key>
+	<string>Ornithologia</string>
+	<key>orthogr.</key>
+	<string>Orthographia</string>
+	<key>p.</key>
+	<string>Página</string>
+	<key>part.</key>
+	<string>Particípio</string>
+	<key>part. irr.</key>
+	<string>Particípio irregular</string>
+	<key>Pathol.</key>
+	<string>Pathologia</string>
+	<key>pers.</key>
+	<string>Persa</string>
+	<key>peruv.</key>
+	<string>Peruviano</string>
+	<key>Pesc.</key>
+	<string>Pescaria</string>
+	<key>pess.</key>
+	<string>Pessôa (verbal)</string>
+	<key>Pharm.</key>
+	<string>Pharmacia</string>
+	<key>Philol.</key>
+	<string>Philologia</string>
+	<key>Phot.</key>
+	<string>Photographia</string>
+	<key>Phýs.</key>
+	<string>Phýsica</string>
+	<key>Physiol.</key>
+	<string>Physiologia</string>
+	<key>Pint.</key>
+	<string>Pintura</string>
+	<key>pl.</key>
+	<string>Plural</string>
+	<key>pleb.</key>
+	<string>Plebeísmo</string>
+	<key>poet.</key>
+	<string>Poético</string>
+	<key>pol.</key>
+	<string>Polaco</string>
+	<key>pop.</key>
+	<string>Popular</string>
+	<key>port.</key>
+	<string>Português</string>
+	<key>pov.</key>
+	<string>Povoação</string>
+	<key>pref.</key>
+	<string>Prefixo</string>
+	<key>prep.</key>
+	<string>Preposição</string>
+	<key>pron.</key>
+	<string>Pronome</string>
+	<key>pron. ind.</key>
+	<string>Pronome indefinido</string>
+	<key>prop.</key>
+	<string>Próprio</string>
+	<key>prov.</key>
+	<string>Provincianismo</string>
+	<key>Prov. alent.</key>
+	<string>Provincianismo alentejano</string>
+	<key>Prov. alg.</key>
+	<string>Provincianismo algarvio</string>
+	<key>Prov. beir.</key>
+	<string>Provincianismo beirão</string>
+	<key>Prov. dur.</key>
+	<string>Provincianismo duriense</string>
+	<key>Prov. extr.</key>
+	<string>Provincianismo extremenho</string>
+	<key>Prov. minh.</key>
+	<string>Provincianismo minhoto</string>
+	<key>Prov. transm.</key>
+	<string>Provincianismo transmontano</string>
+	<key>provn.</key>
+	<string>Provençal</string>
+	<key>p. us.</key>
+	<string>Pouco usado</string>
+	<key>qual.</key>
+	<string>Qualificativo</string>
+	<key>quimb.</key>
+	<string>Quimbundo</string>
+	<key>rad.</key>
+	<string>Radical</string>
+	<key>refl.</key>
+	<string>Reflexo</string>
+	<key>restrict.</key>
+	<string>Em sentido restricto</string>
+	<key>rev.</key>
+	<string>Revista</string>
+	<key>S.</key>
+	<string>Sul</string>
+	<key>Sal.</key>
+	<string>Salinas</string>
+	<key>séc.</key>
+	<string>Século</string>
+	<key>seg.</key>
+	<string>Seguinte</string>
+	<key>sent.</key>
+	<string>Sentido</string>
+	<key>Serr.</key>
+	<string>Serralharia</string>
+	<key>sign.</key>
+	<string>Significação</string>
+	<key>sing.</key>
+	<string>Singular</string>
+	<key>subst.</key>
+	<string>Substantivo</string>
+	<key>suf.</key>
+	<string>Suffixo</string>
+	<key>suf. v.</key>
+	<string>Suffixo verbal</string>
+	<key>sup.</key>
+	<string>Superlativo</string>
+	<key>Supplem.</key>
+	<string>Supplemento</string>
+	<key>syr.</key>
+	<string>Syríaco</string>
+	<key>t.</key>
+	<string>Termo</string>
+	<key>Taur.</key>
+	<string>Tauromaquia</string>
+	<key>Terat.</key>
+	<string>Teratologia</string>
+	<key>Theol.</key>
+	<string>Theologia</string>
+	<key>thibet.</key>
+	<string>Thibetano</string>
+	<key>Topogr.</key>
+	<string>Topographia</string>
+	<key>turc.</key>
+	<string>Turco</string>
+	<key>unif.</key>
+	<string>Unifórme</string>
+	<key>us.</key>
+	<string>Usado</string>
+	<key>V.</key>
+	<string>Veja</string>
+	<key>v.</key>
+	<string>Verbo</string>
+	<key>vasc.</key>
+	<string>Vasconço</string>
+	<key>vb.</key>
+	<string>Verbò</string>
+	<key>veloc.</key>
+	<string>Velocipedia</string>
+	<key>ven.</key>
+	<string>Venatório</string>
+	<key>verb.</key>
+	<string>Verbal</string>
+	<key>vers.</key>
+	<string>Versificação</string>
+	<key>Veter.</key>
+	<string>Veterinária</string>
+	<key>v. g.</key>
+	<string>Verbi-gratia</string>
+	<key>v. i.</key>
+	<string>Verbo intransitivo</string>
+	<key>vin.</key>
+	<string>Vinificação</string>
+	<key>Vit.</key>
+	<string>Vinicultura</string>
+	<key>vº</key>
+	<string>Versò</string>
+	<key>voc.</key>
+	<string>Vocábulo</string>
+	<key>v. p.</key>
+	<string>Verbo pronomial</string>
+	<key>v. pron.</key>
+	<string>Verbo pronomial</string>
+	<key>vulg.</key>
+	<string>Vulgar</string>
+	<key>v. t.</key>
+	<string>Verbo transitivo</string>
+	<key>zend.</key>
+	<string>Zenda</string>
+	<key>Zool.</key>
+	<string>Zoologia</string>
+</dict>
+</plist>

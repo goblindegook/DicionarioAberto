@@ -54,6 +54,7 @@
     definitionView1.delegate = self;
     definitionView2.delegate = self;
     
+    pager.numberOfPages = 1;
     transitioning = NO;
     
     [self searchDicionarioAberto:requestEntry];
@@ -296,6 +297,10 @@
         UIWebView *tmp = definitionView2;
         definitionView2 = definitionView1;
         definitionView1 = tmp;
+    }
+    
+    if (webView == definitionView1) {
+        definitionView1.hidden = NO;
     }
 }
 

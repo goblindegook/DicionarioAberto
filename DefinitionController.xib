@@ -60,7 +60,7 @@
 							</object>
 							<object class="IBUIWebView" id="952651842">
 								<reference key="NSNextResponder" ref="610170993"/>
-								<int key="NSvFlags">274</int>
+								<int key="NSvFlags">-2147483374</int>
 								<string key="NSFrameSize">{320, 460}</string>
 								<reference key="NSSuperview" ref="610170993"/>
 								<object class="NSColor" key="IBUIBackgroundColor">
@@ -73,11 +73,8 @@
 						<string key="NSFrameSize">{320, 460}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<object class="NSColor" key="IBUIBackgroundColor">
-							<int key="NSColorSpace">3</int>
-							<bytes key="NSWhite">MQA</bytes>
-							<object class="NSColorSpace" key="NSCustomColorSpace">
-								<int key="NSID">2</int>
-							</object>
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC45NzI1NDkwMTk2IDAuOTYwNzg0MzEzNyAwLjkzMzMzMzMzMzMAA</bytes>
 						</object>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
