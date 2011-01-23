@@ -223,14 +223,19 @@
     activityIndicator.hidden = YES;
     
     NSString *html;
-    if (entries && [entries count]) {
+    if (entries != nil && [entries count]) {
         html = [self htmlEntryFrom:entries atIndex:n];
     } else {
         html = @"NOT FOUND"; // TODO: Not found page
     }
-
-    pager.numberOfPages = [entries count];
-    pager.currentPage = (n) ? n - 1 : 1;
+    
+    if (entries != nil && [entries count] && n > 0) {
+        pager.numberOfPages = [entries count];
+        pager.currentPage = n - 1;
+    } else {
+        pager.numberOfPages = 1;
+        pager.currentPage = 0;
+    }
     
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     [wv loadHTMLString:html baseURL:baseURL];

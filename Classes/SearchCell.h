@@ -7,6 +7,7 @@
 //
 
 #import "DARemote.h"
+#import "DAParser.h"
 
 @interface SearchCell : UITableViewCell {
     IBOutlet UIView      *background;

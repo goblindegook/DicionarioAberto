@@ -34,6 +34,19 @@
 }
 
 
++(NSString *)markupToText:(NSString *)string {
+    NSString *text = string;
+    
+    if (text && text.length) {
+        text = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^o" options:0 error:nil] stringByReplacingMatchesInString:text options:0 range:NSMakeRange(0, [text length]) withTemplate:@"º"];
+        
+        text = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^a" options:0 error:nil] stringByReplacingMatchesInString:text options:0 range:NSMakeRange(0, [text length]) withTemplate:@"ª"];
+    }
+    
+    return text;
+}
+
+
 +(NSString *)markupToHTML:(NSString *)string {
     NSString *html = string;
     
@@ -48,9 +61,9 @@
         
         html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"_([^_]*)_" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"<em>$1</em>"];
 
-        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^o" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"&ordm;"];
+        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^o" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"º"];
         
-        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^a" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"&ordf;"];
+        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^a" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"ª"];
     }
     
     return html;

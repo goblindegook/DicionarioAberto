@@ -23,7 +23,7 @@
     NSString *cellEntry = [array objectAtIndex:index];
     NSInteger cellIndex = index - [array indexOfObject:cellEntry];
     
-    self.definitionOrth.text = cellEntry;
+    self.definitionOrth.text = [DAParser markupToText:cellEntry];
     
     if (cellIndex || (index < [array count] - 1 && [cellEntry isEqual:[array objectAtIndex:index + 1]])) {
         cellIndex = cellIndex + 1;
