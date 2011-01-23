@@ -67,7 +67,7 @@
 							</object>
 							<object class="IBUIImageView" id="316368574">
 								<reference key="NSNextResponder" ref="543342948"/>
-								<int key="NSvFlags">293</int>
+								<int key="NSvFlags">301</int>
 								<string key="NSFrame">{{112, 17}, {96, 96}}</string>
 								<reference key="NSSuperview" ref="543342948"/>
 								<reference key="IBUIBackgroundColor" ref="752036551"/>

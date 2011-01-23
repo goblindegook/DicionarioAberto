@@ -298,9 +298,8 @@
 
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
-    tableView.backgroundColor   = searchResultsTable.backgroundColor;
-    tableView.separatorColor    = searchResultsTable.separatorColor;
-    //tableView.separatorStyle    = searchResultsTable.separatorStyle;
+    tableView.backgroundColor       = searchResultsTable.backgroundColor;
+    tableView.separatorColor        = searchResultsTable.separatorColor;
 }
 
 

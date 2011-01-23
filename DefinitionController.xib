@@ -120,6 +120,7 @@
 								<reference key="NSSuperview" ref="319552103"/>
 								<reference key="IBUIBackgroundColor" ref="349269163"/>
 								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 								<bool key="IBUIHidesWhenStopped">NO</bool>
 								<bool key="IBUIAnimating">YES</bool>
@@ -131,6 +132,7 @@
 						<reference key="IBUIBackgroundColor" ref="828282815"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<float key="IBUIAlpha">0.85000002384185791</float>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 					</object>
 				</object>
