@@ -514,6 +514,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DicionarioAberto_Prefix.pch;
 				INFOPLIST_FILE = "DicionarioAberto-Info.plist";
+				LIBRARY_SEARCH_PATHS = /usr/include/libxml2;
+				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = Aberto;
 			};
 			name = Debug;
@@ -526,6 +528,8 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DicionarioAberto_Prefix.pch;
 				INFOPLIST_FILE = "DicionarioAberto-Info.plist";
+				LIBRARY_SEARCH_PATHS = /usr/include/libxml2;
+				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = Aberto;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -557,12 +561,44 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
 				PRODUCT_NAME = Aberto;
 				SDKROOT = iphoneos;
 			};
 			name = Release;
+		};
+		DC0B5E9B12FEE12800AD52DC /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/include/libxml2;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PREBINDING = NO;
+				PRODUCT_NAME = Aberto;
+				SDKROOT = iphoneos;
+			};
+			name = "Ad Hoc";
+		};
+		DC0B5E9C12FEE12800AD52DC /* Ad Hoc */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = DicionarioAberto_Prefix.pch;
+				INFOPLIST_FILE = "DicionarioAberto-Info.plist";
+				LIBRARY_SEARCH_PATHS = /usr/include/libxml2;
+				OTHER_LDFLAGS = "-lxml2";
+				PRODUCT_NAME = Aberto;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Ad Hoc";
 		};
 /* End XCBuildConfiguration section */
 
@@ -571,6 +607,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
+				DC0B5E9C12FEE12800AD52DC /* Ad Hoc */,
 				1D6058950D05DD3E006BFB54 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -580,6 +617,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
+				DC0B5E9B12FEE12800AD52DC /* Ad Hoc */,
 				C01FCF5008A954540054247B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

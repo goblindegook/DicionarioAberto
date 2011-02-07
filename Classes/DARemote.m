@@ -50,7 +50,7 @@ int const DARemoteSearchNoConnection = -1;
         
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:urlFormat, [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
         
-        NSLog(@"Remote API call: %@", [url absoluteURL]);
+        // NSLog(@"Remote API call: %@", [url absoluteURL]);
         
         // Change to NSURLRequestUseProtocolCachePolicy later
         
@@ -157,7 +157,7 @@ int const DARemoteSearchNoConnection = -1;
 
 
 - (void)cancel {
-    NSLog(@"Cancelling request for '%@'", self.query);
+    // NSLog(@"Cancelling request for '%@'", self.query);
     [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
     [connection cancel];
 }
@@ -199,7 +199,7 @@ int const DARemoteSearchNoConnection = -1;
         
     } else if ([cachedResponses count] > 0) {
         DASearchCache *cache = (DASearchCache *)[cachedResponses lastObject];
-        NSLog(@"Fetched cached response '%@' (type %d)", [cache searchQuery], type);
+        // NSLog(@"Fetched cached response '%@' (type %d)", [cache searchQuery], type);
         response = [cache searchResult];
         
         NSDate *now = [[NSDate alloc] init];
@@ -222,7 +222,7 @@ int const DARemoteSearchNoConnection = -1;
     NSDate *now                 = [[NSDate alloc] init];
     BOOL success                = YES;
     
-    NSLog(@"Caching search response (type %d) '%@'", theType, theQuery);
+    // NSLog(@"Caching search response (type %d) '%@'", theType, theQuery);
     
     DASearchCache *cachedResponse = (DASearchCache *)[NSEntityDescription insertNewObjectForEntityForName:@"DASearchCache" inManagedObjectContext:moc];
     

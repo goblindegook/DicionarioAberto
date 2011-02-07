@@ -56,6 +56,7 @@
     
     pager.numberOfPages = 1;
     transitioning = NO;
+    touchRequest = NO;
     
     [self searchDicionarioAberto:requestEntry];
 }
@@ -88,6 +89,7 @@
     [definitionView1 release];
     [definitionView2 release];
     [container release];
+    [touchRequestPreviousEntry release];
     [requestEntry release];
     [requestResults release];
     [super dealloc];
@@ -191,12 +193,17 @@
     if (nil != cachedResponse) {
         // Use cached response
         requestResults = [[DAParser parseAPIResponse:cachedResponse list:NO] copy];
-        [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
+        if (touchRequest) {
+            [self performTransitionTo:requestResults atIndex:requestN];
+        } else {
+            [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
+        }
         
     } else {
         // Perform new asynchronous request
         DARemote *connection = [[DARemote alloc] initWithQuery:query ofType:DARemoteGetEntry delegate:self];
         if (nil == connection) {
+            touchRequest = NO;
             // Connection error
             [self loadNoConnection:definitionView1 withString:query];
         } else {
@@ -242,17 +249,28 @@
 }
 
 
-- (void)performTransitionTo:(int)n {
-
-    if (n == requestN) {
+- (void)performTransitionTo:(NSArray *)results atIndex:(int)n {
+    
+    if (!touchRequest && n == requestN) {
         return;
     }
+    
+    BOOL transitionForward = NO;
+    
+    if (touchRequest && [requestEntry caseInsensitiveCompare:touchRequestPreviousEntry] == NSOrderedAscending) {
+        transitionForward = YES;
+    } else if (n < requestN) {
+        transitionForward = YES;
+    } else {
+        transitionForward = NO;
+    }
+
     
     CATransition *transition    = [CATransition animation];
     transition.duration         = 0.5;
     transition.timingFunction   = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    transition.type             = (n < requestN) ? kCATransitionMoveIn   : kCATransitionReveal;
-    transition.subtype          = (n < requestN) ? kCATransitionFromLeft : kCATransitionFromRight;
+    transition.type             = (transitionForward) ? kCATransitionMoveIn   : kCATransitionReveal;
+    transition.subtype          = (transitionForward) ? kCATransitionFromLeft : kCATransitionFromRight;
     transition.delegate         = self;
     
     [container.layer addAnimation:transition forKey:nil];
@@ -260,7 +278,7 @@
     requestN = n;
     transitioning = YES;
 
-    [self loadEntry:definitionView2 withArray:requestResults atIndex:n];
+    [self loadEntry:definitionView2 withArray:results atIndex:n];
 
     // Switch views only when definitionView2 finishes loading, see webViewDidFinishLoad
 }
@@ -268,12 +286,13 @@
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag {
     transitioning = NO;
+    touchRequest  = NO;
 }
 
 
 - (IBAction)changePage:(id)sender {
     if (!transitioning) {
-        [self performTransitionTo:(pager.currentPage + 1)];
+        [self performTransitionTo:requestResults atIndex:(pager.currentPage + 1)];
     }
 }
 
@@ -294,7 +313,7 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    // Animate only when 
+    // Animate only when not transitioning
     if (transitioning && webView == definitionView2) {
         definitionView1.hidden = YES;
         definitionView2.hidden = NO;
@@ -318,10 +337,15 @@
             // Internal links
             
             if ([[url host] isEqualToString:@"define"]) {
+                touchRequest = YES;
+                touchRequestPreviousEntry = [requestEntry copy];
+                touchRequestPreviousN = requestN;
+                
                 // Definition links (aberto://define:*/*)
                 requestEntry = [[url lastPathComponent] copy];
                 requestN     = [[url port] integerValue];
-                NSLog(@"Requested %@:%d", requestEntry, requestN);
+                
+                // NSLog(@"Requested %@:%d", requestEntry, requestN);
                 [self searchDicionarioAberto:requestEntry];
             }
             return NO;
@@ -344,16 +368,18 @@
 
 - (void)swipeRightAction {
     if (!transitioning && pager.currentPage > 0) {
-        pager.currentPage = pager.currentPage - 1;
-        [self performTransitionTo:(pager.currentPage + 1)];
+        int transitionTo = pager.currentPage - 1;
+        [self performTransitionTo:requestResults atIndex:(transitionTo + 1)];
+        pager.currentPage = transitionTo;
     }
 }
 
 
 - (void)swipeLeftAction {
-    if (!transitioning && pager.currentPage < pager.numberOfPages) {
-        pager.currentPage = pager.currentPage + 1;
-        [self performTransitionTo:(pager.currentPage + 1)];
+    if (!transitioning && pager.currentPage < pager.numberOfPages - 1) {
+        int transitionTo = pager.currentPage + 1;
+        [self performTransitionTo:requestResults atIndex:(transitionTo + 1)];
+        pager.currentPage = transitionTo;
     }
 }
 
@@ -376,7 +402,11 @@
         [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
     }
     
-    [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
+    if (touchRequest) {
+        [self performTransitionTo:requestResults atIndex:requestN];
+    } else {
+        [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
+    }
     
     [response release];
 }

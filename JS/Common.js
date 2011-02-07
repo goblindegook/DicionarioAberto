@@ -29,11 +29,5 @@ document.addEventListener('DOMContentLoaded', function () {
     if (body) {
         body.addEventListener("gestureend", gestureEnd, false);
     }
-                          
-    if (typeof Hyphenator != 'undefined') {
-        Hyphenator.config({
-            minwordlength : 4
-        });
-        Hyphenator.run();
-    }
+    
 });

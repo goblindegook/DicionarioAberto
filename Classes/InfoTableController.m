@@ -120,7 +120,7 @@
     NSDictionary *sectionDictionary = [infoTableContents objectAtIndex:indexPath.section];
     NSDictionary *rowDictionary = [[sectionDictionary objectForKey:@"Rows"] objectAtIndex:indexPath.row];
     
-    NSLog(@"Selected (%d, %d)", indexPath.section, indexPath.row);
+    // NSLog(@"Selected (%d, %d)", indexPath.section, indexPath.row);
     
     InfoPageController *infoPage = [[InfoPageController alloc] initWithURI:[NSURL URLWithString:[rowDictionary objectForKey:@"URI"]] title:[rowDictionary objectForKey:@"Title"]];
     
