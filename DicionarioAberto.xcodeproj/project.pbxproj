@@ -547,7 +547,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PREBINDING = NO;
-				PRODUCT_NAME = Aberto;
+				PRODUCT_NAME = "Dicionário Aberto";
 				SDKROOT = iphoneos;
 				VERSIONING_SYSTEM = "";
 			};
@@ -564,7 +564,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				PRODUCT_NAME = Aberto;
+				PRODUCT_NAME = "Dicionário Aberto";
 				SDKROOT = iphoneos;
 			};
 			name = Release;
@@ -580,7 +580,7 @@
 				HEADER_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				PRODUCT_NAME = Aberto;
+				PRODUCT_NAME = "Dicionário Aberto";
 				SDKROOT = iphoneos;
 			};
 			name = "Ad Hoc";
