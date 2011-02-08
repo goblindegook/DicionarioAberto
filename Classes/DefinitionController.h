@@ -28,6 +28,7 @@
     
     UISwipeGestureRecognizer *swipeLeft;
     UISwipeGestureRecognizer *swipeRight;
+    UISwipeGestureRecognizer *swipeDoesNothing;
 
     NSMutableArray *requestResults;
     NSMutableString *requestEntry;
@@ -51,5 +52,6 @@
 
 - (void)swipeLeftAction;
 - (void)swipeRightAction;
+- (void)swipeDoesNothingAction;
 
 @end

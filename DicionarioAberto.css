@@ -277,6 +277,26 @@ article hr {
     text-align: center;
 }
 
+/* ERROR */
+
+article.error {
+    font-family: Helvetica;
+    padding: 16pt 8pt 0;
+}
+
+article.error .icon,
+article.error .message {
+    font-size: 10pt;
+    font-weight: bold;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    line-height: 1.2em;
+    color: rgba(184, 176, 163, 1);
+    text-shadow: rgba(255, 255, 255, 0.8) 0px 1px 0;
+}
+
+
 /* FOOTER */
 
 .clear {

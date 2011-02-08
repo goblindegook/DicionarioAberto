@@ -20,7 +20,7 @@
 		<string>Icon-Small@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>28FR7Y5X6M.pt.log.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>L6WM5G3DU5.pt.log.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -30,7 +30,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0b2</string>
+	<string>1.0b3</string>
 	<key>LSRequiresIPhoneOS</key>
 	<false/>
 	<key>NSMainNibFile</key>

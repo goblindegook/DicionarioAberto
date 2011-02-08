@@ -47,6 +47,11 @@
     swipeLeft.direction = UISwipeGestureRecognizerDirectionLeft;
     swipeLeft.delegate = self;
     [container addGestureRecognizer:swipeLeft];
+
+    swipeDoesNothing = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeDoesNothingAction)];
+    swipeDoesNothing.direction = UISwipeGestureRecognizerDirectionUp | UISwipeGestureRecognizerDirectionDown;
+    swipeDoesNothing.delegate = self;
+    [container addGestureRecognizer:swipeDoesNothing];
     
     // Navigation bar shadow
     navBarShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.6].CGColor, (id)[UIColor colorWithWhite:0 alpha:0].CGColor, nil];
@@ -84,6 +89,7 @@
 - (void)dealloc {
     [swipeLeft release];
     [swipeRight release];
+    [swipeDoesNothing release];
     [pager release];
     [activityIndicator release];
     [definitionView1 release];
@@ -115,7 +121,9 @@
         }
         
         if (entryOrth == nil) {
-            entryOrth = [DAParser markupToHTML:entry.entryForm.orth];
+            entryOrth = [entry.entryForm.orth lowercaseString];
+            entryOrth = [DAParser markupToText:entryOrth];
+            self.title = entryOrth;
         }
         
         [content appendString:@"<h1 class=\"term\">"];
@@ -216,24 +224,28 @@
 
 
 - (void)loadNoConnection:(UIWebView *)wv withString:(NSString *)query {
-    // TODO: Load error HTML file
     self.title = @"Erro de ligação";
     activityIndicator.hidden = YES;
-    NSString *html = @"CONNECTION ERROR"; // TODO: Connection error page
+    
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"error_connection" ofType:@"html" inDirectory:@"HTML"];
+    NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+    
     [definitionView1 loadHTMLString:html baseURL:baseURL];
 }
 
 
 - (void)loadEntry:(UIWebView *)wv withArray:(NSArray *)entries atIndex:(int)n {
-    self.title = requestEntry;
     activityIndicator.hidden = YES;
     
     NSString *html;
     if (entries != nil && [entries count]) {
+        self.title = requestEntry;
         html = [self htmlEntryFrom:entries atIndex:n];
     } else {
-        html = @"NOT FOUND"; // TODO: Not found page
+        self.title = @"Inexistente";
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"error_notfound" ofType:@"html" inDirectory:@"HTML"];
+        html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     }
     
     if (entries != nil && [entries count] && n > 0) {
@@ -261,10 +273,7 @@
         transitionForward = YES;
     } else if (n < requestN) {
         transitionForward = YES;
-    } else {
-        transitionForward = NO;
     }
-
     
     CATransition *transition    = [CATransition animation];
     transition.duration         = 0.5;
@@ -313,7 +322,7 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    // Animate only when not transitioning
+    // Switch only when not transitioning
     if (transitioning && webView == definitionView2) {
         definitionView1.hidden = YES;
         definitionView2.hidden = NO;
@@ -321,9 +330,8 @@
         UIWebView *tmp = definitionView2;
         definitionView2 = definitionView1;
         definitionView1 = tmp;
-    }
-    
-    if (webView == definitionView1) {
+        
+    } else if (webView == definitionView1) {
         definitionView1.hidden = NO;
     }
 }
@@ -363,24 +371,26 @@
 #pragma mark UIGestureRecognizerDelegate Methods
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    return YES;
+    return NO;
 }
 
+
 - (void)swipeRightAction {
-    if (!transitioning && pager.currentPage > 0) {
-        int transitionTo = pager.currentPage - 1;
-        [self performTransitionTo:requestResults atIndex:(transitionTo + 1)];
-        pager.currentPage = transitionTo;
+    if (!transitioning && requestN > 1) {
+        [self performTransitionTo:requestResults atIndex:(requestN - 1)];
     }
 }
 
 
 - (void)swipeLeftAction {
-    if (!transitioning && pager.currentPage < pager.numberOfPages - 1) {
-        int transitionTo = pager.currentPage + 1;
-        [self performTransitionTo:requestResults atIndex:(transitionTo + 1)];
-        pager.currentPage = transitionTo;
+    if (!transitioning && requestN < [requestResults count]) {
+        [self performTransitionTo:requestResults atIndex:(requestN + 1)];
     }
+}
+
+
+- (void)swipeDoesNothingAction {
+    // It really does nothing
 }
 
 

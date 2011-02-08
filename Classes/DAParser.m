@@ -41,6 +41,8 @@
         text = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^o" options:0 error:nil] stringByReplacingMatchesInString:text options:0 range:NSMakeRange(0, [text length]) withTemplate:@"º"];
         
         text = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^a" options:0 error:nil] stringByReplacingMatchesInString:text options:0 range:NSMakeRange(0, [text length]) withTemplate:@"ª"];
+
+        text = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\'" options:0 error:nil] stringByReplacingMatchesInString:text options:0 range:NSMakeRange(0, [text length]) withTemplate:@"’"];
     }
     
     return text;
