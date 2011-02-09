@@ -73,6 +73,26 @@
 }
 
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    activityIndicatorState = activityIndicator.hidden;
+    activityIndicator.hidden = YES;
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    activityIndicator.center = container.center;
+    CGRect movedActivityIndicator = activityIndicator.frame;
+    if (fromInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || fromInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        movedActivityIndicator.origin.y -= 40.0f;
+    } else {
+        movedActivityIndicator.origin.y -= 20.0f;
+    }
+
+    activityIndicator.frame = movedActivityIndicator;
+    activityIndicator.hidden = activityIndicatorState;
+}
+
+
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -322,7 +342,7 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    // Switch only when not transitioning
+    // Switch only when transitioning
     if (transitioning && webView == definitionView2) {
         definitionView1.hidden = YES;
         definitionView2.hidden = NO;
@@ -334,6 +354,9 @@
     } else if (webView == definitionView1) {
         definitionView1.hidden = NO;
     }
+    
+    definitionView1.userInteractionEnabled = YES;
+    definitionView2.userInteractionEnabled = YES;
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)urlRequest navigationType:(UIWebViewNavigationType)navigationType {
@@ -377,13 +400,17 @@
 
 - (void)swipeRightAction {
     if (!transitioning && requestN > 1) {
+        definitionView1.userInteractionEnabled = NO;
+        definitionView2.userInteractionEnabled = NO;
         [self performTransitionTo:requestResults atIndex:(requestN - 1)];
     }
 }
 
 
 - (void)swipeLeftAction {
-    if (!transitioning && requestN < [requestResults count]) {
+    if (!transitioning && requestN > 0 && requestN < [requestResults count]) {
+        definitionView1.userInteractionEnabled = NO;
+        definitionView2.userInteractionEnabled = NO;
         [self performTransitionTo:requestResults atIndex:(requestN + 1)];
     }
 }

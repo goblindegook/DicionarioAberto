@@ -15,6 +15,7 @@
     IBOutlet UIView *activityIndicator;
     NSString *pageTitle;
     NSURL *pageURI;
+    BOOL activityIndicatorState;
 }
 
 - (id)initWithURI:(NSURL *)theURI title:(NSString *)theTitle;

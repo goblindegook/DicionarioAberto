@@ -57,6 +57,25 @@
 }
 
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    activityIndicatorState = activityIndicator.hidden;
+    activityIndicator.hidden = YES;
+}
+
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    activityIndicator.center = infoPageView.center;
+    CGRect movedActivityIndicator = activityIndicator.frame;
+    if (fromInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || fromInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
+        movedActivityIndicator.origin.y -= 40.0f;
+    } else {
+        movedActivityIndicator.origin.y -= 20.0f;
+    }
+    activityIndicator.frame = movedActivityIndicator;
+    activityIndicator.hidden = activityIndicatorState;
+}
+
+
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];

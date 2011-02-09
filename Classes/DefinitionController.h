@@ -33,10 +33,11 @@
     NSMutableArray *requestResults;
     NSMutableString *requestEntry;
     int requestN;
-    
-    BOOL transitioning;
-    
+
     BOOL touchRequest;
+    BOOL transitioning;
+    BOOL activityIndicatorState;
+
     NSMutableString *touchRequestPreviousEntry;
     int touchRequestPreviousN;
 }
