@@ -37,6 +37,7 @@
     BOOL touchRequest;
     BOOL transitioning;
     BOOL activityIndicatorState;
+    BOOL mainViewHasLoaded;
 
     NSMutableString *touchRequestPreviousEntry;
     int touchRequestPreviousN;

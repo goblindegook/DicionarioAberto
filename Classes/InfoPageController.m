@@ -47,6 +47,8 @@
     // Navigation bar shadow
     navBarShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.6].CGColor, (id)[UIColor colorWithWhite:0 alpha:0].CGColor, nil];
     
+    mainViewHasLoaded = NO;
+    
     [self webView:infoPageView loadURI:pageURI];
 }
 
@@ -72,7 +74,7 @@
         movedActivityIndicator.origin.y -= 20.0f;
     }
     activityIndicator.frame = movedActivityIndicator;
-    activityIndicator.hidden = activityIndicatorState;
+    activityIndicator.hidden = mainViewHasLoaded || activityIndicatorState;
 }
 
 
@@ -110,6 +112,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     webView.hidden = NO;
     activityIndicator.hidden = YES;
+    mainViewHasLoaded = YES;
 }
 
 
@@ -157,6 +160,7 @@
 
     self.title = pageTitle;
     activityIndicator.hidden = NO;
+    mainViewHasLoaded = NO;
     
     [wv loadHTMLString:html baseURL:baseURL];
 }

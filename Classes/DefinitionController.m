@@ -62,6 +62,7 @@
     pager.numberOfPages = 1;
     transitioning = NO;
     touchRequest = NO;
+    mainViewHasLoaded = NO;
     
     [self searchDicionarioAberto:requestEntry];
 }
@@ -89,7 +90,7 @@
     }
 
     activityIndicator.frame = movedActivityIndicator;
-    activityIndicator.hidden = activityIndicatorState;
+    activityIndicator.hidden = mainViewHasLoaded || activityIndicatorState;
 }
 
 
@@ -141,9 +142,8 @@
         }
         
         if (entryOrth == nil) {
-            entryOrth = [entry.entryForm.orth lowercaseString];
-            entryOrth = [DAParser markupToText:entryOrth];
-            self.title = entryOrth;
+            entryOrth = [DAParser markupToText:entry.entryForm.orth];
+            self.title = [entryOrth lowercaseString];
         }
         
         [content appendString:@"<h1 class=\"term\">"];
@@ -236,6 +236,7 @@
             [self loadNoConnection:definitionView1 withString:query];
         } else {
             activityIndicator.hidden = NO;
+            mainViewHasLoaded = NO;
         }
 
         [connection release];
@@ -246,6 +247,7 @@
 - (void)loadNoConnection:(UIWebView *)wv withString:(NSString *)query {
     self.title = @"Erro de ligação";
     activityIndicator.hidden = YES;
+    mainViewHasLoaded = YES;
     
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     NSString *path = [[NSBundle mainBundle] pathForResource:@"error_connection" ofType:@"html" inDirectory:@"HTML"];
@@ -257,6 +259,7 @@
 
 - (void)loadEntry:(UIWebView *)wv withArray:(NSArray *)entries atIndex:(int)n {
     activityIndicator.hidden = YES;
+    mainViewHasLoaded = YES;
     
     NSString *html;
     if (entries != nil && [entries count]) {

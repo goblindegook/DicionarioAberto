@@ -16,6 +16,7 @@
     NSString *pageTitle;
     NSURL *pageURI;
     BOOL activityIndicatorState;
+    BOOL mainViewHasLoaded;
 }
 
 - (id)initWithURI:(NSURL *)theURI title:(NSString *)theTitle;

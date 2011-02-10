@@ -169,10 +169,11 @@
 - (void)reloadSearchResultsTable {
     letUserSelectRow = (DARemoteSearchOK == searchStatus);
     self.searchDisplayController.searchResultsTableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
-    [self.searchDisplayController.searchResultsTableView reloadData];
-    
+
     [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
     [self.searchDisplayController.searchResultsTableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
+
+    [self.searchDisplayController.searchResultsTableView reloadData];
 }
 
 
@@ -299,6 +300,7 @@
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
     tableView.backgroundColor       = searchResultsTable.backgroundColor;
+    tableView.separatorStyle        = searchResultsTable.separatorStyle;
     tableView.separatorColor        = searchResultsTable.separatorColor;
 }
 
@@ -317,7 +319,7 @@
 
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
-    // Prevent UISearchDisplayController from resetting the content inset after resigning the firstResponder
+    // Prevent UISearchDisplayController from changing the content inset after resigning the firstResponder
     [tableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
 }
 
