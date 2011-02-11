@@ -154,7 +154,7 @@
             }
         }
         
-        [self reloadSearchResultsTable];
+        [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
         
     } else {
         searchStatus            = DARemoteSearchOK;
@@ -166,14 +166,14 @@
 }
 
 
-- (void)reloadSearchResultsTable {
+- (void)reloadSearchResultsTable:(UITableView *)tableView {
     letUserSelectRow = (DARemoteSearchOK == searchStatus);
-    self.searchDisplayController.searchResultsTableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
+    tableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
 
-    [self dropShadowFor:self.searchDisplayController.searchResultsTableView];
-    [self.searchDisplayController.searchResultsTableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
+    [self dropShadowFor:tableView];
+    [tableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
 
-    [self.searchDisplayController.searchResultsTableView reloadData];
+    [tableView reloadData];
 }
 
 
@@ -269,6 +269,7 @@
         return nil;
 }
 
+
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (nil != connection) {
@@ -294,25 +295,48 @@
 
 #pragma mark UISearchBarDelegate Methods
 
+/*
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    // TODO: Make controller table reappear with original results
+    [searchResultsTable scrollsToTop];
+    [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
+}
+
+ 
+- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
+    [self reloadSearchResultsTable:searchResultsTable];
+
+    NSString *sbText = [searchBar.text copy];
+    [self.searchDisplayController setActive:NO animated:YES];
+    searchBar.text = sbText;
+    [sbText release];
+    
+    if ([delegate.searchResults count] > 0)
+        searchResultsTable.hidden = NO;
+    else
+        searchResultsTable.hidden = YES;
+}
+*/
 
 #pragma mark UISearchDisplayDelegate Methods
 
 
-- (void) searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView {
     tableView.backgroundColor       = searchResultsTable.backgroundColor;
     tableView.separatorStyle        = searchResultsTable.separatorStyle;
     tableView.separatorColor        = searchResultsTable.separatorColor;
+    tableView.autoresizesSubviews   = YES;
 }
 
 
-- (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption {
     searchPrefix = (searchOption == 0);
     [self searchDicionarioAberto:controller.searchBar.text];
     return NO;
 }
 
 
-- (BOOL) searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString {
     [self searchDicionarioAberto:searchString];
     return NO;
 }
@@ -329,7 +353,7 @@
 
 - (void)connectionDidFail:(DARemote *)theConnection {
     searchStatus = DARemoteSearchNoConnection;
-    [self reloadSearchResultsTable];
+    [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
 }
 
 
@@ -351,7 +375,7 @@
         delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
     }
 
-    [self reloadSearchResultsTable];
+    [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
 }
 
 

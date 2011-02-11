@@ -36,7 +36,7 @@
 
 - (void)dropShadowFor:(UITableView *)tableView;
 - (void)searchDicionarioAberto:(NSString *)query;
-- (void)reloadSearchResultsTable;
+- (void)reloadSearchResultsTable:(UITableView *)tableView;
 - (void)showInfoTable;
 
 
