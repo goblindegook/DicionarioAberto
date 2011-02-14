@@ -28,6 +28,7 @@
     BOOL searchPrefix;
     BOOL searching;
     BOOL letUserSelectRow;
+    BOOL tableHasShadow;
 
     int searchStatus;
 }
@@ -38,7 +39,7 @@
 - (void)searchDicionarioAberto:(NSString *)query;
 - (void)reloadSearchResultsTable:(UITableView *)tableView;
 - (void)showInfoTable;
-
+- (void)keyboardDidHide:(NSNotification *)notification;
 
 @end
 

@@ -11,6 +11,7 @@
 
 @synthesize searchResultsTable;
 
+#pragma mark -
 #pragma mark Instance Methods
 
 /*
@@ -33,26 +34,26 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     
     self.title = @"Dicionário Aberto";
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDidHide:) name:UIKeyboardDidHideNotification object:nil];
     
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(showInfoTable) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
     
     searchResultsTable.hidden   = YES;
-
-    searchPrefix        = YES;
-    searching           = NO;
-    letUserSelectRow    = YES;
-    searchStatus        = DARemoteSearchOK;
+    tableHasShadow              = YES;
+    searchPrefix                = YES;
+    searching                   = NO;
+    letUserSelectRow            = YES;
+    searchStatus                = DARemoteSearchOK;
     
     NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-3600 * 24 * 2)]; // 2d
-    
     [DARemote deleteCacheOlderThan:cutoff error:nil];
-    
     [cutoff release];
 }
 
@@ -88,20 +89,24 @@
     UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
     UIColor *dark = (id)[UIColor colorWithWhite:0 alpha:0.3].CGColor;
     
+    float shadowRadius = 20.0f;
+    
     if (tableHeaderView == nil) {
-        tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
+        tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, shadowRadius)];
         tableHeaderView.colors = [NSArray arrayWithObjects:(id)light, (id)dark, nil];
         tableHeaderView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
     }
     
     if (tableFooterView == nil) {
-        tableFooterView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, 20)];
+        tableFooterView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, shadowRadius)];
         tableFooterView.colors = [NSArray arrayWithObjects:(id)dark, (id)light, nil];
         tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
     }
     
     tableView.tableHeaderView = tableHeaderView;
     tableView.tableFooterView = tableFooterView;
+    
+    [tableView setContentInset:UIEdgeInsetsMake(-shadowRadius, 0, -shadowRadius, 0)];
 }
 
 
@@ -161,7 +166,6 @@
         searching               = NO;
         letUserSelectRow        = NO;
         delegate.searchResults  = nil;
-        [self.searchDisplayController.searchResultsTableView clearsContextBeforeDrawing];
     }
 }
 
@@ -169,11 +173,10 @@
 - (void)reloadSearchResultsTable:(UITableView *)tableView {
     letUserSelectRow = (DARemoteSearchOK == searchStatus);
     tableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
-
-    [self dropShadowFor:tableView];
-    [tableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
-
+    
+    if (tableHasShadow) [self dropShadowFor:tableView];
     [tableView reloadData];
+    [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
 
 
@@ -187,6 +190,7 @@
 }
 
 
+#pragma mark -
 #pragma mark UITableViewDataSource Methods
 
 
@@ -247,6 +251,7 @@
 }
 
 
+#pragma mark -
 #pragma mark UITableViewDelegate Methods
 
 
@@ -293,31 +298,7 @@
 }
 
 
-#pragma mark UISearchBarDelegate Methods
-
-/*
-- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    // TODO: Make controller table reappear with original results
-    [searchResultsTable scrollsToTop];
-    [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
-}
-
- 
-- (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
-    [self reloadSearchResultsTable:searchResultsTable];
-
-    NSString *sbText = [searchBar.text copy];
-    [self.searchDisplayController setActive:NO animated:YES];
-    searchBar.text = sbText;
-    [sbText release];
-    
-    if ([delegate.searchResults count] > 0)
-        searchResultsTable.hidden = NO;
-    else
-        searchResultsTable.hidden = YES;
-}
-*/
-
+#pragma mark -
 #pragma mark UISearchDisplayDelegate Methods
 
 
@@ -343,11 +324,10 @@
 
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
-    // Prevent UISearchDisplayController from changing the content inset after resigning the firstResponder
-    [tableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
 }
 
 
+#pragma mark -
 #pragma mark DARemoteDelegate Methods
 
 
@@ -378,5 +358,15 @@
     [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
 }
 
+
+#pragma mark -
+#pragma mark UIKeyboardDidHideNotification Method
+
+- (void)keyboardDidHide:(NSNotification *)notification {
+    // Restore inset and prevent table from bouncing back to top when hiding the keyboard:
+    if (tableHasShadow) {
+        [self.searchDisplayController.searchResultsTableView setContentInset:UIEdgeInsetsMake(-20, 0, -20, 0)];
+    }
+}
 
 @end
