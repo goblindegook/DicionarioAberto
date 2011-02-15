@@ -16,13 +16,14 @@ int const DARemoteSearchOK           = 1;
 int const DARemoteSearchWait         = 2;
 int const DARemoteSearchEmpty        = 0;
 int const DARemoteSearchNoConnection = -1;
-
+int const DARemoteSearchUnavailable  = -2;
 
 @implementation DARemote
 
 @synthesize delegate;
 @synthesize receivedData;
 @synthesize lastModified;
+@synthesize statusCode;
 @synthesize connection;
 @synthesize query;
 @synthesize type;
@@ -121,6 +122,7 @@ int const DARemoteSearchNoConnection = -1;
      date so it matches format of cached image file modification date. */
     
     if ([response isKindOfClass:[NSHTTPURLResponse self]]) {
+        statusCode = [(NSHTTPURLResponse *)response statusCode];
         NSDictionary *headers = [(NSHTTPURLResponse *)response allHeaderFields];
         NSString *modified = [headers objectForKey:@"Last-Modified"];
         if (modified) {

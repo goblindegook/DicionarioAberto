@@ -233,7 +233,7 @@
         if (nil == connection) {
             touchRequest = NO;
             // Connection error
-            [self loadNoConnection:definitionView1 withString:query];
+            [self loadError:definitionView1 ofType:DARemoteSearchNoConnection withString:query];
         } else {
             activityIndicator.hidden = NO;
             mainViewHasLoaded = NO;
@@ -244,13 +244,27 @@
 }
 
 
-- (void)loadNoConnection:(UIWebView *)wv withString:(NSString *)query {
-    self.title = @"Erro de ligação";
+- (void)loadError:(UIWebView *)wv ofType:(int)errorStatus withString:(NSString *)query {
     activityIndicator.hidden = YES;
     mainViewHasLoaded = YES;
     
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"error_connection" ofType:@"html" inDirectory:@"HTML"];
+    NSString *path;
+    
+    if (errorStatus == DARemoteSearchNoConnection) {
+        self.title = @"Erro de ligação";
+        path = [[NSBundle mainBundle] pathForResource:@"error_connection" ofType:@"html" inDirectory:@"HTML"];
+        
+    } else if (errorStatus == DARemoteSearchEmpty) {
+        self.title = @"Inexistente";
+        path = [[NSBundle mainBundle] pathForResource:@"error_notfound" ofType:@"html" inDirectory:@"HTML"];
+        
+    } else {
+        self.title = @"Indisponível";
+        path = [[NSBundle mainBundle] pathForResource:@"error_unavailable" ofType:@"html" inDirectory:@"HTML"];
+    }
+
+    
     NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
     
     [definitionView1 loadHTMLString:html baseURL:baseURL];
@@ -261,16 +275,6 @@
     activityIndicator.hidden = YES;
     mainViewHasLoaded = YES;
     
-    NSString *html;
-    if (entries != nil && [entries count]) {
-        self.title = requestEntry;
-        html = [self htmlEntryFrom:entries atIndex:n];
-    } else {
-        self.title = @"Inexistente";
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"error_notfound" ofType:@"html" inDirectory:@"HTML"];
-        html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    }
-    
     if (entries != nil && [entries count] && n > 0) {
         pager.numberOfPages = [entries count];
         pager.currentPage = n - 1;
@@ -279,8 +283,18 @@
         pager.currentPage = 0;
     }
     
-    NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    [wv loadHTMLString:html baseURL:baseURL];
+    NSString *html;
+    if (entries != nil && [entries count]) {
+        self.title = requestEntry;
+        html = [self htmlEntryFrom:entries atIndex:n];
+        NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+        [wv loadHTMLString:html baseURL:baseURL];
+        
+    } else {
+        [self loadError:wv ofType:DARemoteSearchEmpty withString:@""];
+    }
+    
+
 }
 
 
@@ -429,26 +443,34 @@
 
 
 - (void)connectionDidFail:(DARemote *)connection {
-    [self loadNoConnection:definitionView1 withString:connection.query];
+    [self loadError:definitionView1 ofType:DARemoteSearchNoConnection withString:connection.query];
 }
 
 
 - (void)connectionDidFinish:(DARemote *)connection {
-    NSString *response = [[NSString alloc] initWithData:connection.receivedData encoding:NSUTF8StringEncoding];
+    
+    if (connection.statusCode < 400) {
+        // Success
+        NSString *response = [[NSString alloc] initWithData:connection.receivedData encoding:NSUTF8StringEncoding];
 
-    requestResults = [[DAParser parseAPIResponse:response list:NO] copy];
+        requestResults = [[DAParser parseAPIResponse:response list:NO] copy];
     
-    if (requestResults && [requestResults count]) {
-        [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
-    }
+        if (requestResults && [requestResults count]) {
+            [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
+        }
     
-    if (touchRequest) {
-        [self performTransitionTo:requestResults atIndex:requestN];
+        if (touchRequest) {
+            [self performTransitionTo:requestResults atIndex:requestN];
+        } else {
+            [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
+        }
+    
+        [response release];
+        
     } else {
-        [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
+        [self loadError:definitionView1 ofType:DARemoteSearchUnavailable withString:connection.query];
     }
-    
-    [response release];
+
 }
 
 @end

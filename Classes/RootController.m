@@ -151,7 +151,8 @@
                 connection = [[DARemote alloc] initWithQuery:query ofType:type delegate:self];
                 if (nil == connection) {
                     searchStatus = DARemoteSearchNoConnection;
-                    delegate.searchResults = nil;
+                    delegate.searchResults = [NSArray arrayWithObjects:nil];
+                    
                 } else if (!delegate.searchResults) {
                     searchStatus = DARemoteSearchWait;
                     delegate.searchResults = [NSArray arrayWithObjects:nil];
@@ -175,6 +176,7 @@
     tableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
     
     if (tableHasShadow) [self dropShadowFor:tableView];
+    
     [tableView reloadData];
     [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
 }
@@ -226,6 +228,9 @@
     
     if (DARemoteSearchNoConnection == searchStatus) {
         [cell setError:@"Erro de ligação" type:searchStatus];
+
+    } else if (DARemoteSearchUnavailable == searchStatus) {
+        [cell setError:@"Indisponível" type:searchStatus];
         
     } else if (DARemoteSearchEmpty == searchStatus) {
         [cell setError:@"Sem resultados" type:searchStatus];
@@ -235,7 +240,11 @@
         
     } else if (DARemoteSearchOK == searchStatus) {
         [cell setContentAtRow:indexPath.row using:delegate.searchResults];
+
+    } else {
+        [cell setError:@"Desconhecido" type:searchStatus];
     }
+
     
     return cell;
 }
@@ -338,23 +347,32 @@
 
 
 - (void)connectionDidFinish:(DARemote *)theConnection {
-    NSString *response = [[NSString alloc] initWithData:theConnection.receivedData encoding:NSUTF8StringEncoding];
     
-    delegate.searchResults = [DAParser parseAPIResponse:response list:YES];
-    searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
-    
-    if ([delegate.searchResults count]) {
-        [DARemote cacheResult:response forQuery:theConnection.query ofType:connection.type error:nil];
+    if (theConnection.statusCode < 400) {
+        // Success
+        NSString *response = [[NSString alloc] initWithData:theConnection.receivedData encoding:NSUTF8StringEncoding];
+        
+        delegate.searchResults = [DAParser parseAPIResponse:response list:YES];
+        searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
+        
+        if ([delegate.searchResults count]) {
+            [DARemote cacheResult:response forQuery:theConnection.query ofType:connection.type error:nil];
+        }
+        
+        [response release];
+        
+        // Save result set in memory for reuse
+        if (searchPrefix && [theConnection.query length] && [delegate.searchResults count] < 10) {
+            delegate.savedSearchText    = [NSMutableString stringWithString:connection.query];
+            delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
+        }
+        
+    } else {
+        // Service is unavailable (403 Forbidden, 404 Not found, etc.)
+        searchStatus = DARemoteSearchUnavailable;
+        delegate.searchResults = [NSArray arrayWithObjects:nil];
     }
     
-    [response release];
-     
-    // Save result set in memory for reuse
-    if (searchPrefix && [theConnection.query length] && [delegate.searchResults count] < 10) {
-        delegate.savedSearchText    = [NSMutableString stringWithString:connection.query];
-        delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
-    }
-
     [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
 }
 

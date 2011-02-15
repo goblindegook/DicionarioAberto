@@ -17,6 +17,7 @@ extern int const DARemoteSearchOK;
 extern int const DARemoteSearchWait;
 extern int const DARemoteSearchEmpty;
 extern int const DARemoteSearchNoConnection;
+extern int const DARemoteSearchUnavailable;
 
 @protocol DARemoteDelegate;
 
@@ -24,6 +25,7 @@ extern int const DARemoteSearchNoConnection;
     id <DARemoteDelegate> delegate;
     NSMutableData *receivedData;
     NSDate *lastModified;
+    NSInteger statusCode;
     NSURLConnection *connection;    
     NSString *query;
     int type;
@@ -33,6 +35,7 @@ extern int const DARemoteSearchNoConnection;
 @property (nonatomic, retain) NSURLConnection *connection;
 @property (nonatomic, retain) NSMutableData *receivedData;
 @property (nonatomic, retain) NSDate *lastModified;
+@property (nonatomic, assign) NSInteger statusCode;
 @property (nonatomic, retain) NSString *query;
 @property (assign, readwrite) int type;
 

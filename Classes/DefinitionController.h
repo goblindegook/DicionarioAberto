@@ -45,7 +45,7 @@
 
 - (id)initWithRequest:(NSString *)entry atIndex:(int)n;
 - (void)searchDicionarioAberto:(NSString *)query;
-- (void)loadNoConnection:(UIWebView *)wv withString:(NSString *)query;
+- (void)loadError:(UIWebView *)wv ofType:(int)searchStatus withString:(NSString *)query;
 - (void)loadEntry:(UIWebView *)wv withArray:(NSArray *)entries atIndex:(int)n;
 - (void)performTransitionTo:(NSArray *)results atIndex:(int)n;
 - (NSString *)htmlEntryFrom:(NSArray *)entries atIndex:(int)n;

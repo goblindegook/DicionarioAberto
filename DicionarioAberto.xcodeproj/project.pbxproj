@@ -56,6 +56,8 @@
 		DCD1453F12C37A1D00E26123 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD1453212C37A1D00E26123 /* CTidy.m */; };
 		DCD147BC12C3DBE300E26123 /* DARemote.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD147BB12C3DBE300E26123 /* DARemote.m */; };
 		DCD147BF12C3DBEE00E26123 /* DAParser.m in Sources */ = {isa = PBXBuildFile; fileRef = DCD147BE12C3DBEE00E26123 /* DAParser.m */; };
+		DCD20D0B130B495800065D69 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = DCD20D09130B495800065D69 /* Default.png */; };
+		DCD20D0C130B495800065D69 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DCD20D0A130B495800065D69 /* Default@2x.png */; };
 		DCD2F7DC12CA8E99005D5604 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DCD2F7DB12CA8E99005D5604 /* QuartzCore.framework */; };
 		DCE5014A12C15C4900D3F006 /* DefinitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCE5014812C15C4900D3F006 /* DefinitionController.m */; };
 		DCE5014B12C15C4900D3F006 /* DefinitionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DCE5014912C15C4900D3F006 /* DefinitionController.xib */; };
@@ -146,6 +148,8 @@
 		DCD147BB12C3DBE300E26123 /* DARemote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARemote.m; sourceTree = "<group>"; };
 		DCD147BD12C3DBEE00E26123 /* DAParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAParser.h; sourceTree = "<group>"; };
 		DCD147BE12C3DBEE00E26123 /* DAParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAParser.m; sourceTree = "<group>"; };
+		DCD20D09130B495800065D69 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		DCD20D0A130B495800065D69 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		DCD2F7DB12CA8E99005D5604 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		DCE5014712C15C4900D3F006 /* DefinitionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefinitionController.h; sourceTree = "<group>"; };
 		DCE5014812C15C4900D3F006 /* DefinitionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefinitionController.m; sourceTree = "<group>"; };
@@ -235,6 +239,8 @@
 				8D1107310486CEB800E47090 /* DicionarioAberto-Info.plist */,
 				DC84531412EB9C5100CA79A3 /* DAAbbreviations.plist */,
 				DC7EF93612E8FCCA00C196E8 /* DAInfoTableContents.plist */,
+				DCD20D09130B495800065D69 /* Default.png */,
+				DCD20D0A130B495800065D69 /* Default@2x.png */,
 				DCE972EC12C2C8AB00BC3FB3 /* DicionarioAberto.css */,
 			);
 			name = Resources;
@@ -457,6 +463,8 @@
 				DCCB3D1912D7F8FB00ECC178 /* JS in Resources */,
 				DC7EF93712E8FCCA00C196E8 /* DAInfoTableContents.plist in Resources */,
 				DC84531512EB9C5100CA79A3 /* DAAbbreviations.plist in Resources */,
+				DCD20D0B130B495800065D69 /* Default.png in Resources */,
+				DCD20D0C130B495800065D69 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

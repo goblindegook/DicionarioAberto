@@ -51,6 +51,12 @@
         
     } else if (DARemoteSearchNoConnection == type) {
         self.errorImage.image = [UIImage imageNamed:@"Images/IconError.png"];
+        
+    } else if (DARemoteSearchUnavailable == type) {
+        self.errorImage.image = [UIImage imageNamed:@"Images/IconError.png"];
+
+    } else {
+        self.errorImage.image = [UIImage imageNamed:@"Images/IconError.png"];
     }
 }
 

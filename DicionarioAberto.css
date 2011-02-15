@@ -286,14 +286,19 @@ article.error {
 
 article.error .icon,
 article.error .message {
-    font-size: 10pt;
+    font-size: 9pt;
     font-weight: bold;
     text-align: center;
     padding: 0;
     margin: 0;
-    line-height: 1.2em;
+    line-height: 1em;
     color: rgba(184, 176, 163, 1);
     text-shadow: rgba(255, 255, 255, 0.8) 0px 1px 0;
+}
+
+article.error .message {
+    position: relative;
+    top: -8pt;
 }
 
 
