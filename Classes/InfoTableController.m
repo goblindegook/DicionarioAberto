@@ -9,6 +9,7 @@
 
 @implementation InfoTableController
 
+#pragma mark -
 #pragma mark Instance Methods
 
 /*
@@ -68,6 +69,7 @@
 }
 
 
+#pragma mark -
 #pragma mark UITableViewDataSource Methods
 
 
@@ -107,11 +109,13 @@
 }
 
 
+#pragma mark -
 #pragma mark UITableViewDelegate Methods
+
 
 /*
 - (NSIndexPath *)tableView:(UITableView *)tv willSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    return nil;
+    return indexPath;
 }
 */
 

@@ -468,6 +468,7 @@
         [response release];
         
     } else {
+        // Service is unavailable (403 Forbidden, 404 Not found, etc.)
         [self loadError:definitionView1 ofType:DARemoteSearchUnavailable withString:connection.query];
     }
 
