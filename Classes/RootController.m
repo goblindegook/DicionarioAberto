@@ -149,6 +149,7 @@
             } else {
                 // Perform new asynchronous request
                 connection = [[DARemote alloc] initWithQuery:query ofType:type delegate:self];
+                
                 if (nil == connection) {
                     searchStatus = DARemoteSearchNoConnection;
                     delegate.searchResults = [NSArray arrayWithObjects:nil];
@@ -174,8 +175,9 @@
 - (void)reloadSearchResultsTable:(UITableView *)tableView {
     letUserSelectRow = (DARemoteSearchOK == searchStatus);
     tableView.scrollEnabled = (DARemoteSearchOK == searchStatus);
-    
-    if (tableHasShadow) [self dropShadowFor:tableView];
+
+    if (tableHasShadow && letUserSelectRow)
+        [self dropShadowFor:tableView];
     
     [tableView reloadData];
     [tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
