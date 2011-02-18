@@ -174,13 +174,18 @@
             for (NSString *chunk in [[DAParser markupToHTML:sense.def] componentsSeparatedByString: @"\n"]) {
                 
                 if (chunk.length > 0) {
-                    [content appendString:@"<li><span class=\"singledef\">"];
-                    if (firstDef && sense.usg.text.length > 0) {
-                        [content appendFormat:@"<span class=\"usage %@\">%@</span> ", sense.usg.type, sense.usg.text];
-                        firstDef = NO;
+                    if ([[chunk substringToIndex:1] isEqual:@"("]) {
+                        [content appendFormat:@"<div class=\"note\">%@</div>", chunk];
+                        
+                    } else {
+                        [content appendString:@"<li><span class=\"singledef\">"];
+                        if (firstDef && sense.usg.text.length > 0) {
+                            [content appendFormat:@"<span class=\"usage %@\">%@</span> ", sense.usg.type, sense.usg.text];
+                            firstDef = NO;
+                        }
+                        [content appendString:chunk];
+                        [content appendString:@"</span></li>"];
                     }
-                    [content appendString:chunk];
-                    [content appendString:@"</span></li>"];
                 }
             }
         }

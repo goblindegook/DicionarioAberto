@@ -56,11 +56,15 @@ article.definition .sense .definitions {
     padding-right: 8pt;
 }
 
-article.definition .sense .lex {
+article.definition .sense .lex,
+article.definition .sense .note {
     font-size: 12pt;
     line-height: 1.6em;
-    font-style: italic;
     margin: 8pt 0 8pt -16pt;
+}
+
+article.definition .sense .lex {
+    font-style: italic;
     text-transform: lowercase;
 }
 
