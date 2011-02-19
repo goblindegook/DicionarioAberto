@@ -55,15 +55,18 @@
     if (html && html.length) {
         // entry^n links
         html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"(\\S+)\\^(\\d+)" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"<a href=\"aberto://define:$2/$1\">$1</a>"];
+
+        // [[text|entry]] links
+        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\[{2}([^\\|]+)\\|([^\\]]+)\\]{2}" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"<a href=\"aberto://define/$2\">$1</a>"];
         
         // [[entry:n]] links
-        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\[{2}(([^\\]:]*):(\\d+))\\]{2}" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"<a href=\"aberto://define:$3/$2\">$2</a>"];
-
+        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\[{2}([^:]+):(\\d+)\\]{2}" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"<a href=\"aberto://define:$2/$1\">$1</a>"];
+        
         // [[entry]] links
-        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\[{2}([^\\]]*)\\]{2}" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"<a href=\"aberto://define/$1\">$1</a>"];
+        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\[{2}([^\\]]+)\\]{2}" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"<a href=\"aberto://define/$1\">$1</a>"];
         
         // References
-        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"(O mesmo que|O mesmo ou melhor que|Abrev\\. de|Cp\\.|V\\.) _([^_\\s]*)_" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"$1 <a href=\"aberto://define/$2\">$2</a>"];
+        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"(O mesmo que|O mesmo ou melhor que|Abrev\\. de|Cp\\.|V\\.|v\\.) _([^_\\s]+)_" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"$1 <a href=\"aberto://define/$2\">$2</a>"];
 
         html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\((De) _([^_\\s]*)_\\)" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"($1 <a href=\"aberto://define/$2\">$2</a>)"];
         
@@ -74,9 +77,9 @@
         html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"--" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"—"];
         
         // Ordinals
-        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^o" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"º"];
+        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^o(?!\\\")" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"º"];
         
-        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^a" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"ª"];
+        html = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"\\^a(?!\\\")" options:0 error:nil] stringByReplacingMatchesInString:html options:0 range:NSMakeRange(0, [html length]) withTemplate:@"ª"];
     }
     
     return html;
