@@ -20,7 +20,7 @@
 		<string>Icon-Small@2x.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
-	<string>L6WM5G3DU5.pt.log.${PRODUCT_NAME:rfc1034identifier}</string>
+	<string>pt.log.dicionarioaberto</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
