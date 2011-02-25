@@ -472,8 +472,12 @@
     
         [response release];
         
+    } else if (connection.statusCode == 404) {
+        // Definition not found (404 Not found)
+        [self loadError:definitionView1 ofType:DARemoteSearchEmpty withString:connection.query];
+        
     } else {
-        // Service is unavailable (403 Forbidden, 404 Not found, etc.)
+        // Service is unavailable (403 Forbidden, etc.)
         [self loadError:definitionView1 ofType:DARemoteSearchUnavailable withString:connection.query];
     }
 
