@@ -516,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -525,6 +526,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = Aberto;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 			};
 			name = Debug;
 		};
@@ -532,6 +534,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DicionarioAberto_Prefix.pch;
@@ -539,6 +542,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = Aberto;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -597,6 +601,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: log.oscon";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = DicionarioAberto_Prefix.pch;
@@ -604,6 +609,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = Aberto;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A2AB2278-697A-45D7-B65F-3808CD2DDC90";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = "Ad Hoc";
