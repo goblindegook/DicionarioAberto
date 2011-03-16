@@ -13,7 +13,7 @@
 }
 
 + (NSArray *)parseAPIResponse:(NSString *)response list:(BOOL)list;
-+(NSString *)markupToText:(NSString *)string;
-+(NSString *)markupToHTML:(NSString *)string;
++ (NSString *)markupToText:(NSString *)string;
++ (NSString *)markupToHTML:(NSString *)string;
 
 @end

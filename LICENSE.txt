@@ -1,5 +1,5 @@
-Dicionário Aberto Copyright (c) 2010 Luís Rodrigues
-Project and source hosted at: https://github.com/goblindegook/DicionarioAberto
+Dicionário Aberto Copyright (c) 2010 log - Open Source Consulting
+Project and source hosted at: https://github.com/logOSCON/DicionarioAberto
 
 TouchXML Copyright (c) 2008 Jonathan Wight
 Project and source hosted at: https://github.com/schwa/TouchXML
