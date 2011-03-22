@@ -25,13 +25,13 @@
 		DC3E6B5C12C03C35007B852E /* EntryEtymology.m in Sources */ = {isa = PBXBuildFile; fileRef = DC3E6B5B12C03C35007B852E /* EntryEtymology.m */; };
 		DC4E057B12C77D6F00B4BB0C /* SearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = DC4E057A12C77D6F00B4BB0C /* SearchCell.m */; };
 		DC4E058A12C77E5A00B4BB0C /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC4E058912C77E5A00B4BB0C /* SearchCell.xib */; };
-		DC4E05F912C8152D00B4BB0C /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F212C8152D00B4BB0C /* Icon-72.png */; };
+		DC4E05F912C8152D00B4BB0C /* Icon-iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F212C8152D00B4BB0C /* Icon-iPad.png */; };
 		DC4E05FA12C8152D00B4BB0C /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F312C8152D00B4BB0C /* Icon-Small-50.png */; };
 		DC4E05FB12C8152D00B4BB0C /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F412C8152D00B4BB0C /* Icon-Small.png */; };
 		DC4E05FC12C8152D00B4BB0C /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F512C8152D00B4BB0C /* Icon-Small@2x.png */; };
 		DC4E05FD12C8152D00B4BB0C /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F612C8152D00B4BB0C /* Icon.png */; };
 		DC4E05FE12C8152D00B4BB0C /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F712C8152D00B4BB0C /* Icon@2x.png */; };
-		DC4E05FF12C8152D00B4BB0C /* iTunesArtwork.png in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */; };
+		DC4E05FF12C8152D00B4BB0C /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = DC4E05F812C8152D00B4BB0C /* iTunesArtwork */; };
 		DC6AD39B12D3D87000FB5415 /* InfoTableController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DC6AD39A12D3D87000FB5415 /* InfoTableController.xib */; };
 		DC7EF93712E8FCCA00C196E8 /* DAInfoTableContents.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC7EF93612E8FCCA00C196E8 /* DAInfoTableContents.plist */; };
 		DC84531512EB9C5100CA79A3 /* DAAbbreviations.plist in Resources */ = {isa = PBXBuildFile; fileRef = DC84531412EB9C5100CA79A3 /* DAAbbreviations.plist */; };
@@ -98,13 +98,13 @@
 		DC4E057912C77D6F00B4BB0C /* SearchCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchCell.h; sourceTree = "<group>"; };
 		DC4E057A12C77D6F00B4BB0C /* SearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchCell.m; sourceTree = "<group>"; };
 		DC4E058912C77E5A00B4BB0C /* SearchCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SearchCell.xib; sourceTree = "<group>"; };
-		DC4E05F212C8152D00B4BB0C /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		DC4E05F212C8152D00B4BB0C /* Icon-iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-iPad.png"; sourceTree = "<group>"; };
 		DC4E05F312C8152D00B4BB0C /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
 		DC4E05F412C8152D00B4BB0C /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
 		DC4E05F512C8152D00B4BB0C /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		DC4E05F612C8152D00B4BB0C /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		DC4E05F712C8152D00B4BB0C /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtwork.png; sourceTree = "<group>"; };
+		DC4E05F812C8152D00B4BB0C /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		DC6AD39A12D3D87000FB5415 /* InfoTableController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InfoTableController.xib; sourceTree = "<group>"; };
 		DC7EF93612E8FCCA00C196E8 /* DAInfoTableContents.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DAInfoTableContents.plist; sourceTree = "<group>"; };
 		DC84531412EB9C5100CA79A3 /* DAAbbreviations.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DAAbbreviations.plist; sourceTree = "<group>"; };
@@ -293,13 +293,13 @@
 		DC6AD39D12D3D89400FB5415 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				DC4E05F212C8152D00B4BB0C /* Icon-72.png */,
+				DC4E05F212C8152D00B4BB0C /* Icon-iPad.png */,
 				DC4E05F312C8152D00B4BB0C /* Icon-Small-50.png */,
 				DC4E05F412C8152D00B4BB0C /* Icon-Small.png */,
 				DC4E05F512C8152D00B4BB0C /* Icon-Small@2x.png */,
 				DC4E05F612C8152D00B4BB0C /* Icon.png */,
 				DC4E05F712C8152D00B4BB0C /* Icon@2x.png */,
-				DC4E05F812C8152D00B4BB0C /* iTunesArtwork.png */,
+				DC4E05F812C8152D00B4BB0C /* iTunesArtwork */,
 			);
 			name = Icons;
 			sourceTree = "<group>";
@@ -450,13 +450,13 @@
 				DCE972ED12C2C8AB00BC3FB3 /* DicionarioAberto.css in Resources */,
 				DCE9746612C2F7C900BC3FB3 /* HTML in Resources */,
 				DC4E058A12C77E5A00B4BB0C /* SearchCell.xib in Resources */,
-				DC4E05F912C8152D00B4BB0C /* Icon-72.png in Resources */,
+				DC4E05F912C8152D00B4BB0C /* Icon-iPad.png in Resources */,
 				DC4E05FA12C8152D00B4BB0C /* Icon-Small-50.png in Resources */,
 				DC4E05FB12C8152D00B4BB0C /* Icon-Small.png in Resources */,
 				DC4E05FC12C8152D00B4BB0C /* Icon-Small@2x.png in Resources */,
 				DC4E05FD12C8152D00B4BB0C /* Icon.png in Resources */,
 				DC4E05FE12C8152D00B4BB0C /* Icon@2x.png in Resources */,
-				DC4E05FF12C8152D00B4BB0C /* iTunesArtwork.png in Resources */,
+				DC4E05FF12C8152D00B4BB0C /* iTunesArtwork in Resources */,
 				DC24BE9712D1365E000C052C /* SearchErrorCell.xib in Resources */,
 				DC6AD39B12D3D87000FB5415 /* InfoTableController.xib in Resources */,
 				DC16780A12D66319006B821D /* InfoPageController.xib in Resources */,
@@ -516,6 +516,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -527,6 +528,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = Aberto;
+				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 			};
 			name = Debug;
@@ -535,6 +537,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: log.oscon";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: log.oscon";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -544,7 +547,8 @@
 				LIBRARY_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = Aberto;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "C9B45DF1-191E-41FC-80FE-4EF82CEE3F2C";
+				PROVISIONING_PROFILE = "FED74214-DC61-48EC-B09A-2F16781B4B3D";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "FED74214-DC61-48EC-B09A-2F16781B4B3D";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -609,6 +613,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: log.oscon";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: log.oscon";
 				COPY_PHASE_STRIP = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -618,6 +623,7 @@
 				LIBRARY_SEARCH_PATHS = /usr/include/libxml2;
 				OTHER_LDFLAGS = "-lxml2";
 				PRODUCT_NAME = Aberto;
+				PROVISIONING_PROFILE = "A2AB2278-697A-45D7-B65F-3808CD2DDC90";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A2AB2278-697A-45D7-B65F-3808CD2DDC90";
 				VALIDATE_PRODUCT = YES;
 			};
