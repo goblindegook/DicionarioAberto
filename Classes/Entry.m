@@ -8,7 +8,9 @@
 
 #import "Entry.h"
 #import "DARemoteClient.h"
-#import "AFHTTPRequestOperation.h"
+#import "AFKissXMLRequestOperation.h"
+#import "DDXML.h"
+#import "DDXMLNode+DAXMLNode.h"
 
 @implementation Entry
 
@@ -19,86 +21,89 @@
 @synthesize entrySense;
 @synthesize entryEtymology;
 
-- (id)initWithAttributes:(NSDictionary *)attributes {
+- (id)initWithXMLNode:(DDXMLElement *)node {
     self = [super init];
     
     if (self != nil) {
         self.entryForm       = [[EntryForm alloc] init];
         self.entryEtymology  = [[EntryEtymology alloc] init];
         self.entrySense      = [[NSMutableArray alloc] init];
+        
+        n               = [[[node attributeForName:@"n"] stringValue] integerValue];
+        entryId         = [[[node attributeForName:@"id"] stringValue] mutableCopy];
+        entryType       = [[[node attributeForName:@"type"] stringValue] mutableCopy];
+        
+        entryForm.orth  = [[[node nodeForXPath:@"./form/orth" error:nil] stringValue] mutableCopy];
+        entryForm.phon  = [[[node nodeForXPath:@"./form/phon" error:nil] stringValue] mutableCopy];
+        
+        DDXMLElement *etymNode = (DDXMLElement *)[node nodeForXPath:@"./etym" error:nil];
+        entryEtymology.text = [[etymNode stringValue] mutableCopy];
+        entryEtymology.ori  = [[[etymNode attributeForName:@"ori"] stringValue] mutableCopy];
+        
+        for (DDXMLElement *senseNode in [node nodesForXPath:@"./sense" error:nil]) {
+            EntrySense *sense = [[EntrySense alloc] init];
+            
+            sense.ast       = [[[senseNode attributeForName:@"ast"] stringValue] integerValue];
+            sense.def       = [[[senseNode nodeForXPath:@"./def" error:nil] stringValue] mutableCopy];
+            sense.gramGrp   = [[[senseNode nodeForXPath:@"./gramGrp" error:nil] stringValue] mutableCopy];
+            
+            DDXMLElement *usgNode = (DDXMLElement *)[senseNode nodeForXPath:@"./usg" error:nil];
+            
+            sense.usg.type  = [[[usgNode attributeForName:@"type"] stringValue] mutableCopy];
+            sense.usg.text  = [[usgNode stringValue] mutableCopy];;
+            
+            [entrySense addObject:sense];
+            
+            sense = nil;
+        }
+
+        
     }
 
     return self;
 }
 
-// Initializes one Entry object from an XML string
++ (void)entryListWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure {
+    NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
     
-    
-    /*
-    
-    n               = [[[entryNode attributeForName:@"n"] stringValue] integerValue];
-    entryId         = [[[entryNode attributeForName:@"id"] stringValue] mutableCopy];
-    entryType       = [[[entryNode attributeForName:@"type"] stringValue] mutableCopy];
-    
-    entryForm.orth  = [[[entryNode nodeForXPath:@"./form/orth" error:nil] stringValue] mutableCopy];
-    entryForm.phon  = [[[entryNode nodeForXPath:@"./form/phon" error:nil] stringValue] mutableCopy];
-
-    CXMLElement *etymNode = (CXMLElement *)[entryNode nodeForXPath:@"./etym" error:nil];
-    
-    entryEtymology.text = [[etymNode stringValue] mutableCopy];
-    entryEtymology.ori  = [[[etymNode attributeForName:@"ori"] stringValue] mutableCopy];
-    
-    for (CXMLElement *senseNode in [entryNode nodesForXPath:@"./sense" error:nil]) {
-        EntrySense *sense = [[EntrySense alloc] init];
+    [[DARemoteClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id XML) {
+        NSMutableArray *mutableRecords = [NSMutableArray array];
         
-        sense.ast       = [[[senseNode attributeForName:@"ast"] stringValue] integerValue];
-        sense.def       = [[[senseNode nodeForXPath:@"./def" error:nil] stringValue] mutableCopy];
-        sense.gramGrp   = [[[senseNode nodeForXPath:@"./gramGrp" error:nil] stringValue] mutableCopy];
+        for (DDXMLElement *element in [XML nodesForXPath:@"/list/entry" error:nil]) {
+            [mutableRecords addObject:[element stringValue]];
+        }
         
-        CXMLElement *usgNode = (CXMLElement *)[senseNode nodeForXPath:@"./usg" error:nil];
+        if (success) {
+            success([NSArray arrayWithArray:mutableRecords]);
+        }
         
-        sense.usg.type  = [[[usgNode attributeForName:@"type"] stringValue] mutableCopy];
-        sense.usg.text  = [[usgNode stringValue] mutableCopy];;
+        mutableRecords = nil;
         
-        [entrySense addObject:sense];
-        
-        sense = nil;
-    }
-
-    doc = nil;
-     */
-
+    } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
+}
 
 + (void)entriesWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure {
     
     NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
     
-    [[DARemoteClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id response) {
+    [[DARemoteClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id XML) {
         NSMutableArray *mutableRecords = [NSMutableArray array];
-
-        NSLog(@"%@", operation.request);
-        NSLog(@"%@", operation.responseString);
-        NSLog(@"%@", response);
         
-        /*
-        if ([response valueForKey:@"list"] != nil) {
-            for (NSString *entry in [response valueForKeyPath:@"list"]) {
-                [mutableRecords addObject:entry];
-            }
-        } else if ([response valueForKey:@"entry"] != nil) {
-            Entry *entry = [[Entry alloc] initWithAttributes:[response valueForKey:@"entry"]];
+        for (DDXMLElement *node in [XML nodesForXPath:@"//entry" error:nil]) {
+            Entry *entry = [[Entry alloc] initWithXMLNode:node];
             [mutableRecords addObject:entry];
-        } else {
-            for (NSDictionary *attributes in [response valueForKey:@"superEntry"]) {
-                Entry *entry = [[Entry alloc] initWithAttributes:[attributes valueForKey:@"entry"]];
-                [mutableRecords addObject:entry];
-            }
         }
-        */
         
         if (success) {
             success([NSArray arrayWithArray:mutableRecords]);
         }
+        
+        mutableRecords = nil;
+        
     } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
         if (failure) {
             failure(error);

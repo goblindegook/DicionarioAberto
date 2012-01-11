@@ -6,7 +6,7 @@
 //
 
 #import "InfoPageController.h"
-
+#import "SVProgressHUD.h"
 
 @implementation InfoPageController
 
@@ -41,9 +41,6 @@
     [super viewDidLoad];
     delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
 
-    // Activity indicator
-    activityIndicator.layer.cornerRadius = 8.0f;
-    
     mainViewHasLoaded = NO;
     
     [self webView:infoPageView loadURI:pageURI];
@@ -57,21 +54,10 @@
 
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    activityIndicatorState = activityIndicator.hidden;
-    activityIndicator.hidden = YES;
 }
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    activityIndicator.center = infoPageView.center;
-    CGRect movedActivityIndicator = activityIndicator.frame;
-    if (fromInterfaceOrientation == UIInterfaceOrientationLandscapeLeft || fromInterfaceOrientation == UIInterfaceOrientationLandscapeRight) {
-        movedActivityIndicator.origin.y -= 40.0f;
-    } else {
-        movedActivityIndicator.origin.y -= 20.0f;
-    }
-    activityIndicator.frame = movedActivityIndicator;
-    activityIndicator.hidden = mainViewHasLoaded || activityIndicatorState;
 }
 
 
@@ -97,13 +83,13 @@
 
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    
+    [SVProgressHUD show];
 }
 
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     webView.hidden = NO;
-    activityIndicator.hidden = YES;
+    [SVProgressHUD dismiss];
     mainViewHasLoaded = YES;
 }
 
@@ -147,11 +133,10 @@
     wv.hidden = YES;
     
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-    NSString *path = [[NSBundle mainBundle] pathForResource:[[url pathComponents] lastObject] ofType:nil inDirectory:@"HTML"];
+    NSString *path = [[NSBundle mainBundle] pathForResource:[[url pathComponents] lastObject] ofType:nil];
     NSString *html = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 
     self.title = pageTitle;
-    activityIndicator.hidden = NO;
     mainViewHasLoaded = NO;
     
     [wv loadHTMLString:html baseURL:baseURL];

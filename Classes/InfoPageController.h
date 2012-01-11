@@ -10,10 +10,8 @@
 @interface InfoPageController : UIViewController <UIWebViewDelegate> {
     DADelegate *delegate;
     IBOutlet UIWebView *infoPageView;
-    IBOutlet UIView *activityIndicator;
     NSString *pageTitle;
     NSURL *pageURI;
-    BOOL activityIndicatorState;
     BOOL mainViewHasLoaded;
 }
 

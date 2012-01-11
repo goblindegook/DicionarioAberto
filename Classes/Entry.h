@@ -9,6 +9,8 @@
 #import "EntrySense.h"
 #import "EntryEtymology.h"
 
+@class DDXMLElement;
+
 @interface Entry : NSObject {
     NSInteger n;
     NSMutableString *entryId;
@@ -25,9 +27,8 @@
 @property (nonatomic, strong) NSMutableArray *entrySense;
 @property (nonatomic, strong) EntryEtymology *entryEtymology;
 
-- (id)initWithAttributes:(NSDictionary *)attributes;
-
+- (id)initWithXMLNode:(DDXMLElement *)node;
++ (void)entryListWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters success:(void (^)(NSArray *records))success failure:(void (^)(NSError *error))failure;
 + (void)entriesWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters success:(void (^)(NSArray *records))success failure:(void (^)(NSError *error))failure;
-
 
 @end

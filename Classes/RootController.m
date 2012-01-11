@@ -7,6 +7,7 @@
 
 #import "RootController.h"
 #import "Entry.h"
+#import "SVProgressHUD.h"
 
 @implementation RootController
 
@@ -84,31 +85,29 @@
     
     if ([query length] > 0) {
         searching = YES;
-        
+        [SVProgressHUD show];
         
         NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:query
                                                                              forKey:(searchPrefix) ? @"prefix" : @"suffix"];
         
         // Perform new asynchronous request
         
-        [Entry entriesWithURLString:@""
-                         parameters:parameters
-                            success:^(NSArray *records) {
-                                NSLog(@"%@", records);
-                                
-                                delegate.searchResults = records;
-                                searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;        
-                                
-                                [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
-                                
-                            }
-                            failure:^(NSError *error) {
-                                searchStatus = DARemoteSearchNoConnection;
-                                searchStatus = DARemoteSearchUnavailable;
-                                delegate.searchResults = [NSArray arrayWithObjects:nil];
-                                [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
-                                NSLog(@"%@", error);
-                            }
+        [Entry entryListWithURLString:@"/search-xml"
+                           parameters:parameters
+                              success:^(NSArray *records) {
+                                  [SVProgressHUD dismiss];
+                                  delegate.searchResults = records;
+                                  searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
+                                  [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
+                              }
+                              failure:^(NSError *error) {
+                                  [SVProgressHUD dismiss];
+                                  searchStatus = DARemoteSearchNoConnection;
+                                  searchStatus = DARemoteSearchUnavailable;
+                                  delegate.searchResults = [NSArray arrayWithObjects:nil];
+                                  [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
+                                  NSLog(@"%@", error);
+                              }
          ];
         
     } else {

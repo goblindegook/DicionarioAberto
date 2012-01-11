@@ -6,6 +6,7 @@
 //
 
 #import "DefinitionController.h"
+#import "SVProgressHUD.h"
 
 @implementation DefinitionController
 
@@ -33,10 +34,7 @@
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(showInfoTable) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
-    
-    // Activity indicator
-    activityIndicator.layer.cornerRadius = 8.0f;
-    
+        
     // Swipe gestures
     swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRightAction)];
     swipeRight.direction = UISwipeGestureRecognizerDirectionRight;
@@ -59,7 +57,6 @@
     pager.numberOfPages = 1;
     transitioning = NO;
     touchRequest = NO;
-    mainViewHasLoaded = NO;
     
     [self searchDicionarioAberto:requestEntry];
 }
@@ -72,13 +69,10 @@
 
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-    activityIndicatorState = activityIndicator.hidden;
-    activityIndicator.hidden = YES;
 }
 
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    activityIndicator.hidden = mainViewHasLoaded || activityIndicatorState;
 }
 
 
@@ -105,7 +99,7 @@
     NSMutableString *content = [NSMutableString stringWithString:@""];
     
     // Header
-    NSString *headerPath = [[NSBundle mainBundle] pathForResource:@"_def_header" ofType:@"html" inDirectory:@"HTML"];
+    NSString *headerPath = [[NSBundle mainBundle] pathForResource:@"_def_header" ofType:@"html"];
     [content appendString:[NSString stringWithContentsOfFile:headerPath encoding:NSUTF8StringEncoding error:nil]];
     
     // Loop over definition entries
@@ -178,7 +172,7 @@
     }
     
     // Footer
-    NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"_def_footer" ofType:@"html" inDirectory:@"HTML"];
+    NSString *footerPath = [[NSBundle mainBundle] pathForResource:@"_def_footer" ofType:@"html"];
     NSMutableString *footer = [NSMutableString stringWithContentsOfFile:footerPath encoding:NSUTF8StringEncoding error:nil];
     
     footer = (NSMutableString *)[[NSRegularExpression regularExpressionWithPattern:@"%ENTRY%" options:0 error:nil] stringByReplacingMatchesInString:footer options:0 range:NSMakeRange(0, [footer length]) withTemplate:entryOrth];
@@ -194,13 +188,14 @@
 - (void)searchDicionarioAberto:(NSString *)query {
     // Obtain definition from DicionarioAberto API    
     
-    mainViewHasLoaded = NO;
+    [SVProgressHUD show];
     
     // Perform new asynchronous request
-    [Entry entriesWithURLString:[NSString stringWithFormat:@"/%@", query]
+    [Entry entriesWithURLString:[NSString stringWithFormat:@"/search-xml/%@", [query stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]
                      parameters:nil
                         success:^(NSArray *records) {
-                            NSLog(@"%@", records);
+                            [SVProgressHUD dismiss];
+                            
                             requestResults = (NSMutableArray *)records;
                             
                             if (touchRequest) {
@@ -211,7 +206,9 @@
 
                         }
                         failure:^(NSError *error) {
+                            [SVProgressHUD dismiss];
                             touchRequest = NO;
+                            // TODO: Check error type
                             [self loadError:definitionView1 ofType:DARemoteSearchEmpty withString:query];
                             //[self loadError:definitionView1 ofType:DARemoteSearchUnavailable withString:query];
                             //[self loadError:definitionView1 ofType:DARemoteSearchNoConnection withString:query];
@@ -222,23 +219,20 @@
 
 
 - (void)loadError:(UIWebView *)wv ofType:(int)errorStatus withString:(NSString *)query {
-    activityIndicator.hidden = YES;
-    mainViewHasLoaded = YES;
-    
     NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
     NSString *path;
     
     if (errorStatus == DARemoteSearchNoConnection) {
         self.title = @"Erro de ligação";
-        path = [[NSBundle mainBundle] pathForResource:@"error_connection" ofType:@"html" inDirectory:@"HTML"];
+        path = [[NSBundle mainBundle] pathForResource:@"error_connection" ofType:@"html"];
         
     } else if (errorStatus == DARemoteSearchEmpty) {
         self.title = @"Inexistente";
-        path = [[NSBundle mainBundle] pathForResource:@"error_notfound" ofType:@"html" inDirectory:@"HTML"];
+        path = [[NSBundle mainBundle] pathForResource:@"error_notfound" ofType:@"html"];
         
     } else {
         self.title = @"Indisponível";
-        path = [[NSBundle mainBundle] pathForResource:@"error_unavailable" ofType:@"html" inDirectory:@"HTML"];
+        path = [[NSBundle mainBundle] pathForResource:@"error_unavailable" ofType:@"html"];
     }
 
     
@@ -249,9 +243,6 @@
 
 
 - (void)loadEntry:(UIWebView *)wv withArray:(NSArray *)entries atIndex:(int)n {
-    activityIndicator.hidden = YES;
-    mainViewHasLoaded = YES;
-    
     if (entries != nil && [entries count] && n > 0) {
         pager.numberOfPages = [entries count];
         pager.currentPage = n - 1;
@@ -260,18 +251,16 @@
         pager.currentPage = 0;
     }
     
-    NSString *html;
     if (entries != nil && [entries count]) {
         self.title = requestEntry;
-        html = [self htmlEntryFrom:entries atIndex:n];
+        NSString *html = [self htmlEntryFrom:entries atIndex:n];
         NSURL *baseURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
         [wv loadHTMLString:html baseURL:baseURL];
-        
+        baseURL = nil;
+        html = nil;
     } else {
         [self loadError:wv ofType:DARemoteSearchEmpty withString:@""];
     }
-    
-
 }
 
 

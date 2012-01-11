@@ -22,7 +22,6 @@
     IBOutlet UIWebView *definitionView1;
     IBOutlet UIWebView *definitionView2;
     IBOutlet UIPageControl *pager;
-    IBOutlet UIView *activityIndicator;
     
     UISwipeGestureRecognizer *swipeLeft;
     UISwipeGestureRecognizer *swipeRight;
@@ -34,8 +33,6 @@
 
     BOOL touchRequest;
     BOOL transitioning;
-    BOOL activityIndicatorState;
-    BOOL mainViewHasLoaded;
 
     NSMutableString *touchRequestPreviousEntry;
     int touchRequestPreviousN;

@@ -5,14 +5,6 @@
 //  Created by Luís Rodrigues on 20/12/2010.
 //
 
-#import "DARemoteClient.h"
-
-#import "Entry.h"
-#import "EntryForm.h"
-#import "EntrySense.h"
-#import "EntrySenseUsage.h"
-#import "EntryEtymology.h"
-
 @class RootController;
 
 @interface DADelegate : NSObject <UIApplicationDelegate> {

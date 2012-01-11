@@ -6,6 +6,7 @@
 //
 
 #import "DADelegate.h"
+#import "SDURLCache.h"
 
 @implementation DADelegate
 
@@ -19,11 +20,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    SDURLCache *URLCache = [[SDURLCache alloc] initWithMemoryCapacity:1024 * 1024 * 1   // 1 MB memory cache
+                                                         diskCapacity:1024 * 1024 * 5   // 5 MB disk cache
+                                                             diskPath:[SDURLCache defaultCachePath]];
+    URLCache.ignoreMemoryOnlyStoragePolicy = YES;
+	[NSURLCache setSharedURLCache:URLCache];
+    
     // Add the navigation controller's view to the window and display.
     navController.viewControllers = [NSArray arrayWithObject:searchController];
     
     [window addSubview:navController.view];
     [window makeKeyAndVisible];
+    
+    URLCache = nil;
 
     return YES;
 }
@@ -159,7 +168,7 @@
 @implementation UINavigationBar (CustomImage)
 - (void)drawRect:(CGRect)rect
 {
-    UIImage *image = [UIImage imageNamed: @"Images/BackgroundNavigation.png"];
+    UIImage *image = [UIImage imageNamed: @"BackgroundNavigation.png"];
     [image drawInRect:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
 }
 @end
