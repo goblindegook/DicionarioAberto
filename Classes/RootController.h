@@ -10,16 +10,16 @@
 #import "InfoTableController.h"
 
 #import "DADelegate.h"
-#import "DARemote.h"
+#import "DARemoteClient.h"
 #import "DAParser.h"
 
 #import "Entry.h"
 
-@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate, DARemoteDelegate> {
+@interface RootController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate> {
     DADelegate *delegate;
     
     UITableView *searchResultsTable;
-    DARemote *connection;
+    DARemoteClient *connection;
     
     BOOL searchPrefix;
     BOOL searching;
@@ -29,7 +29,7 @@
     int searchStatus;
 }
 
-@property (nonatomic, retain) IBOutlet UITableView *searchResultsTable;
+@property (nonatomic, strong) IBOutlet UITableView *searchResultsTable;
 
 - (void)dropShadowFor:(UITableView *)tableView;
 - (void)searchDicionarioAberto:(NSString *)query;

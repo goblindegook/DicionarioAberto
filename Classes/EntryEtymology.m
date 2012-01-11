@@ -12,10 +12,5 @@
 @synthesize ori;
 @synthesize text;
 
--(void) dealloc {
-    [ori release];
-    [text release];
-    [super dealloc];
-}
 
 @end

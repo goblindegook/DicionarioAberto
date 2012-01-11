@@ -10,7 +10,7 @@
     NSMutableString *text;
 }
 
-@property (nonatomic, retain) NSMutableString *ori;
-@property (nonatomic, retain) NSMutableString *text;
+@property (nonatomic, strong) NSMutableString *ori;
+@property (nonatomic, strong) NSMutableString *text;
 
 @end

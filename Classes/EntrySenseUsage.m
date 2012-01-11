@@ -12,10 +12,5 @@
 @synthesize type;
 @synthesize text;
 
--(void) dealloc {
-    [type release];
-    [text release];
-    [super dealloc];
-}
 
 @end

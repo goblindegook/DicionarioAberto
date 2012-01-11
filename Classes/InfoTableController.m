@@ -36,7 +36,7 @@
     
     self.title = @"Dicionário Aberto";
     
-    infoTableContents = [(NSArray *)[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DAInfoTableContents" ofType:@"plist"]] objectForKey:@"InfoTableContents"] retain];
+    infoTableContents = (NSArray *)[[NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DAInfoTableContents" ofType:@"plist"]] objectForKey:@"InfoTableContents"];
 }
 
 
@@ -58,11 +58,6 @@
 }
 
 
-- (void)dealloc {
-    [infoTableView release];
-    [infoTableContents release];
-    [super dealloc];
-}
 
 
 #pragma mark -
@@ -75,7 +70,7 @@
     UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (nil == cell) {
-        cell = [[[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier];
     }
     
     NSDictionary *sectionDictionary = [infoTableContents objectAtIndex:indexPath.section];
@@ -128,9 +123,8 @@
     
     [delegate.navController pushViewController:infoPage animated:YES];
     
-    [infoPage release];
     [tv deselectRowAtIndexPath:indexPath animated:YES];
-    [self.navigationItem.backBarButtonItem release];
+    //self.navigationItem.backBarButtonItem;
 }
 
 

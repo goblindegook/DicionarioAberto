@@ -5,10 +5,7 @@
 //  Created by Luís Rodrigues on 20/12/2010.
 //
 
-#import "DASearchCache.h"
-#import "DAFavourites.h"
-#import "DAHistory.h"
-#import "DARemote.h"
+#import "DARemoteClient.h"
 
 #import "Entry.h"
 #import "EntryForm.h"
@@ -26,9 +23,7 @@
     
     // Search results
     NSArray *searchResults;
-    NSArray *savedSearchResults;
-    NSString *savedSearchText;
-    
+
     // Core Data
     NSManagedObjectContext *managedObjectContext_;
     NSManagedObjectModel *managedObjectModel_;
@@ -36,19 +31,17 @@
 }
 
 // View controllers
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UINavigationController *navController;
-@property (nonatomic, retain) IBOutlet RootController *searchController;
+@property (nonatomic, strong) IBOutlet UIWindow *window;
+@property (nonatomic, strong) IBOutlet UINavigationController *navController;
+@property (nonatomic, strong) IBOutlet RootController *searchController;
 
 // Search results
-@property (nonatomic, retain) NSArray *searchResults;
-@property (nonatomic, retain) NSArray *savedSearchResults;
-@property (nonatomic, retain) NSString *savedSearchText;
+@property (nonatomic, strong) NSArray *searchResults;
 
 // Core Data
-@property (nonatomic, retain, readonly) NSManagedObjectContext *managedObjectContext;
-@property (nonatomic, retain, readonly) NSManagedObjectModel *managedObjectModel;
-@property (nonatomic, retain, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 - (NSString *)applicationDocumentsDirectory;
 

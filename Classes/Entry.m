@@ -7,6 +7,8 @@
 
 
 #import "Entry.h"
+#import "DARemoteClient.h"
+#import "AFHTTPRequestOperation.h"
 
 @implementation Entry
 
@@ -17,16 +19,22 @@
 @synthesize entrySense;
 @synthesize entryEtymology;
 
+- (id)initWithAttributes:(NSDictionary *)attributes {
+    self = [super init];
+    
+    if (self != nil) {
+        self.entryForm       = [[EntryForm alloc] init];
+        self.entryEtymology  = [[EntryEtymology alloc] init];
+        self.entrySense      = [[NSMutableArray alloc] init];
+    }
+
+    return self;
+}
+
 // Initializes one Entry object from an XML string
-- (id)initFromXMLString:(NSString *)xml error:(NSError **)error {
     
-    entryForm       = [[EntryForm alloc] init];
-    entryEtymology  = [[EntryEtymology alloc] init];
-    entrySense      = [[NSMutableArray alloc] init];
     
-    CXMLDocument *doc = [[CXMLDocument alloc] initWithData:[xml dataUsingEncoding:NSUTF8StringEncoding] options:0 error:error];
-    
-    CXMLElement *entryNode = (CXMLElement *)[doc nodeForXPath:@"//entry" error:nil];
+    /*
     
     n               = [[[entryNode attributeForName:@"n"] stringValue] integerValue];
     entryId         = [[[entryNode attributeForName:@"id"] stringValue] mutableCopy];
@@ -54,21 +62,48 @@
         
         [entrySense addObject:sense];
         
-        [sense release];
+        sense = nil;
     }
-    
-    [doc release];
-    
-    return self;
-}
 
-- (void) dealloc {
-    [entryId release];
-    [entryType release];
-    [entryForm release];
-    [entrySense release];
-    [entryEtymology release];
-    [super dealloc];
+    doc = nil;
+     */
+
+
++ (void)entriesWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure {
+    
+    NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    
+    [[DARemoteClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id response) {
+        NSMutableArray *mutableRecords = [NSMutableArray array];
+
+        NSLog(@"%@", operation.request);
+        NSLog(@"%@", operation.responseString);
+        NSLog(@"%@", response);
+        
+        /*
+        if ([response valueForKey:@"list"] != nil) {
+            for (NSString *entry in [response valueForKeyPath:@"list"]) {
+                [mutableRecords addObject:entry];
+            }
+        } else if ([response valueForKey:@"entry"] != nil) {
+            Entry *entry = [[Entry alloc] initWithAttributes:[response valueForKey:@"entry"]];
+            [mutableRecords addObject:entry];
+        } else {
+            for (NSDictionary *attributes in [response valueForKey:@"superEntry"]) {
+                Entry *entry = [[Entry alloc] initWithAttributes:[attributes valueForKey:@"entry"]];
+                [mutableRecords addObject:entry];
+            }
+        }
+        */
+        
+        if (success) {
+            success([NSArray arrayWithArray:mutableRecords]);
+        }
+    } failure:^(__unused AFHTTPRequestOperation *operation, NSError *error) {
+        if (failure) {
+            failure(error);
+        }
+    }];
 }
 
 @end

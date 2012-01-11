@@ -32,7 +32,7 @@
     // Navigation bar
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(showInfoTable) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
     
     // Activity indicator
     activityIndicator.layer.cornerRadius = 8.0f;
@@ -95,20 +95,6 @@
 }
 
 
-- (void)dealloc {
-    [swipeLeft release];
-    [swipeRight release];
-    [swipeDoesNothing release];
-    [pager release];
-    [activityIndicator release];
-    [definitionView1 release];
-    [definitionView2 release];
-    [container release];
-    [touchRequestPreviousEntry release];
-    [requestEntry release];
-    [requestResults release];
-    [super dealloc];
-}
 
 
 // Generate HTML entry
@@ -207,33 +193,31 @@
 
 - (void)searchDicionarioAberto:(NSString *)query {
     // Obtain definition from DicionarioAberto API    
-    NSString *cachedResponse = [DARemote fetchCachedResultForQuery:query ofType:DARemoteGetEntry error:nil];
     
-    requestResults = nil;
+    mainViewHasLoaded = NO;
     
-    if (nil != cachedResponse) {
-        // Use cached response
-        requestResults = [[DAParser parseAPIResponse:cachedResponse list:NO] copy];
-        if (touchRequest) {
-            [self performTransitionTo:requestResults atIndex:requestN];
-        } else {
-            [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
-        }
-        
-    } else {
-        // Perform new asynchronous request
-        DARemote *connection = [[DARemote alloc] initWithQuery:query ofType:DARemoteGetEntry delegate:self];
-        if (nil == connection) {
-            touchRequest = NO;
-            // Connection error
-            [self loadError:definitionView1 ofType:DARemoteSearchNoConnection withString:query];
-        } else {
-            activityIndicator.hidden = NO;
-            mainViewHasLoaded = NO;
-        }
+    // Perform new asynchronous request
+    [Entry entriesWithURLString:[NSString stringWithFormat:@"/%@", query]
+                     parameters:nil
+                        success:^(NSArray *records) {
+                            NSLog(@"%@", records);
+                            requestResults = (NSMutableArray *)records;
+                            
+                            if (touchRequest) {
+                                [self performTransitionTo:requestResults atIndex:requestN];
+                            } else {
+                                [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
+                            }
 
-        [connection release];
-    }
+                        }
+                        failure:^(NSError *error) {
+                            touchRequest = NO;
+                            [self loadError:definitionView1 ofType:DARemoteSearchEmpty withString:query];
+                            //[self loadError:definitionView1 ofType:DARemoteSearchUnavailable withString:query];
+                            //[self loadError:definitionView1 ofType:DARemoteSearchNoConnection withString:query];
+                            NSLog(@"%@", error);
+                        }
+     ];
 }
 
 
@@ -341,8 +325,7 @@
     InfoTableController *infoTable = [[InfoTableController alloc] init];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleBordered target:nil action:nil];
     [delegate.navController pushViewController:infoTable animated:YES];
-    [infoTable release];
-    [self.navigationItem.backBarButtonItem release];
+    //self.navigationItem.backBarButtonItem;
 }
 
 #pragma mark -
@@ -428,47 +411,6 @@
 
 - (void)swipeDoesNothingAction {
     // It really does nothing
-}
-
-
-#pragma mark -
-#pragma mark DARemoteDelegate Methods
-
-
-- (void)connectionDidFail:(DARemote *)connection {
-    [self loadError:definitionView1 ofType:DARemoteSearchNoConnection withString:connection.query];
-}
-
-
-- (void)connectionDidFinish:(DARemote *)connection {
-    
-    if (connection.statusCode < 400) {
-        // Success
-        NSString *response = [[NSString alloc] initWithData:connection.receivedData encoding:NSUTF8StringEncoding];
-
-        requestResults = [[DAParser parseAPIResponse:response list:NO] copy];
-    
-        if (requestResults && [requestResults count]) {
-            [DARemote cacheResult:response forQuery:connection.query ofType:connection.type error:nil];
-        }
-    
-        if (touchRequest) {
-            [self performTransitionTo:requestResults atIndex:requestN];
-        } else {
-            [self loadEntry:definitionView1 withArray:requestResults atIndex:requestN];
-        }
-    
-        [response release];
-        
-    } else if (connection.statusCode == 404) {
-        // Definition not found (404 Not found)
-        [self loadError:definitionView1 ofType:DARemoteSearchEmpty withString:connection.query];
-        
-    } else {
-        // Service is unavailable (403 Forbidden, etc.)
-        [self loadError:definitionView1 ofType:DARemoteSearchUnavailable withString:connection.query];
-    }
-
 }
 
 @end

@@ -11,7 +11,7 @@
     NSMutableString *text;
 }
 
-@property (nonatomic, retain) NSMutableString *type;
-@property (nonatomic, retain) NSMutableString *text;
+@property (nonatomic, strong) NSMutableString *type;
+@property (nonatomic, strong) NSMutableString *text;
 
 @end

@@ -15,8 +15,8 @@
 }
 
 @property (nonatomic, assign) NSInteger ast;
-@property (nonatomic, retain) NSMutableString *def;
-@property (nonatomic, retain) NSMutableString *gramGrp;
-@property (nonatomic, retain) EntrySenseUsage *usg;
+@property (nonatomic, strong) NSMutableString *def;
+@property (nonatomic, strong) NSMutableString *gramGrp;
+@property (nonatomic, strong) EntrySenseUsage *usg;
 
 @end

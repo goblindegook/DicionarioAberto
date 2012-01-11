@@ -13,10 +13,5 @@
 @synthesize orth;
 @synthesize phon;
 
--(void) dealloc {
-    [orth release];
-    [phon release];
-    [super dealloc];
-}
 
 @end

@@ -10,7 +10,7 @@
     NSMutableString *phon;
 }
 
-@property (nonatomic, retain) NSMutableString *orth;
-@property (nonatomic, retain) NSMutableString *phon;
+@property (nonatomic, strong) NSMutableString *orth;
+@property (nonatomic, strong) NSMutableString *phon;
 
 @end

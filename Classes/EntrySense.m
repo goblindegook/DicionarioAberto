@@ -14,11 +14,5 @@
 @synthesize gramGrp;
 @synthesize usg;
 
--(void) dealloc {
-    [usg release];
-    [def release];
-    [gramGrp release];
-    [super dealloc];
-}
 
 @end

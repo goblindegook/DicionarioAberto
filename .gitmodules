@@ -4,3 +4,15 @@
 [submodule "SVProgressHUD"]
 	path = SVProgressHUD
 	url = https://github.com/samvermette/SVProgressHUD.git
+[submodule "SDURLCache"]
+	path = SDURLCache
+	url = https://github.com/steipete/SDURLCache.git
+[submodule "JSONKit"]
+	path = JSONKit
+	url = https://github.com/johnezang/JSONKit.git
+[submodule "KissXML"]
+	path = KissXML
+	url = https://github.com/robbiehanson/KissXML.git
+[submodule "AFKissXMLRequestOperation"]
+	path = AFKissXMLRequestOperation
+	url = https://github.com/AFNetworking/AFKissXMLRequestOperation.git

@@ -6,6 +6,7 @@
 //
 
 #import "RootController.h"
+#import "Entry.h"
 
 @implementation RootController
 
@@ -43,7 +44,7 @@
     
     UIButton *infoButton = [UIButton buttonWithType:UIButtonTypeInfoLight];
     [infoButton addTarget:self action:@selector(showInfoTable) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:infoButton] autorelease];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
     
     searchResultsTable.hidden   = YES;
     tableHasShadow              = YES;
@@ -51,10 +52,6 @@
     searching                   = NO;
     letUserSelectRow            = YES;
     searchStatus                = DARemoteSearchOK;
-    
-    NSDate *cutoff = [[NSDate alloc] initWithTimeIntervalSinceNow:(-3600 * 24 * 2)]; // 2d
-    [DARemote deleteCacheOlderThan:cutoff error:nil];
-    [cutoff release];
 }
 
 
@@ -76,11 +73,6 @@
 }
 
 
-- (void)dealloc {
-    [connection release];
-    [searchResultsTable release];
-    [super dealloc];
-}
 
 
 - (void)dropShadowFor:(UITableView *)tableView {
@@ -93,53 +85,31 @@
     if ([query length] > 0) {
         searching = YES;
         
-        BOOL searchSaved = (searchPrefix && [delegate.savedSearchText length] && [query hasPrefix:delegate.savedSearchText]);
         
-        if (connection != nil) {
-            [connection cancel];
-            [connection release];
-            connection = nil;
-        }
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:query
+                                                                             forKey:(searchPrefix) ? @"prefix" : @"suffix"];
         
-        if (searchSaved && searchPrefix) {
-            // Return subset of previously obtained results
-            delegate.searchResults = [delegate.savedSearchResults filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", query]];
-            searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
-            
-        } else {
-            delegate.savedSearchText = nil;
-            delegate.savedSearchResults = nil;
-            
-            int type = (searchPrefix) ? DARemoteSearchPrefix : DARemoteSearchSuffix;
-            
-            NSString *cachedResponse = [DARemote fetchCachedResultForQuery:query ofType:type error:nil];
-            
-            if (nil != cachedResponse) {
-                // Use cached response
-                delegate.searchResults = [DAParser parseAPIResponse:cachedResponse list:YES];
-                searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
-                
-                if (searchPrefix && [delegate.searchResults count] < 10) {
-                    delegate.savedSearchText    = [NSMutableString stringWithString:query];
-                    delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
-                }
-                
-            } else {
-                // Perform new asynchronous request
-                connection = [[DARemote alloc] initWithQuery:query ofType:type delegate:self];
-                
-                if (nil == connection) {
-                    searchStatus = DARemoteSearchNoConnection;
-                    delegate.searchResults = [NSArray arrayWithObjects:nil];
-                    
-                } else if (!delegate.searchResults) {
-                    searchStatus = DARemoteSearchWait;
-                    delegate.searchResults = [NSArray arrayWithObjects:nil];
-                }
-            }
-        }
+        // Perform new asynchronous request
         
-        [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
+        [Entry entriesWithURLString:@""
+                         parameters:parameters
+                            success:^(NSArray *records) {
+                                NSLog(@"%@", records);
+                                
+                                delegate.searchResults = records;
+                                searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;        
+                                
+                                [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
+                                
+                            }
+                            failure:^(NSError *error) {
+                                searchStatus = DARemoteSearchNoConnection;
+                                searchStatus = DARemoteSearchUnavailable;
+                                delegate.searchResults = [NSArray arrayWithObjects:nil];
+                                [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
+                                NSLog(@"%@", error);
+                            }
+         ];
         
     } else {
         searchStatus            = DARemoteSearchOK;
@@ -167,8 +137,7 @@
     InfoTableController *infoTable = [[InfoTableController alloc] init];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa" style:UIBarButtonItemStyleBordered target:nil action:nil];
     [delegate.navController pushViewController:infoTable animated:YES];
-    [infoTable release];
-    [self.navigationItem.backBarButtonItem release];
+    //self.navigationItem.backBarButtonItem;
 }
 
 
@@ -265,13 +234,6 @@
 
 
 - (void)tableView:(UITableView *)tv didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (nil != connection) {
-        // Cancel any pending requests
-        [connection cancel];
-        [connection release];
-        connection = nil;
-    }
 
     NSString *query = [delegate.searchResults objectAtIndex:indexPath.row];
     NSInteger first = [delegate.searchResults indexOfObject:query];
@@ -281,9 +243,8 @@
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Pesquisa" style:UIBarButtonItemStyleBordered target:nil action:nil];
     [delegate.navController pushViewController:definition animated:YES];
-    [definition release];
     [tv deselectRowAtIndexPath:indexPath animated:YES];
-    [self.navigationItem.backBarButtonItem release];
+    //self.navigationItem.backBarButtonItem;
 }
 
 
@@ -313,47 +274,6 @@
 
 
 - (void) searchDisplayController:(UISearchDisplayController *)controller didShowSearchResultsTableView:(UITableView *)tableView {
-}
-
-
-#pragma mark -
-#pragma mark DARemoteDelegate Methods
-
-
-- (void)connectionDidFail:(DARemote *)theConnection {
-    searchStatus = DARemoteSearchNoConnection;
-    [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
-}
-
-
-- (void)connectionDidFinish:(DARemote *)theConnection {
-    
-    if (theConnection.statusCode < 400) {
-        // Success
-        NSString *response = [[NSString alloc] initWithData:theConnection.receivedData encoding:NSUTF8StringEncoding];
-        
-        delegate.searchResults = [DAParser parseAPIResponse:response list:YES];
-        searchStatus = ([delegate.searchResults count]) ? DARemoteSearchOK : DARemoteSearchEmpty;
-        
-        if ([delegate.searchResults count]) {
-            [DARemote cacheResult:response forQuery:theConnection.query ofType:connection.type error:nil];
-        }
-        
-        [response release];
-        
-        // Save result set in memory for reuse
-        if (searchPrefix && [theConnection.query length] && [delegate.searchResults count] < 10) {
-            delegate.savedSearchText    = [NSMutableString stringWithString:connection.query];
-            delegate.savedSearchResults = [NSMutableArray arrayWithArray:delegate.searchResults];
-        }
-        
-    } else {
-        // Service is unavailable (403 Forbidden, 404 Not found, etc.)
-        searchStatus = DARemoteSearchUnavailable;
-        delegate.searchResults = [NSArray arrayWithObjects:nil];
-    }
-    
-    [self reloadSearchResultsTable:self.searchDisplayController.searchResultsTableView];
 }
 
 

@@ -6,7 +6,7 @@
 //  Copyright 2010 log - Open Source Consulting. All rights reserved.
 //
 
-#import "DARemote.h"
+#import "DARemoteClient.h"
 #import "DAParser.h"
 
 @interface SearchCell : UITableViewCell {
@@ -18,12 +18,12 @@
     IBOutlet UILabel     *errorMessage;
 }
 
-@property (nonatomic, retain) IBOutlet UIView      *background;
-@property (nonatomic, retain) IBOutlet UILabel     *definitionIndex;
-@property (nonatomic, retain) IBOutlet UILabel     *definitionOrth;
-@property (nonatomic, retain) IBOutlet UILabel     *definitionText;
-@property (nonatomic, retain) IBOutlet UIImageView *errorImage;
-@property (nonatomic, retain) IBOutlet UILabel     *errorMessage;
+@property (nonatomic, strong) IBOutlet UIView      *background;
+@property (nonatomic, strong) IBOutlet UILabel     *definitionIndex;
+@property (nonatomic, strong) IBOutlet UILabel     *definitionOrth;
+@property (nonatomic, strong) IBOutlet UILabel     *definitionText;
+@property (nonatomic, strong) IBOutlet UIImageView *errorImage;
+@property (nonatomic, strong) IBOutlet UILabel     *errorMessage;
 
 - (void)setContentAtRow:(NSUInteger)index using:(NSArray*)array;
 - (void)setError:(NSString *)message type:(int)type;

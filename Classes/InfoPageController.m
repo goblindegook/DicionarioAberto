@@ -90,10 +90,6 @@
 }
 
 
-- (void)dealloc {
-    [infoPageView release];
-    [super dealloc];
-}
 
 
 #pragma mark -

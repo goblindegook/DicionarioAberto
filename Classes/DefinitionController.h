@@ -6,7 +6,7 @@
 //
 
 #import "DADelegate.h"
-#import "DARemote.h"
+#import "DARemoteClient.h"
 #import "DAParser.h"
 
 #import "Entry.h"
@@ -17,7 +17,7 @@
 
 #import "InfoTableController.h"
 
-@interface DefinitionController : UIViewController <UIWebViewDelegate, UIGestureRecognizerDelegate, DARemoteDelegate> {
+@interface DefinitionController : UIViewController <UIWebViewDelegate, UIGestureRecognizerDelegate> {
     IBOutlet UIView *container;
     IBOutlet UIWebView *definitionView1;
     IBOutlet UIWebView *definitionView2;
