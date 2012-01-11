@@ -5,8 +5,6 @@
 //  Created by Luís Rodrigues on 20/12/2010.
 //
 
-#import "OBGradientView.h"
-
 #import "SearchCell.h"
 #import "DefinitionController.h"
 #import "InfoTableController.h"
@@ -21,8 +19,6 @@
     DADelegate *delegate;
     
     UITableView *searchResultsTable;
-    OBGradientView *tableHeaderView;
-    OBGradientView *tableFooterView;
     DARemote *connection;
     
     BOOL searchPrefix;

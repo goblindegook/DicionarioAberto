@@ -79,34 +79,12 @@
 - (void)dealloc {
     [connection release];
     [searchResultsTable release];
-    [tableHeaderView release];
-    [tableFooterView release];
     [super dealloc];
 }
 
 
 - (void)dropShadowFor:(UITableView *)tableView {
-    UIColor *light = (id)[tableView.backgroundColor colorWithAlphaComponent:0.0].CGColor;
-    UIColor *dark = (id)[UIColor colorWithWhite:0 alpha:0.3].CGColor;
-    
-    float shadowRadius = 20.0f;
-    
-    if (tableHeaderView == nil) {
-        tableHeaderView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, shadowRadius)];
-        tableHeaderView.colors = [NSArray arrayWithObjects:(id)light, (id)dark, nil];
-        tableHeaderView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-    }
-    
-    if (tableFooterView == nil) {
-        tableFooterView = [[OBGradientView alloc] initWithFrame:CGRectMake(0, 0, tableView.bounds.size.width, shadowRadius)];
-        tableFooterView.colors = [NSArray arrayWithObjects:(id)dark, (id)light, nil];
-        tableFooterView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-    }
-    
-    tableView.tableHeaderView = tableHeaderView;
-    tableView.tableFooterView = tableFooterView;
-    
-    [tableView setContentInset:UIEdgeInsetsMake(-shadowRadius, 0, -shadowRadius, 0)];
+    // TODO
 }
 
 
@@ -118,7 +96,7 @@
         BOOL searchSaved = (searchPrefix && [delegate.savedSearchText length] && [query hasPrefix:delegate.savedSearchText]);
         
         if (connection != nil) {
-            connection.cancel;
+            [connection cancel];
             [connection release];
             connection = nil;
         }
@@ -290,7 +268,7 @@
     
     if (nil != connection) {
         // Cancel any pending requests
-        connection.cancel;
+        [connection cancel];
         [connection release];
         connection = nil;
     }

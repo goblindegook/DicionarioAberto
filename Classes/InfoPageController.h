@@ -6,11 +6,9 @@
 //
 
 #import "DADelegate.h"
-#import "OBGradientView.h"
 
 @interface InfoPageController : UIViewController <UIWebViewDelegate> {
     DADelegate *delegate;
-    IBOutlet OBGradientView *navBarShadow;
     IBOutlet UIWebView *infoPageView;
     IBOutlet UIView *activityIndicator;
     NSString *pageTitle;

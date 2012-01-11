@@ -7,11 +7,9 @@
 
 #import "DADelegate.h"
 #import "InfoPageController.h"
-#import "OBGradientView.h"
 
 @interface InfoTableController : UIViewController <UITableViewDataSource, UITableViewDelegate> {
     DADelegate *delegate;
-    IBOutlet OBGradientView *navBarShadow;
     IBOutlet UITableView *infoTableView;
     NSArray *infoTableContents;
 }

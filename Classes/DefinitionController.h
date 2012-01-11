@@ -16,7 +16,6 @@
 #import "EntryEtymology.h"
 
 #import "InfoTableController.h"
-#import "OBGradientView.h"
 
 @interface DefinitionController : UIViewController <UIWebViewDelegate, UIGestureRecognizerDelegate, DARemoteDelegate> {
     IBOutlet UIView *container;
@@ -24,7 +23,6 @@
     IBOutlet UIWebView *definitionView2;
     IBOutlet UIPageControl *pager;
     IBOutlet UIView *activityIndicator;
-    IBOutlet OBGradientView *navBarShadow;
     
     UISwipeGestureRecognizer *swipeLeft;
     UISwipeGestureRecognizer *swipeRight;

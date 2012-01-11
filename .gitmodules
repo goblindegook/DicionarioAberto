@@ -1,0 +1,6 @@
+[submodule "AFNetworking"]
+	path = AFNetworking
+	url = https://github.com/AFNetworking/AFNetworking.git
+[submodule "SVProgressHUD"]
+	path = SVProgressHUD
+	url = https://github.com/samvermette/SVProgressHUD.git

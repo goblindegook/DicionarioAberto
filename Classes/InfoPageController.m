@@ -44,9 +44,6 @@
     // Activity indicator
     activityIndicator.layer.cornerRadius = 8.0f;
     
-    // Navigation bar shadow
-    navBarShadow.colors = [NSArray arrayWithObjects:(id)[UIColor colorWithWhite:0 alpha:0.6].CGColor, (id)[UIColor colorWithWhite:0 alpha:0].CGColor, nil];
-    
     mainViewHasLoaded = NO;
     
     [self webView:infoPageView loadURI:pageURI];
@@ -95,7 +92,6 @@
 
 - (void)dealloc {
     [infoPageView release];
-    [navBarShadow release];
     [super dealloc];
 }
 
