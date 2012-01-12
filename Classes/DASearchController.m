@@ -94,25 +94,24 @@
 
 - (void)searchDicionarioAberto:(NSString *)query {
     
-    [[DARemoteClient sharedClient] cancelHTTPOperationsWithMethod:@"GET" andURL:[NSURL URLWithString:@"/search-xml"]];
+    //[[DARemoteClient sharedClient] cancelHTTPOperationsWithMethod:@"GET" andURL:[NSURL URLWithString:@"/search-xml"]];
     
     if ([query length] > 0) {
         [SVProgressHUD show];
         
         NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:query forKey:(_searchPrefix) ? @"prefix" : @"suffix"];
         
-        // Perform new asynchronous request        
         [Entry entryListWithURLString:@"/search-xml"
                            parameters:parameters
                               success:^(NSArray *records) {
-                                  NSLog(@"DONE");
                                   _searchResults = records;
                                   _searchStatus = [_searchResults count] ? DARemoteSearchOK : DARemoteSearchEmpty;
                                   _letUserSelectRow = [_searchResults count];
                                   
-                                  [self reloadSearchResultsTable];
-                                  
-                                  [SVProgressHUD dismiss];
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      [self reloadSearchResultsTable];
+                                      [SVProgressHUD dismiss];
+                                  });
                               }
                               failure:^(NSError *error) {
                                   NSLog(@"%@", error);
@@ -122,9 +121,10 @@
                                   _searchStatus = DARemoteSearchUnavailable;
                                   _searchResults = [NSArray arrayWithObjects:nil];
                                   
-                                  [self reloadSearchResultsTable];
-
-                                  [SVProgressHUD dismissWithError:NSLocalizedString(@"HUDError", @"General HUD error")];
+                                  dispatch_async(dispatch_get_main_queue(), ^{
+                                      [self reloadSearchResultsTable];
+                                      [SVProgressHUD dismissWithError:NSLocalizedString(@"HUDErrorGeneral", @"General HUD error")];
+                                  });
                               }
          ];
         
@@ -145,9 +145,12 @@
     [_searchResultsTable reloadData];
     
     if ([_searchResults count]) {
-        [_searchResultsTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-                                   atScrollPosition:UITableViewScrollPositionTop animated:YES];
+        [_searchResultsTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
+    
+    NSLog(@"Frame: %@", NSStringFromCGRect(_searchResultsTable.frame));
+    NSLog(@"Inset: %@", NSStringFromUIEdgeInsets(_searchResultsTable.contentInset));
+    NSLog(@"Offset: %@", NSStringFromCGPoint(_searchResultsTable.contentOffset));
 }
 
 
