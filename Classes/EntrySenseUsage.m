@@ -12,5 +12,4 @@
 @synthesize type;
 @synthesize text;
 
-
 @end

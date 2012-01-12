@@ -65,12 +65,12 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *cellIdentifier = @"infoCell";
+    static NSString *cellIdentifier = @"infoCell";
     
     UITableViewCell *cell = [tv dequeueReusableCellWithIdentifier:cellIdentifier];
     
     if (nil == cell) {
-        cell = [[UITableViewCell alloc] initWithFrame:CGRectZero reuseIdentifier:cellIdentifier];
+        cell = [[UITableViewCell alloc] initWithFrame:CGRectZero];
     }
     
     NSDictionary *sectionDictionary = [infoTableContents objectAtIndex:indexPath.section];

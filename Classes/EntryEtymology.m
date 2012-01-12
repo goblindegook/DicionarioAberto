@@ -12,5 +12,4 @@
 @synthesize ori;
 @synthesize text;
 
-
 @end

@@ -310,11 +310,9 @@
 
 
 - (void)showInfoTable {
-    DADelegate *delegate = (DADelegate *)[[UIApplication sharedApplication] delegate];
     InfoTableController *infoTable = [[InfoTableController alloc] init];
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:self.title style:UIBarButtonItemStyleBordered target:nil action:nil];
-    [delegate.navController pushViewController:infoTable animated:YES];
-    //self.navigationItem.backBarButtonItem;
+    [self.navigationController pushViewController:infoTable animated:YES];
 }
 
 #pragma mark -
@@ -358,7 +356,7 @@
                 requestEntry = [[url lastPathComponent] copy];
                 requestN     = [[url port] integerValue];
                 
-                // NSLog(@"Requested %@:%d", requestEntry, requestN);
+                NSLog(@"Requested %@:%d", requestEntry, requestN);
                 [self searchDicionarioAberto:requestEntry];
             }
             return NO;

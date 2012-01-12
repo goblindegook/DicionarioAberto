@@ -66,10 +66,12 @@
 + (void)entryListWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure {
     NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
     
-    [[DARemoteClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id XML) {
+    [[DARemoteClient sharedClient] cancelHTTPOperationsWithMethod:@"GET" andURL:[NSURL URLWithString:urlString]];
+    
+    [[DARemoteClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *mutableRecords = [NSMutableArray array];
         
-        for (DDXMLElement *element in [XML nodesForXPath:@"/list/entry" error:nil]) {
+        for (DDXMLElement *element in [responseObject nodesForXPath:@"/list/entry" error:nil]) {
             [mutableRecords addObject:[element stringValue]];
         }
         
@@ -90,10 +92,10 @@
     
     NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
     
-    [[DARemoteClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id XML) {
+    [[DARemoteClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *mutableRecords = [NSMutableArray array];
         
-        for (DDXMLElement *node in [XML nodesForXPath:@"//entry" error:nil]) {
+        for (DDXMLElement *node in [responseObject nodesForXPath:@"//entry" error:nil]) {
             Entry *entry = [[Entry alloc] initWithXMLNode:node];
             [mutableRecords addObject:entry];
         }

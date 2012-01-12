@@ -5,17 +5,14 @@
 //  Created by Luís Rodrigues on 20/12/2010.
 //
 
-@class RootController;
+@class DASearchController;
 
 @interface DADelegate : NSObject <UIApplicationDelegate> {
     // View controllers
     UIWindow *window;
     UINavigationController *navController;
-    RootController *searchController;
+    DASearchController *searchController;
     
-    // Search results
-    NSArray *searchResults;
-
     // Core Data
     NSManagedObjectContext *managedObjectContext_;
     NSManagedObjectModel *managedObjectModel_;
@@ -25,7 +22,7 @@
 // View controllers
 @property (nonatomic, strong) IBOutlet UIWindow *window;
 @property (nonatomic, strong) IBOutlet UINavigationController *navController;
-@property (nonatomic, strong) IBOutlet RootController *searchController;
+@property (nonatomic, strong) IBOutlet DASearchController *searchController;
 
 // Search results
 @property (nonatomic, strong) NSArray *searchResults;

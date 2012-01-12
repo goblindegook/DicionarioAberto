@@ -7,6 +7,7 @@
 
 #import "DARemoteClient.h"
 #import "AFKissXMLRequestOperation.h"
+#import "AFJSONRequestOperation.h"
 
 int const DARemoteGetEntry      = 0;
 int const DARemoteSearchPrefix  = 1;
@@ -40,6 +41,7 @@ NSString * const kDARemoteBaseURLString = @"http://dicionario-aberto.net/";
     }
     
     [self registerHTTPOperationClass:[AFKissXMLRequestOperation class]];
+    //[self registerHTTPOperationClass:[AFJSONRequestOperation class]];
     
     // Accept HTTP Header; see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
 	[self setDefaultHeader:@"Accept" value:@"application/xml"];
