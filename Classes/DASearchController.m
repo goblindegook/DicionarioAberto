@@ -6,6 +6,7 @@
 //
 
 #import "DASearchController.h"
+#import "DARemoteClient.h"
 #import "Entry.h"
 #import "SearchCell.h"
 #import "DefinitionController.h"
@@ -93,6 +94,8 @@
 
 - (void)searchDicionarioAberto:(NSString *)query {
     
+    [[DARemoteClient sharedClient] cancelHTTPOperationsWithMethod:@"GET" andURL:[NSURL URLWithString:@"/search-xml"]];
+    
     if ([query length] > 0) {
         [SVProgressHUD show];
         
@@ -102,23 +105,26 @@
         [Entry entryListWithURLString:@"/search-xml"
                            parameters:parameters
                               success:^(NSArray *records) {
-                                  [SVProgressHUD dismiss];
                                   NSLog(@"DONE");
                                   _searchResults = records;
                                   _searchStatus = [_searchResults count] ? DARemoteSearchOK : DARemoteSearchEmpty;
                                   _letUserSelectRow = [_searchResults count];
                                   
                                   [self reloadSearchResultsTable];
+                                  
+                                  [SVProgressHUD dismiss];
                               }
                               failure:^(NSError *error) {
-                                  [SVProgressHUD dismiss];
+                                  NSLog(@"%@", error);
+                                  
                                   _letUserSelectRow = NO;
                                   _searchStatus = DARemoteSearchNoConnection;
                                   _searchStatus = DARemoteSearchUnavailable;
                                   _searchResults = [NSArray arrayWithObjects:nil];
                                   
                                   [self reloadSearchResultsTable];
-                                  NSLog(@"%@", error);
+
+                                  [SVProgressHUD dismissWithError:NSLocalizedString(@"HUDError", @"General HUD error")];
                               }
          ];
         

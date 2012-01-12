@@ -66,8 +66,6 @@
 + (void)entryListWithURLString:(NSString *)urlString parameters:(NSDictionary *)parameters success:(void (^)(NSArray *))success failure:(void (^)(NSError *))failure {
     NSDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
     
-    [[DARemoteClient sharedClient] cancelHTTPOperationsWithMethod:@"GET" andURL:[NSURL URLWithString:urlString]];
-    
     [[DARemoteClient sharedClient] getPath:urlString parameters:mutableParameters success:^(__unused AFHTTPRequestOperation *operation, id responseObject) {
         NSMutableArray *mutableRecords = [NSMutableArray array];
         
