@@ -36,8 +36,13 @@
     
     // TODO: Customize searchBar
     
-    _searchBar.showsScopeBar        = NO;
-    _searchBar.showsCancelButton    = NO;
+    _searchBar.scopeButtonTitles        = [NSArray arrayWithObjects:
+                                           NSLocalizedString(@"Prefix", @"Prefix scope bar button title"),
+                                           NSLocalizedString(@"Suffix", @"Suffix scope bar button title"),
+                                           nil];
+    _searchBar.selectedScopeButtonIndex = 0;
+    _searchBar.showsScopeBar            = NO;
+    _searchBar.showsCancelButton        = NO;
     [_searchBar sizeToFit];
     
     UITapGestureRecognizer *dismissSearchTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissSearch)];
@@ -97,20 +102,22 @@
     //[[DARemoteClient sharedClient] cancelHTTPOperationsWithMethod:@"GET" andURL:[NSURL URLWithString:@"/search-xml"]];
     
     if ([query length] > 0) {
-        [SVProgressHUD show];
+        // [SVProgressHUD show];
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
         
         NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithObject:query forKey:(_searchPrefix) ? @"prefix" : @"suffix"];
         
         [Entry entryListWithURLString:@"/search-xml"
                            parameters:parameters
                               success:^(NSArray *records) {
-                                  _searchResults = records;
+                                  _searchResults = [records sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
                                   _searchStatus = [_searchResults count] ? DARemoteSearchOK : DARemoteSearchEmpty;
                                   _letUserSelectRow = [_searchResults count];
                                   
                                   dispatch_async(dispatch_get_main_queue(), ^{
                                       [self reloadSearchResultsTable];
-                                      [SVProgressHUD dismiss];
+                                      [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+                                      // [SVProgressHUD dismiss];
                                   });
                               }
                               failure:^(NSError *error) {
@@ -123,6 +130,7 @@
                                   
                                   dispatch_async(dispatch_get_main_queue(), ^{
                                       [self reloadSearchResultsTable];
+                                      [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
                                       [SVProgressHUD dismissWithError:NSLocalizedString(@"HUDErrorGeneral", @"General HUD error")];
                                   });
                               }
@@ -147,10 +155,6 @@
     if ([_searchResults count]) {
         [_searchResultsTable scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
-    
-    NSLog(@"Frame: %@", NSStringFromCGRect(_searchResultsTable.frame));
-    NSLog(@"Inset: %@", NSStringFromUIEdgeInsets(_searchResultsTable.contentInset));
-    NSLog(@"Offset: %@", NSStringFromCGPoint(_searchResultsTable.contentOffset));
 }
 
 
@@ -168,8 +172,8 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
     [UIView animateWithDuration:0.4f animations:^{
-        CGFloat heightDelta = -searchBar.frame.size.height;
         [searchBar setShowsScopeBar:YES];
+        CGFloat heightDelta = -searchBar.frame.size.height;
         [searchBar sizeToFit];
         heightDelta += searchBar.frame.size.height;
         
@@ -179,13 +183,16 @@
         
         CGPoint scrollPoint = CGPointMake(0.0, -heightDelta);
         [_searchResultsTable setContentOffset:scrollPoint animated:YES];
+        
+    } completion:^(BOOL finished) {
+
     }];
 }
 
 - (void)searchBarTextDidEndEditing:(UISearchBar *)searchBar {
     [searchBar setShowsCancelButton:NO animated:YES];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-
+    
     [UIView animateWithDuration:0.4f animations:^{
         [searchBar setShowsScopeBar:NO];
         [searchBar sizeToFit];
@@ -193,6 +200,9 @@
         UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, _searchResultsTable.contentInset.bottom, 0.0);
         _searchResultsTable.contentInset = contentInsets;
         _searchResultsTable.scrollIndicatorInsets = contentInsets;
+        
+    } completion:^(BOOL finished) {
+
     }];
 }
 
